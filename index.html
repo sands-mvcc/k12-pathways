@@ -322,19 +322,15 @@ label.small{font-size:12px;color:var(--ink-soft);display:block;margin-bottom:4px
       <span class="chev">▾</span>
     </div>
     <div class="section-body">
+      <p style="margin:0 0 4px;font-size:12.5px;color:var(--ink-soft);">Check every feeder course your school offers or plans to require before students enter the pathway.</p>
+      <div class="grid" id="prereqListGrid"></div>
+
+      <h4 style="margin:20px 0 6px;font-size:14px;">Add a custom prerequisite</h4>
       <div class="prereq-input-row">
-        <input type="text" id="prereqInput" placeholder="e.g. Intro to IT, Digital Literacy, Algebra I" onkeydown="if(event.key==='Enter'){addPrereq();}">
+        <input type="text" id="prereqInput" placeholder="e.g. local elective, dual-credit course, district-specific requirement" onkeydown="if(event.key==='Enter'){addPrereq();}">
         <button class="btn btn-outline" onclick="addPrereq()">Add</button>
       </div>
       <div class="chip-list" id="prereqChips"></div>
-      <div class="tagrow" style="margin-top:14px;">
-        <span class="tag">Common suggestions:</span>
-        <span class="tag" style="cursor:pointer" onclick="quickPrereq('Intro to Information Technology')">Intro to IT</span>
-        <span class="tag" style="cursor:pointer" onclick="quickPrereq('Digital Literacy')">Digital Literacy</span>
-        <span class="tag" style="cursor:pointer" onclick="quickPrereq('Computer Science Principles')">CS Principles</span>
-        <span class="tag" style="cursor:pointer" onclick="quickPrereq('Algebra I')">Algebra I</span>
-        <span class="tag" style="cursor:pointer" onclick="quickPrereq('Keyboarding / Business Computer Applications')">Keyboarding / Business Apps</span>
-      </div>
     </div>
   </div>
 
@@ -352,6 +348,18 @@ label.small{font-size:12px;color:var(--ink-soft);display:block;margin-bottom:4px
       <div class="grid" id="coreGrid"></div>
       <label class="small" style="margin-top:16px;">STATE-SPECIFIC MODEL CURRICULUM (if applicable)</label>
       <input type="text" id="stateModelInput" placeholder="e.g. Texas CTE Cybersecurity Model, Nevada Cyber Pathway, Maryland Cyber Curriculum" style="width:100%;padding:10px 12px;border-radius:9px;border:1.5px solid var(--line);background:var(--bg);color:var(--ink);margin-top:6px;">
+
+      <div style="margin-top:24px;border-top:1px solid var(--line);padding-top:18px;">
+        <h4 style="margin:0 0 4px;font-size:14.5px;font-family:'Space Grotesk';">Core Cybersecurity Pathway Courses</h4>
+        <p style="margin:0 0 10px;font-size:12.5px;color:var(--ink-soft);">The courses where students move beyond general IT into sustained cybersecurity learning. A typical 3-year sequence: <strong>Year 1</strong> — Cybersecurity Fundamentals / Intro to Cybersecurity · <strong>Year 2</strong> — Cybersecurity I plus Network Defense and Security · <strong>Year 3</strong> — Cybersecurity II / Operations plus Certification Prep or a Capstone.</p>
+        <div class="grid" id="coreCoursesGrid"></div>
+        <h4 style="margin:20px 0 6px;font-size:14px;">Add a custom core course</h4>
+        <div class="prereq-input-row">
+          <input type="text" id="coreCourseInput" placeholder="e.g. district-specific advanced elective" onkeydown="if(event.key==='Enter'){addCoreCourse();}">
+          <button class="btn btn-outline" onclick="addCoreCourse()">Add</button>
+        </div>
+        <div class="chip-list" id="coreCourseChips"></div>
+      </div>
     </div>
   </div>
 
@@ -479,6 +487,35 @@ const CERT = [
   {id:'ccst', name:'Cisco CCST Cybersecurity', desc:'Focuses on networking and security monitoring basics.', cost:'~$125'},
 ];
 
+const PREREQ_LIST = [
+  {id:'digitallit', name:'Digital Literacy / Computer Literacy / Digital Information Technology', desc:'Foundational computer and digital-tools literacy required before pathway entry.'},
+  {id:'itexplore', name:'IT Explorations / Information Technology Fundamentals', desc:'Broad survey of IT careers, hardware, software, and basic troubleshooting.'},
+  {id:'hardware', name:'Introduction to Hardware Technology / PC Hardware', desc:'Hands-on PC assembly, components, and hardware troubleshooting basics.'},
+  {id:'itessentials', name:'IT Essentials (Cisco-branded) / A+ Computer Management', desc:'A+-aligned course covering hardware, OS, and basic support skills.'},
+  {id:'networkfund', name:'Computer Networking Fundamentals / Network Systems', desc:'Network+-aligned course covering networking basics prior to security-specific content.'},
+  {id:'netsecfund', name:'Computer and Network Security Fundamentals', desc:'Often a pre-Cybersecurity Essentials course bridging networking and security.'},
+  {id:'introcyber', name:'Introduction to Cybersecurity', desc:'Entry-level security course preceding the core cybersecurity sequence.'},
+  {id:'cyber1', name:'Cybersecurity I', desc:'First course in a Cybersecurity I/II sequence, sometimes used as a prerequisite for advanced sections.'},
+  {id:'introsoft', name:'Introduction to Software Technology / Introductory Computer Science', desc:'Foundational programming/CS logic course supporting later secure-coding content.'},
+  {id:'apcs', name:'AP Computer Science Principles / AP Computer Science A', desc:'Strongly recommended in some pathways as rigorous preparation before pathway entry.'},
+  {id:'careerexp', name:'Career Exploration / IT Career Foundations / Employability Skills', desc:'CTE programs-of-study course covering career readiness and employability skills.'},
+];
+
+const CORE_COURSES = [
+  {id:'cyberfund', name:'Cybersecurity Fundamentals / Cybersecurity Essentials', desc:'First dedicated cybersecurity course in many pathways, often aligned to Security+ or Cisco Cybersecurity Essentials. Covers threats/vulnerabilities, basic cryptography, access control, secure network design, and security policy.'},
+  {id:'introcyberfull', name:'Introduction to Cybersecurity (full-year / semester)', desc:'Conceptual entry course on cyber threats, ethical and legal issues, digital forensics concepts, and basic defensive strategies — often treated as core when it runs a full 36 weeks.'},
+  {id:'cyber1core', name:'Cybersecurity I / Cybersecurity IIA', desc:'First half of a two-course sequence focused on hands-on skills: securing operating systems, using security tools, and basic incident response. Frequently paired with Network+-level courses.'},
+  {id:'cyber2core', name:'Cybersecurity II / Cybersecurity IIB (Advanced Cybersecurity)', desc:'Second-year or capstone course where students analyze attacks, design layered defenses, and perform complex labs (log analysis, intrusion detection, basic penetration testing). Often preps for Security+.'},
+  {id:'secops', name:'Cybersecurity Operations / Cybersecurity Operations (Advanced)', desc:'Course framed around SOC tasks: monitoring, incident detection, log correlation, and response workflows. Advanced version adds red-team/blue-team simulations.'},
+  {id:'ethicalhack', name:'Ethical Hacking / Offensive Security', desc:'Sometimes standalone, sometimes embedded in Advanced Cybersecurity; focuses on penetration testing methods, vulnerability assessment, and secure coding awareness with strong ethics/legal emphasis.'},
+  {id:'forensics', name:'Digital Forensics (Cyber Forensics)', desc:'Evidence collection, imaging, chain of custody, and analysis of file systems, logs, and network traces. May be a specialized law/public-safety offering or a module within advanced courses.'},
+  {id:'netdefense', name:'Network Defense and Security / Network Security', desc:'Distinct from Networking Fundamentals; focuses on firewalls, IDS/IPS basics, VPNs, and secure wireless. Bridges networking and cybersecurity fundamentals.'},
+  {id:'securecoding', name:'Secure Coding / Secure Software Development', desc:'Software security principles: input validation, common vulnerabilities (injection, XSS), secure lifecycle practices. More common in programs blending cyber with CS.'},
+  {id:'cloudsec', name:'Cloud Security / Cloud & Virtualization Security', desc:'Cloud architectures, shared responsibility, identity and access management, and configuration security for major cloud platforms.'},
+  {id:'capstone', name:'Cyber Defense and Incident Response / Capstone Cyber Defense', desc:'Capstone course: students design and present full security architectures, respond to simulated incidents, compete, or complete substantial projects — often tied to work-based learning or dual credit.'},
+  {id:'certprep', name:'Industry Certification Prep (Security+/CySA+/Cisco Security)', desc:'Structures learning around certification domains and practice exams; often the culminating academic experience in the pathway.'},
+];
+
 /* =========================== STATE CAREER CLUSTER DATA (K-12 Cyber Clusters Table) =========================== */
 const STATE_CLUSTERS = {
 "Alabama":{primary:"IT",secondary:["CS","BUS"],notes:"Follows national CTE cluster use; cybersecurity CTE most often in IT cluster nationally."},
@@ -556,7 +593,7 @@ const APPROVAL_MODEL_DESC = {
 /* =========================== STATE =========================== */
 let state = {
   school:'', program:'', grade:'9-12', focus:'general', cip:'', mission:'', selState:'',
-  prereqs:[], core:[], stateModel:'', supp:[], comp:[], compExtra:[], intro:[], cert:[]
+  prereqChecked:[], prereqs:[], core:[], coreCourses:[], coreCourseCustom:[], stateModel:'', supp:[], comp:[], compExtra:[], intro:[], cert:[]
 };
 
 function toggleSection(name){
@@ -647,6 +684,8 @@ function renderStateInfo(){
 
 function renderAll(){
   populateStateSelect();
+  buildCardGrid('prereqListGrid', PREREQ_LIST, 'prereqChecked', it=>'');
+  buildCardGrid('coreCoursesGrid', CORE_COURSES, 'coreCourses', it=>'');
   buildCardGrid('coreGrid', CORE, 'core', tagCore);
   buildCardGrid('suppGrid', SUPP, 'supp', tagSupp);
   buildCardGrid('compGrid', COMP, 'comp', tagComp);
@@ -658,8 +697,8 @@ function renderAll(){
   if(sel.value !== state.selState){ sel.value = state.selState || ''; }
   renderStateInfo();
 
-  document.getElementById('cnt-prereq').textContent = state.prereqs.length;
-  document.getElementById('cnt-core').textContent = state.core.length;
+  document.getElementById('cnt-prereq').textContent = state.prereqChecked.length + state.prereqs.length;
+  document.getElementById('cnt-core').textContent = state.core.length + state.coreCourses.length;
   document.getElementById('cnt-supp').textContent = state.supp.length;
   document.getElementById('cnt-comp').textContent = state.comp.length + state.compExtra.length;
   document.getElementById('cnt-intro').textContent = state.intro.length;
@@ -674,14 +713,21 @@ function renderAll(){
 function renderPrereqChips(){
   const el = document.getElementById('prereqChips');
   el.innerHTML = state.prereqs.map((p,i)=>`<div class="chip">${p}<button onclick="removePrereq(${i})">✕</button></div>`).join('');
+  const el2 = document.getElementById('coreCourseChips');
+  el2.innerHTML = state.coreCourseCustom.map((p,i)=>`<div class="chip">${p}<button onclick="removeCoreCourseCustom(${i})">✕</button></div>`).join('');
 }
 function addPrereq(){
   const inp = document.getElementById('prereqInput');
   const v = inp.value.trim();
   if(v){ state.prereqs.push(v); inp.value=''; renderAll(); }
 }
-function quickPrereq(v){ if(!state.prereqs.includes(v)){ state.prereqs.push(v); renderAll(); } }
 function removePrereq(i){ state.prereqs.splice(i,1); renderAll(); }
+function addCoreCourse(){
+  const inp = document.getElementById('coreCourseInput');
+  const v = inp.value.trim();
+  if(v){ state.coreCourseCustom.push(v); inp.value=''; renderAll(); }
+}
+function removeCoreCourseCustom(i){ state.coreCourseCustom.splice(i,1); renderAll(); }
 
 /* =========================== PATHWAY MAP (signature viz) =========================== */
 function drawPathMap(){
@@ -801,11 +847,24 @@ function buildProposalHTML(){
   ${buildStateSection()}
 
   <h3>4. Prerequisite Classes</h3>
-  ${state.prereqs.length ? '<ul>' + state.prereqs.map(p=>`<li>${p}</li>`).join('') + '</ul>' : '<p class="empty-note">No prerequisites specified.</p>'}
+  ${(state.prereqChecked.length || state.prereqs.length) ? (
+    '<ul>' +
+    state.prereqChecked.map(id=>{const it=PREREQ_LIST.find(x=>x.id===id); return it?`<li><strong>${it.name}</strong> — ${it.desc}</li>`:'';}).join('') +
+    state.prereqs.map(p=>`<li>${p}</li>`).join('') +
+    '</ul>'
+  ) : '<p class="empty-note">No prerequisites specified.</p>'}
 
   <h3>5. Core Curriculum</h3>
   ${listOrEmpty(state.core, CORE)}
   ${state.stateModel ? `<p><strong>State-specific model referenced:</strong> ${state.stateModel}</p>` : ''}
+
+  <h4>Core Cybersecurity Pathway Courses</h4>
+  ${(state.coreCourses.length || state.coreCourseCustom.length) ? (
+    '<ul>' +
+    state.coreCourses.map(id=>{const it=CORE_COURSES.find(x=>x.id===id); return it?`<li><strong>${it.name}</strong> — ${it.desc}</li>`:'';}).join('') +
+    state.coreCourseCustom.map(p=>`<li>${p}</li>`).join('') +
+    '</ul>'
+  ) : '<p class="empty-note">No core pathway courses selected yet.</p>'}
 
   <h3>6. Supplemental Platforms &amp; Applied Training</h3>
   ${listOrEmpty(state.supp, SUPP)}
@@ -892,7 +951,7 @@ function openLoadMenu(){
 }
 function newProgram(){
   if(!confirm('Start a new program? Unsaved changes will be lost unless you saved them.')) return;
-  state = {school:'', program:'', grade:'9-12', focus:'general', cip:'', mission:'', selState:'', prereqs:[], core:[], stateModel:'', supp:[], comp:[], compExtra:[], intro:[], cert:[]};
+  state = {school:'', program:'', grade:'9-12', focus:'general', cip:'', mission:'', selState:'', prereqChecked:[], prereqs:[], core:[], coreCourses:[], coreCourseCustom:[], stateModel:'', supp:[], comp:[], compExtra:[], intro:[], cert:[]};
   applyStateToInputs();
   renderAll();
 }
