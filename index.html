@@ -296,8 +296,13 @@ label.small{font-size:12px;color:var(--ink-soft);display:block;margin-bottom:4px
         </div>
         <div>
           <label class="small">CIP / CTE CLUSTER CODE (optional)</label>
-          <input type="text" id="cipCode" placeholder="e.g. 11.1003 Cyber/Info Security" style="width:100%;padding:10px 12px;border-radius:9px;border:1.5px solid var(--line);background:var(--bg);color:var(--ink);">
+          <select id="cipCode" class="grade-select" style="width:100%" onchange="renderCipNote()"></select>
         </div>
+      </div>
+      <div id="cipNoteBox" style="margin-top:10px;"></div>
+      <div id="cipCustomBox" style="display:none;margin-top:10px;">
+        <label class="small">CUSTOM CIP CODE / TITLE</label>
+        <input type="text" id="cipCustomInput" placeholder="e.g. 11.1099 Computer/IT Services Administration and Management, Other" style="width:100%;padding:10px 12px;border-radius:9px;border:1.5px solid var(--line);background:var(--bg);color:var(--ink);" oninput="syncCipCustom()">
       </div>
       <label class="small" style="margin-top:16px;">PROGRAM MISSION / RATIONALE</label>
       <textarea class="note" id="missionNote" placeholder="Why does this school need a cybersecurity pathway? (workforce demand, student interest, regional employer need, etc.)"></textarea>
@@ -548,6 +553,18 @@ const CERT_TIER3 = [
 ];
 const CERT = [...CERT_TIER1, ...CERT_TIER2, ...CERT_TIER3];
 
+const CIP_CODES = [
+  {code:'29.0207', title:'Cyber/Electronic Operations and Warfare', notes:'Covers cyber attack and defense operations, cryptography, systems security engineering, threat/vulnerability assessment, and cyber warfare systems.', source:'uploaded'},
+  {code:'11.1003', title:'Computer and Information Systems Security / Information Assurance', notes:'The most commonly used CIP code for dedicated cybersecurity CTE programs of study; covers security administration, risk management, and information assurance.', source:'standard'},
+  {code:'11.1006', title:'Cyber/Computer Forensics and Counterterrorism', notes:'Focuses on digital forensics, evidence handling, and cyber-enabled counterterrorism investigation techniques.', source:'standard'},
+  {code:'43.0116', title:'Cyber/Computer Forensics and Counterterrorism (Public Safety cluster variant)', notes:'Same subject matter as 11.1006 but classified under Homeland Security/Public Safety in some state systems.', source:'standard'},
+  {code:'11.0901', title:'Computer Systems Networking and Telecommunications', notes:'Networking-focused CIP code frequently paired with cybersecurity pathways (Network+/CCNA-aligned coursework).', source:'standard'},
+  {code:'11.0701', title:'Computer Science', notes:'General computer science CIP code; used where cybersecurity is offered as a strand within a broader CS pathway.', source:'standard'},
+  {code:'11.0401', title:'Information Science/Studies', notes:'Broader information-systems CIP code sometimes used for policy- or governance-oriented cybersecurity pathways.', source:'standard'},
+  {code:'15.1202', title:'Computer Technology/Computer Systems Technology', notes:'Applied/technical CIP code used in some community-college-aligned technical high school programs.', source:'standard'},
+  {code:'11.1099', title:'Computer/Information Technology Services Administration and Management, Other', notes:'Catch-all IT administration code used by some states for cybersecurity programs that don\u2019t fit 11.1003 exactly.', source:'standard'},
+];
+
 const PREREQ_LIST = [
   {id:'digitallit', name:'Digital Literacy / Computer Literacy / Digital Information Technology', desc:'Foundational computer and digital-tools literacy required before pathway entry.'},
   {id:'itexplore', name:'IT Explorations / Information Technology Fundamentals', desc:'Broad survey of IT careers, hardware, software, and basic troubleshooting.'},
@@ -655,7 +672,7 @@ const APPROVAL_MODEL_DESC = {
 let state = {
   school:'', program:'', grade:'9-12', focus:'general', cip:'', mission:'', selState:'',
   prereqChecked:[], prereqs:[], core:[], coreCourses:[], coreCourseCustom:[], stateModel:'', supp:[], comp:[], compExtra:[], intro:[], cert:[],
-  artic:[], articCustom:[], receivingInst:'', articNote:''
+  artic:[], articCustom:[], receivingInst:'', articNote:'', cipCustom:''
 };
 
 function toggleSection(name){
@@ -697,6 +714,39 @@ function tagCore(it){ return `<span class="tag">${it.grade}</span><span class="t
 function tagSupp(it){ return `<span class="tag">${it.grade}</span><span class="tag ${it.cost==='Freemium'?'':'cost'}">${it.cost}</span>`; }
 function tagComp(it){ return `<span class="tag">${it.grade}</span>`; }
 function tagCert(it){ return `<span class="tag cost">${it.cost}</span><span class="tag">${it.grade}</span>`; }
+
+function populateCipSelect(){
+  const sel = document.getElementById('cipCode');
+  if(sel.options.length>0) return;
+  const opt0 = document.createElement('option');
+  opt0.value=''; opt0.textContent='— Select a CIP code —';
+  sel.appendChild(opt0);
+  CIP_CODES.forEach(c=>{
+    const o = document.createElement('option');
+    o.value = c.code; o.textContent = `${c.code} — ${c.title}`;
+    sel.appendChild(o);
+  });
+  const optOther = document.createElement('option');
+  optOther.value='other'; optOther.textContent='Other / not listed — enter manually';
+  sel.appendChild(optOther);
+}
+function renderCipNote(){
+  const sel = document.getElementById('cipCode');
+  state.cip = sel.value;
+  const box = document.getElementById('cipNoteBox');
+  const customBox = document.getElementById('cipCustomBox');
+  if(state.cip === 'other'){
+    box.innerHTML = '';
+    customBox.style.display = 'block';
+  } else {
+    customBox.style.display = 'none';
+    const c = CIP_CODES.find(x=>x.code===state.cip);
+    box.innerHTML = c ? `<p style="font-size:12.5px;color:var(--ink-soft);margin:0;"><strong>${c.code} — ${c.title}:</strong> ${c.notes}</p>` : '';
+  }
+}
+function syncCipCustom(){
+  state.cipCustom = document.getElementById('cipCustomInput').value.trim();
+}
 
 function populateStateSelect(){
   const sel = document.getElementById('stateSelect');
@@ -746,6 +796,10 @@ function renderStateInfo(){
 
 function renderAll(){
   populateStateSelect();
+  populateCipSelect();
+  const cipSel = document.getElementById('cipCode');
+  if(cipSel.value !== state.cip){ cipSel.value = state.cip || ''; }
+  renderCipNote();
   buildCardGrid('prereqListGrid', PREREQ_LIST, 'prereqChecked', it=>'');
   buildCardGrid('coreCoursesGrid', CORE_COURSES, 'coreCourses', it=>'');
   buildCardGrid('coreGrid', CORE, 'core', tagCore);
@@ -847,6 +901,12 @@ function drawPathMap(){
 }
 
 /* =========================== PROPOSAL =========================== */
+function cipDisplay(){
+  if(!state.cip) return '—';
+  if(state.cip === 'other') return state.cipCustom || 'Other (not specified)';
+  const c = CIP_CODES.find(x=>x.code===state.cip);
+  return c ? `${c.code} — ${c.title}` : state.cip;
+}
 function labelById(list, id){ const it = list.find(x=>x.id===id); return it ? it.name : id; }
 function gradeLabel(v){
   return {'k8':'K–8 (Introductory / Digital Citizenship)','9-10':'9–10 (Foundations)','9-12':'9–12 (Full Pathway)','11-12':'11–12 (Applied / Capstone)'}[v] || v;
@@ -874,6 +934,7 @@ function syncFieldsFromInputs(){
   state.grade = document.getElementById('gradeBand').value;
   state.focus = document.getElementById('pathwayFocus').value;
   state.cip = document.getElementById('cipCode').value.trim();
+  state.cipCustom = document.getElementById('cipCustomInput').value.trim();
   state.mission = document.getElementById('missionNote').value.trim();
   state.stateModel = document.getElementById('stateModelInput').value.trim();
   state.receivingInst = document.getElementById('receivingInstInput').value.trim();
@@ -913,7 +974,7 @@ function buildProposalHTML(){
     <tr><td><strong>State</strong></td><td>${state.selState || '—'}</td></tr>
     <tr><td><strong>Grade Band</strong></td><td>${gradeLabel(state.grade)}</td></tr>
     <tr><td><strong>Pathway Focus</strong></td><td>${focusLabel(state.focus)}</td></tr>
-    <tr><td><strong>CIP / CTE Cluster Code</strong></td><td>${state.cip || '—'}</td></tr>
+    <tr><td><strong>CIP / CTE Cluster Code</strong></td><td>${cipDisplay()}</td></tr>
   </table>
 
   <h3>2. Rationale &amp; Mission</h3>
@@ -1042,7 +1103,7 @@ function openLoadMenu(){
 }
 function newProgram(){
   if(!confirm('Start a new program? Unsaved changes will be lost unless you saved them.')) return;
-  state = {school:'', program:'', grade:'9-12', focus:'general', cip:'', mission:'', selState:'', prereqChecked:[], prereqs:[], core:[], coreCourses:[], coreCourseCustom:[], stateModel:'', supp:[], comp:[], compExtra:[], intro:[], cert:[], artic:[], articCustom:[], receivingInst:'', articNote:''};
+  state = {school:'', program:'', grade:'9-12', focus:'general', cip:'', cipCustom:'', mission:'', selState:'', prereqChecked:[], prereqs:[], core:[], coreCourses:[], coreCourseCustom:[], stateModel:'', supp:[], comp:[], compExtra:[], intro:[], cert:[], artic:[], articCustom:[], receivingInst:'', articNote:''};
   applyStateToInputs();
   renderAll();
 }
@@ -1051,7 +1112,10 @@ function applyStateToInputs(){
   document.getElementById('programNameInput').value = state.program;
   document.getElementById('gradeBand').value = state.grade;
   document.getElementById('pathwayFocus').value = state.focus;
-  document.getElementById('cipCode').value = state.cip;
+  populateCipSelect();
+  document.getElementById('cipCode').value = state.cip || '';
+  document.getElementById('cipCustomInput').value = state.cipCustom || '';
+  renderCipNote();
   document.getElementById('missionNote').value = state.mission;
   document.getElementById('stateModelInput').value = state.stateModel;
   document.getElementById('receivingInstInput').value = state.receivingInst || '';
