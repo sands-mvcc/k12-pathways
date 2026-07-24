@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>K-12 Cybersecurity CTE Program Career Clusters</title>
+    <style>
+        :root {
+            --primary-bg: #ffffff;
+            --text-color: #000000;
+            --accent-green: #008000;
+            --light-green: #e6ffe6;
+            --dark-green: #004d00;
+            --border-color: #000000;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--primary-bg);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            border-bottom: 3px solid var(--accent-green);
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            color: var(--dark-green);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .legend-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            background-color: var(--light-green);
+            padding: 15px;
+            border: 2px solid var(--text-color);
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+
+        .badge {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: bold;
+            display: inline-block;
+        }
+
+        .badge-it { background-color: var(--accent-green); color: white; }
+        .badge-cs { background-color: var(--text-color); color: white; }
+        .badge-bus { border: 2px solid var(--accent-green); color: var(--accent-green); background: white; }
+        .badge-stem { border: 2px solid var(--text-color); color: var(--text-color); background: white; }
+        .badge-lpscs { background-color: var(--dark-green); color: white; }
+
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+
+        #searchInput {
+            width: 100%;
+            max-width: 400px;
+            padding: 10px 15px;
+            font-size: 16px;
+            border: 2px solid var(--border-color);
+            border-radius: 25px;
+            outline: none;
+            transition: box-shadow 0.3s ease;
+        }
+
+        #searchInput:focus {
+            box-shadow: 0 0 8px rgba(0, 128, 0, 0.5);
+            border-color: var(--accent-green);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            background: white;
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: var(--text-color);
+            color: white;
+            cursor: pointer;
+            position: sticky;
+            top: 0;
+            transition: background-color 0.3s;
+        }
+
+        th:hover {
+            background-color: var(--dark-green);
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        tr:hover {
+            background-color: var(--light-green);
+        }
+
+        .notes {
+            font-size: 0.9em;
+            color: #444;
+        }
+
+        .footer-note {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #f1f1f1;
+            border-left: 5px solid var(--accent-green);
+            font-size: 0.95em;
+        }
+        
+        @media (max-width: 768px) {
+            table {
+                display: block;
+                overflow-x: auto;
+            }
+            .legend-container {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>K-12 Cybersecurity Program Career Clusters</h1>
+        <p>State-by-State Breakdown of Primary and Secondary Placements</p>
+    </header>
+
+    <div class="legend-container">
+        <strong>Legend (National Career Clusters):</strong>
+        <span class="badge badge-it">IT = Information Technology</span>
+        <span class="badge badge-bus">BUS = Business Management</span>
+        <span class="badge badge-stem">STEM = Science, Tech, Engineering, Math</span>
+        <span class="badge badge-lpscs">LPSCS = Law, Public Safety & Security</span>
+        <span class="badge badge-cs">CS = K-12 Computer Science</span>
+    </div>
+
+    <div class="controls">
+        <input type="text" id="searchInput" onkeyup="filterTable()" placeholder="Search for a state (e.g., Texas)...">
+    </div>
+
+    <table id="clusterTable">
+        <thead>
+            <tr>
+                <th onclick="sortTable(0)">State &#9650;&#9660;</th>
+                <th onclick="sortTable(1)">Primary Cluster (CTE) &#9650;&#9660;</th>
+                <th onclick="sortTable(2)">Secondary/Parallel Areas &#9650;&#9660;</th>
+                <th>Evidence Basis & Notes</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td>Alabama</td><td><span class="badge badge-it">IT</span></td><td><span class="badge badge-cs">CS</span> <span class="badge badge-bus">BUS</span></td><td class="notes">Follows national CTE cluster use; cybersecurity CTE most often in IT cluster nationally. nist+1</td></tr>
+            <tr><td>Alaska</td><td><span class="badge badge-it">IT</span></td><td><span class="badge badge-cs">CS</span></td><td class="notes">State uses national clusters; cyber CTE aligns with IT like most states. nist+1</td></tr>
+            <tr><td>Arizona</td><td><span class="badge badge-it">IT</span></td><td><span class="badge badge-cs">CS</span> <span class="badge badge-bus">BUS</span></td><td class="notes">State CTE clusters mirror national; CYBER.ORG report notes CS-led cyber in many states. nist+1</td></tr>
+            <tr><td>Arkansas</td><td><span class="badge badge-it">IT</span></td><td><span class="badge badge-cs">CS</span></td><td class="notes">Uses national clusters, with cyber generally classified in IT. nist+1</td></tr>
+            <tr><td>California</td><td><span class="badge badge-it">IT</span></td><td><span class="badge badge-cs">CS</span> <span class="badge badge-bus">BUS</span></td><td class="notes">Large CS standards footprint; cyber concepts appear in CS and IT pathways. nist+1</td></tr>
+            <tr><td>Colorado</td><td><span class="badge badge-it">IT</span></td><td><span class="badge badge-cs">CS</span> <span class="badge badge-stem">STEM</span></td><td class="notes">CTE aligned to national clusters; cyber in IT cluster per national guidance. nist+1</td></tr>
+            <tr><td>Connecticut</td><td><span class="badge badge-it">IT</span></td><td><span class="badge badge-stem">STEM</span> <span class="badge badge-cs">CS</span></td><td class="notes">Perkins V clusters include IT and STEM; cyber pathways align to IT. ct+1</td></tr>
+            <tr><td>Delaware</td><td><span class="badge badge-it">IT</span></td><td><span class="badge badge-cs">CS</span></td><td class="notes">Uses national clusters, with cyber most often in IT cluster. nist+1</td></tr>
+            <tr><td>Florida</td><td><span class="badge badge-it">IT</span></td><td><span class="badge badge-cs">CS</span> <span class="badge badge-lpscs">LPSCS</span></td><td class="notes">Mix of IT CTE pathways and digital forensics/justice tracks. nist+1</td></tr>
+            <tr><td>Georgia</td><td><span class="badge badge-it">IT</span></td><td><span class="badge badge-cs">CS</span></td><td class="notes">State’s IT pathways house cyber CTE; CS standards carry intro content. nist+1</td></tr>
+            <tr><td>Hawaii</td><td><span class="badge badge-it">IT</span></td><td><span class="badge badge-cs">CS</span></td><td class="notes">National pattern: cyber CTE in IT cluster; CS in general ed. nist+1</td></tr>
+            <tr><td>Idaho</td><td><span class="badge badge-it">IT</span></td><td><span class="badge badge-cs">CS</span></td><td class="notes">Follows national cluster pattern with IT as cyber home. nist+1</td></tr>
+            <tr><td>Illinois</td><td><span class="badge badge-it">IT</span></td><td><span class="badge badge-bus">BUS</span> <span class="badge badge-cs">CS</span></td><td class="notes">ISBE uses model programs of study for IT; cyber is typically a strand there. nist+1</td></tr>
+            <tr><td>Indiana</td><td><span class="badge badge-it">IT</span></td><td><span class="badge badge-cs">CS</span></td><td class="notes">State CTE pathways aligned to IT cluster for networking/cyber. nist+1</td></tr>
+            <tr><td>Iowa</td><td><span class="badge badge-it">IT</span></td><td><span class="badge badge-cs">CS</span></td><td class="notes">National guidance indicates IT cluster placement. nist+1</td></tr>
+            
+            <tr><td>Kansas</td><td><span class="badge badge-it">IT</span></td><td><span class="badge badge-cs">CS</span></td><td class="notes">Similar to other Plains states; cyber generally in IT cluster. nist+1</td></tr>
+            <tr><td>Kentucky</td><td><span class="badge badge-it">IT</span></td><td><span class="badge badge-cs">CS</span></td><td class="notes">CTE directory includes AP Cybersecurity and IT pathways; cyber sits in IT cluster. education.ky+1</td></tr>
+            <tr><td>Louisiana</td><td><span class="badge badge-it">IT</span></td><td><span class="badge badge-cs">CS</span></td><td class="notes">CYBER.ORG (based in LA) notes CTE cyber programs as IT pathways. nist+1</td></tr>
+            <tr><td>Maine</td><td><span class="badge badge-it">IT</span></td><td><span class="badge badge-cs">CS</span></td><td class="notes">Uses national clusters; cyber content mostly aligned to IT. nist+1</td></tr>
+            <tr><td>Maryland</td><td><span class="badge badge-it">IT</span></td><td><span class="badge badge-cs">CS</span> <span class="badge badge-lpscs">LPSCS</span></td><td class="notes">MSDE has a Cybersecurity Program of Study in CTE (IT cluster) and CS standards with cyber concepts. marylandpublicschools+2</td></tr>
+            <tr><td>Massachusetts</td><td><span class="badge badge-it">IT</span></td><td><span class="badge badge-cs">CS</span></td><td class="notes">Strong CS standards; cyber in CS and IT pathways. nist+1</td></tr>
+            <tr><td>Michigan</td><td><span class="badge badge-it">IT</span></td><td><span class="badge badge-cs">CS</span> <span class="badge badge-bus">BUS</span></td><td class="notes">Business & IT legacy structures; national IT cluster alignment for cyber CTE. nist+1</td></tr>
+            <tr><td>Minnesota</td><td><span class="badge badge-it">IT</span></td><td><span class="badge badge-cs">CS</span></td><td class="notes">CTE programs include IT pathways; national IT cluster guidance. nist+1</td></tr>
+            <tr><td>Mississippi</td><td><span class="badge badge-it">IT</span></td><td><span class="badge badge-cs">CS</span></td><td class="notes">CTE cyber programs typically in IT cluster. nist+1</td></tr>
+            <tr><td>Missouri</td><td><span class="badge badge-it">IT</span></td><td><span class="badge badge-bus">BUS</span> <span class="badge badge-cs">CS</span></td><td class="notes">DESE groups Business, Marketing & IT; cyber content often under this combined division. dese.mo+1</td></tr>
+            <tr><td>Montana</td><td><span class="badge badge-it">IT</span></td><td><span class="badge badge-cs">CS</span></td><td class="notes">National pattern: cyber in IT cluster. nist+1</td></tr>
+            <tr><td>Nebraska</td><td><span class="badge badge-it">IT</span></td><td><span class="badge badge-cs">CS</span></td><td class="notes">State uses IT cluster for cyber CTE; Nevada-style frameworks are a parallel example. nist+1</td></tr>
+            <tr><td>Nevada</td><td><span class="badge badge-it">IT</span></td><td><span class="badge badge-cs">CS</span></td><td class="notes">Nevada CTE Cybersecurity Framework explicitly aligns to IT-style program, using national clusters. nist+1</td></tr>
+            <tr><td>New Hampshire</td><td><span class="badge badge-it">IT</span></td><td><span class="badge badge-cs">CS</span></td><td class="notes">CS standards plus IT CTE programs; national guidance. nist+1</td></tr>
+            <tr><td>New Jersey</td><td><span class="badge badge-it">IT</span></td><td><span class="badge badge-cs">CS</span> <span class="badge badge-lpscs">LPSCS</span></td><td class="notes">NJDOE lists Information Technology cluster; cybersecurity pathways are typically placed there. nj+1</td></tr>
+            <tr><td>New Mexico</td><td><span class="badge badge-it">IT</span></td><td><span class="badge badge-cs">CS</span></td><td class="notes">CTE clusters mirror national; cyber CTE in IT cluster. nist+1</td></tr>
+            <tr><td>New York</td><td><span class="badge badge-it">IT</span></td><td><span class="badge badge-cs">CS</span></td><td class="notes">NYSED CTE programs align to CDOS/IT standards; CS standards carry cyber concepts. nysed+1</td></tr>
+            <tr><td>North Carolina</td><td><span class="badge badge-it">IT</span></td><td><span class="badge badge-cs">CS</span></td><td class="notes">IT cluster pathways house cyber; CS standards integrate security concepts. nist+1</td></tr>
+            <tr><td>North Dakota</td><td><span class="badge badge-it">IT</span></td><td><span class="badge badge-cs">CS</span></td><td class="notes">National cyber CTE guidance (NICE/NIST) indicates IT placement. nist</td></tr>
+            
+            <tr><td>Ohio</td><td><span class="badge badge-it">IT</span></td><td><span class="badge badge-cs">CS</span></td><td class="notes">CTE-26 IT applications include cyber, aligning with IT cluster. education.ohio+1</td></tr>
+            <tr><td>Oklahoma</td><td><span class="badge badge-it">IT</span></td><td><span class="badge badge-cs">CS</span></td><td class="notes">National pattern: IT cluster home for cyber programs. nist+1</td></tr>
+            <tr><td>Oregon</td><td><span class="badge badge-it">IT</span></td><td><span class="badge badge-cs">CS</span></td><td class="notes">Uses national clusters; cyber CTE in IT pathways. nist+1</td></tr>
+            <tr><td>Pennsylvania</td><td><span class="badge badge-it">IT</span></td><td><span class="badge badge-cs">CS</span></td><td class="notes">PDE’s modernized clusters include IT; cyber content aligned there. pa+1</td></tr>
+            <tr><td>Rhode Island</td><td><span class="badge badge-it">IT</span></td><td><span class="badge badge-cs">CS</span></td><td class="notes">IT CTE programs plus CS standards; national guidance. nist+1</td></tr>
+            <tr><td>South Carolina</td><td><span class="badge badge-it">IT</span></td><td><span class="badge badge-cs">CS</span></td><td class="notes">IT cluster houses networking/cyber; CS carries earlier concepts. nist+1</td></tr>
+            <tr><td>South Dakota</td><td><span class="badge badge-it">IT</span></td><td><span class="badge badge-cs">CS</span></td><td class="notes">State IT cluster description includes networking/security; cyber is part of IT cluster. doe.sd+1</td></tr>
+            <tr><td>Tennessee</td><td><span class="badge badge-it">IT</span></td><td><span class="badge badge-cs">CS</span> <span class="badge badge-bus">BUS</span></td><td class="notes">State uses national IT cluster; some Business & IT overlap. nist+1</td></tr>
+            <tr><td>Texas</td><td><span class="badge badge-it">IT</span></td><td><span class="badge badge-cs">CS</span></td><td class="notes">TEA has a named Cybersecurity Program of Study in the Information Technology cluster; CS/technology applications carry intro content. tea.texas+2</td></tr>
+            <tr><td>Utah</td><td><span class="badge badge-it">IT</span></td><td><span class="badge badge-cs">CS</span></td><td class="notes">Utah CTE clusters include IT-aligned pathways; cyber in IT cluster pathways. schools.utah+1</td></tr>
+            <tr><td>Vermont</td><td><span class="badge badge-it">IT</span></td><td><span class="badge badge-cs">CS</span></td><td class="notes">Small state; national IT cluster pattern. nist+1</td></tr>
+            <tr><td>Virginia</td><td><span class="badge badge-it">IT</span></td><td><span class="badge badge-cs">CS</span></td><td class="notes">IT cluster pathways with dedicated cyber; CS standards embed security. nist+1</td></tr>
+            <tr><td>Washington</td><td><span class="badge badge-it">IT</span></td><td><span class="badge badge-cs">CS</span></td><td class="notes">OSPI CTE IT programs house cyber; CS standards cover foundational topics. ospi+1</td></tr>
+            <tr><td>West Virginia</td><td><span class="badge badge-it">IT</span></td><td><span class="badge badge-cs">CS</span></td><td class="notes">CTE IT cluster and CS standards as dual homes. nist+1</td></tr>
+            <tr><td>Wisconsin</td><td><span class="badge badge-it">IT</span></td><td><span class="badge badge-cs">CS</span> <span class="badge badge-bus">BUS</span></td><td class="notes">CTE pathways documents highlight cyber as IT priority; some Business & IT overlap. nist+1</td></tr>
+            <tr><td>Wyoming</td><td><span class="badge badge-it">IT</span></td><td><span class="badge badge-cs">CS</span></td><td class="notes">State uses national cluster framework; cyber aligned to IT. nist+1</td></tr>
+        </tbody>
+    </table>
+
+    <div class="footer-note">
+        <strong>How to use this table (and its limits):</strong><br>
+        The table reflects the best available national and state evidence, especially the NIST/NICE brief explicitly stating that “cybersecurity is most often included in the Information Technology Career Cluster,” plus concrete state examples like Texas, Nevada, Missouri, Connecticut, and New Jersey. nist+5<br><br>
+        For most states, the primary cluster is IT because that is the dominant pattern across state CTE systems; when state-specific documentation highlighted Business/IT divisions or strong CS standards, those appear in the “secondary” column. nist+3<br><br>
+        Because many states implement cybersecurity through both CS standards and IT CTE pathways, the table intentionally shows multiple areas where appropriate rather than forcing a single label. nist+1
+    </div>
+</div>
+
+<script>
+    // Search Filter Functionality
+    function filterTable() {
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("searchInput");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("clusterTable");
+        tr = table.getElementsByTagName("tr");
+
+        for (i = 1; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[0]; // Filter by state name only
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }       
+        }
+    }
+
+    // Sort Table Functionality
+    function sortTable(n) {
+        var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+        table = document.getElementById("clusterTable");
+        switching = true;
+        dir = "asc"; 
+        
+        while (switching) {
+            switching = false;
+            rows = table.rows;
+            
+            for (i = 1; i < (rows.length - 1); i++) {
+                shouldSwitch = false;
+                
+                // Get the two elements you want to compare, one from current row and one from the next:
+                x = rows[i].getElementsByTagName("TD")[n];
+                y = rows[i + 1].getElementsByTagName("TD")[n];
+                
+                // Check if the two rows should switch place, based on the direction, asc or desc:
+                if (dir == "asc") {
+                    if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                        shouldSwitch = true;
+                        break;
+                    }
+                } else if (dir == "desc") {
+                    if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+                        shouldSwitch = true;
+                        break;
+                    }
+                }
+            }
+            if (shouldSwitch) {
+                rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                switching = true;
+                switchcount ++;      
+            } else {
+                if (switchcount == 0 && dir == "asc") {
+                    dir = "desc";
+                    switching = true;
+                }
+            }
+        }
+    }
+</script>
+
+</body>
+</html>
