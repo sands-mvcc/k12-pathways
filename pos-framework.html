@@ -1,0 +1,962 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Model Programs of Study in Cybersecurity | National Framework</title>
+<style>
+  :root {
+    --bg: #f4f6f9;
+    --surface: #ffffff;
+    --surface2: #f0f4ff;
+    --border: #d1d9e6;
+    --text: #1a1e2e;
+    --text-muted: #5a6480;
+    --accent: #e8340f;
+    --accent2: #c02200;
+    --accent-light: #fff0ed;
+    --badge-bg: #1a1e2e;
+    --badge-text: #ffffff;
+    --card-hover: #e8f0fe;
+    --shadow: 0 2px 8px rgba(0,0,0,0.10);
+    --shadow-hover: 0 8px 24px rgba(0,0,0,0.15);
+    --header-bg: #1a1e2e;
+    --header-text: #ffffff;
+    --tag-threat: #c0392b;
+    --tag-arch: #1565c0;
+    --tag-ops: #276221;
+    --tag-gov: #6a1b9a;
+    --tag-gen: #e65100;
+    --tag-exam: #00695c;
+    --tag-lab: #0277bd;
+    --tag-tools: #5c6bc0;
+    --tag-exam-bg: #e0f2f1;
+    --tag-threat-bg: #fdecea;
+    --tag-arch-bg: #e3f0fd;
+    --tag-ops-bg: #e8f5e9;
+    --tag-gov-bg: #f3e5f5;
+    --tag-gen-bg: #fff3e0;
+    --tag-lab-bg: #e1f0fa;
+    --tag-tools-bg: #ede7f6;
+  }
+  [data-theme="dark"] {
+    --bg: #0f1117;
+    --surface: #1c1f2e;
+    --surface2: #252840;
+    --border: #2e3352;
+    --text: #e8ecf4;
+    --text-muted: #8a92b2;
+    --accent: #ff5533;
+    --accent2: #ff7755;
+    --accent-light: #2a1510;
+    --badge-bg: #ff5533;
+    --badge-text: #ffffff;
+    --card-hover: #1e2340;
+    --shadow: 0 2px 8px rgba(0,0,0,0.40);
+    --shadow-hover: 0 8px 24px rgba(0,0,0,0.55);
+    --header-bg: #0a0c14;
+    --header-text: #e8ecf4;
+    --tag-threat: #ef9a9a;
+    --tag-arch: #90caf9;
+    --tag-ops: #a5d6a7;
+    --tag-gov: #ce93d8;
+    --tag-gen: #ffcc80;
+    --tag-exam: #80cbc4;
+    --tag-lab: #4fc3f7;
+    --tag-tools: #9fa8da;
+    --tag-exam-bg: #0d2520;
+    --tag-threat-bg: #2a1010;
+    --tag-arch-bg: #0d1f35;
+    --tag-ops-bg: #0d2010;
+    --tag-gov-bg: #1f0d2a;
+    --tag-gen-bg: #2a1a00;
+    --tag-lab-bg: #0a1f30;
+    --tag-tools-bg: #1a1a35;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    transition: background 0.3s, color 0.3s;
+  }
+
+  /* HEADER */
+  header {
+    background: var(--header-bg);
+    color: var(--header-text);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.3);
+  }
+  .header-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 18px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  .header-brand { display: flex; align-items: center; gap: 14px; }
+  .brand-icon {
+    width: 44px; height: 44px;
+    background: var(--accent);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 19px; font-weight: 900; color: #fff; flex-shrink: 0; letter-spacing: -1px;
+  }
+  .brand-text h1 { font-size: 1.15rem; font-weight: 700; letter-spacing: 0.01em; line-height: 1.2; }
+  .brand-text p { font-size: 0.78rem; opacity: 0.65; margin-top: 2px; }
+  .header-right { display: flex; align-items: center; gap: 12px; }
+  .exam-badge {
+    background: var(--accent); color: #fff; font-size: 0.72rem; font-weight: 700;
+    padding: 4px 10px; border-radius: 20px; letter-spacing: 0.05em; text-transform: uppercase;
+  }
+  .theme-toggle {
+    background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.18);
+    color: var(--header-text); cursor: pointer; padding: 7px 14px; border-radius: 20px;
+    font-size: 0.82rem; font-weight: 600; display: flex; align-items: center; gap: 6px;
+    transition: background 0.2s;
+  }
+  .theme-toggle:hover { background: rgba(255,255,255,0.22); }
+
+  /* SUB-NAV */
+  .subnav {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 80px;
+    z-index: 99;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+  .subnav-inner {
+    max-width: 1200px; margin: 0 auto; padding: 0 24px;
+    display: flex; gap: 4px;
+  }
+  .subnav a {
+    display: inline-block;
+    padding: 12px 14px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-decoration: none;
+    border-bottom: 3px solid transparent;
+    transition: color 0.2s, border-color 0.2s;
+  }
+  .subnav a:hover { color: var(--text); }
+  .subnav a.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+  /* HERO */
+  .hero {
+    background: linear-gradient(135deg, #1a1e2e 0%, #2d3258 60%, #e8340f22 100%);
+    color: #fff; padding: 40px 24px 32px; text-align: center;
+  }
+  .hero h2 { font-size: 1.7rem; font-weight: 800; margin-bottom: 10px; }
+  .hero p { opacity: 0.78; font-size: 0.98rem; max-width: 680px; margin: 0 auto 20px; }
+  .domain-pills { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-bottom: 20px; }
+  .domain-pill {
+    background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2); color: #fff;
+    font-size: 0.75rem; padding: 4px 12px; border-radius: 20px; font-weight: 500;
+  }
+  .domain-pill span { font-weight: 800; margin-left: 4px; }
+  .hero-cta {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--accent); color: #fff; text-decoration: none;
+    font-weight: 700; font-size: 0.88rem; padding: 11px 22px; border-radius: 24px;
+    box-shadow: 0 6px 18px rgba(232,52,15,0.35);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .hero-cta:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(232,52,15,0.45); }
+
+  /* MAIN */
+  main { max-width: 1200px; margin: 0 auto; padding: 40px 24px 48px; }
+  section { scroll-margin-top: 130px; margin-bottom: 52px; }
+  .section-label {
+    font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em;
+    color: var(--text-muted); margin-bottom: 6px; padding-bottom: 8px; border-bottom: 1px solid var(--border);
+  }
+  .section-title { font-size: 1.4rem; font-weight: 800; margin: 6px 0 8px; }
+  .section-intro { color: var(--text-muted); font-size: 0.92rem; max-width: 800px; margin-bottom: 22px; line-height: 1.55; }
+
+  /* CARD GRID */
+  .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 20px; }
+  .card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 14px; overflow: hidden;
+    display: flex; flex-direction: column; transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+    box-shadow: var(--shadow);
+  }
+  .card:hover { transform: translateY(-4px); box-shadow: var(--shadow-hover); background: var(--card-hover); }
+  .card-accent-bar { height: 5px; background: var(--accent); }
+  .card.domain-gen .card-accent-bar { background: var(--tag-gen); }
+  .card.domain-arch .card-accent-bar { background: var(--tag-arch); }
+  .card.domain-ops .card-accent-bar { background: var(--tag-ops); }
+  .card.domain-gov .card-accent-bar { background: var(--tag-gov); }
+  .card.domain-threats .card-accent-bar { background: var(--tag-threat); }
+  .card.domain-special .card-accent-bar { background: linear-gradient(90deg, var(--accent), #ff9a00); }
+  .card-body { padding: 18px 20px; flex: 1; display: flex; flex-direction: column; gap: 8px; }
+  .card-header-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
+  .lesson-num { font-size: 0.72rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; flex-shrink: 0; margin-top: 2px; }
+  .domain-tag { font-size: 0.68rem; font-weight: 700; padding: 3px 8px; border-radius: 10px; text-transform: uppercase; letter-spacing: 0.05em; flex-shrink: 0; white-space: nowrap; }
+  .tag-gen { color: var(--tag-gen); background: var(--tag-gen-bg); }
+  .tag-threats { color: var(--tag-threat); background: var(--tag-threat-bg); }
+  .tag-arch { color: var(--tag-arch); background: var(--tag-arch-bg); }
+  .tag-ops { color: var(--tag-ops); background: var(--tag-ops-bg); }
+  .tag-gov { color: var(--tag-gov); background: var(--tag-gov-bg); }
+  .tag-exam { color: var(--tag-exam); background: var(--tag-exam-bg); }
+  .tag-special { color: var(--accent); background: var(--accent-light); }
+  .card-title { font-size: 1.05rem; font-weight: 700; line-height: 1.3; color: var(--text); }
+  .card-desc { font-size: 0.83rem; color: var(--text-muted); line-height: 1.5; flex: 1; }
+  .card-list { list-style: none; font-size: 0.83rem; color: var(--text); line-height: 1.7; }
+  .card-list li { padding-left: 16px; position: relative; }
+  .card-list li::before { content: "•"; position: absolute; left: 0; color: var(--accent); font-weight: 900; }
+  .card-footer { display: flex; align-items: center; justify-content: space-between; padding: 12px 20px; border-top: 1px solid var(--border); background: var(--surface2); }
+  .card-terms { font-size: 0.72rem; color: var(--text-muted); }
+  .card-terms strong { color: var(--text); font-weight: 600; }
+
+  /* Progress / stage connector */
+  .progress-strip { display: flex; gap: 4px; margin-bottom: 22px; align-items: center; }
+  .progress-block { height: 6px; border-radius: 3px; flex: 1; }
+
+  /* Ladder / stackable credential visual */
+  .ladder { display: grid; grid-template-columns: 1fr; gap: 14px; max-width: 720px; margin: 0 auto; }
+  .rung {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+    padding: 16px 20px; display: flex; align-items: center; gap: 16px; box-shadow: var(--shadow);
+    position: relative;
+  }
+  .rung-level {
+    width: 40px; height: 40px; border-radius: 50%; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center; font-weight: 800; color: #fff; font-size: 0.95rem;
+  }
+  .rung-body h4 { font-size: 0.98rem; font-weight: 700; margin-bottom: 2px; }
+  .rung-body p { font-size: 0.82rem; color: var(--text-muted); }
+  .rung-arrow { position: absolute; left: 38px; bottom: -18px; font-size: 1.1rem; color: var(--text-muted); }
+
+  /* Pathway explorer */
+  .pathway-tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
+  .pathway-tab {
+    background: var(--surface); border: 2px solid var(--border); color: var(--text);
+    padding: 10px 16px; border-radius: 24px; font-size: 0.85rem; font-weight: 700; cursor: pointer;
+    transition: all 0.2s;
+  }
+  .pathway-tab:hover { border-color: var(--accent); }
+  .pathway-tab.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .pathway-panel {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 26px;
+    box-shadow: var(--shadow); display: none;
+  }
+  .pathway-panel.active { display: block; animation: fadein 0.25s ease; }
+  @keyframes fadein { from { opacity: 0; transform: translateY(6px);} to { opacity: 1; transform: translateY(0);} }
+  .pathway-panel-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 16px; }
+  .pathway-panel-head h3 { font-size: 1.2rem; font-weight: 800; }
+  .wage-bars { display: grid; gap: 10px; margin-top: 14px; }
+  .wage-bar-row { display: grid; grid-template-columns: 160px 1fr 90px; align-items: center; gap: 10px; }
+  .wage-bar-label { font-size: 0.8rem; color: var(--text-muted); font-weight: 600; }
+  .wage-bar-track { background: var(--surface2); border-radius: 8px; height: 10px; overflow: hidden; }
+  .wage-bar-fill { height: 100%; border-radius: 8px; }
+  .wage-bar-value { font-size: 0.8rem; font-weight: 700; text-align: right; }
+  .pathway-meta-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px,1fr)); gap: 14px; margin-top: 18px; }
+  .meta-box { background: var(--surface2); border-radius: 10px; padding: 12px 14px; }
+  .meta-box .label { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); font-weight: 700; margin-bottom: 4px; }
+  .meta-box .value { font-size: 0.9rem; font-weight: 700; }
+
+  /* Table */
+  .data-table-wrap { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; box-shadow: var(--shadow); }
+  table.data-table { width: 100%; border-collapse: collapse; font-size: 0.86rem; }
+  table.data-table th {
+    background: var(--surface2); text-align: left; padding: 12px 16px; font-size: 0.72rem;
+    text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); border-bottom: 1px solid var(--border);
+  }
+  table.data-table td { padding: 13px 16px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+  table.data-table tr:last-child td { border-bottom: none; }
+  table.data-table tr:hover td { background: var(--card-hover); }
+  .growth-chip { display: inline-block; padding: 3px 9px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; }
+
+  /* Checklist */
+  .check-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px,1fr)); gap: 14px; }
+  .check-item {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px;
+    display: flex; gap: 12px; align-items: flex-start; box-shadow: var(--shadow);
+  }
+  .check-mark {
+    width: 26px; height: 26px; border-radius: 50%; background: var(--tag-ops); color: #fff; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center; font-size: 0.85rem; font-weight: 900;
+  }
+  .check-item p { font-size: 0.86rem; line-height: 1.4; }
+
+  /* NICE mapping */
+  .nice-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px,1fr)); gap: 16px; }
+  .nice-card { border-radius: 14px; padding: 18px 20px; box-shadow: var(--shadow); border: 1px solid var(--border); background: var(--surface); }
+  .nice-cat { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; font-weight: 800; margin-bottom: 6px; }
+  .nice-path { font-size: 1rem; font-weight: 700; margin-bottom: 6px; }
+  .nice-desc { font-size: 0.82rem; color: var(--text-muted); }
+
+  /* Accordion */
+  .accordion { display: flex; flex-direction: column; gap: 10px; }
+  .acc-item { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; box-shadow: var(--shadow); }
+  .acc-head {
+    display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 16px 20px;
+    cursor: pointer; user-select: none;
+  }
+  .acc-head-left { display: flex; align-items: center; gap: 12px; }
+  .acc-icon { width: 34px; height: 34px; border-radius: 9px; display: flex; align-items: center; justify-content: center; font-size: 1.05rem; flex-shrink: 0; }
+  .acc-title { font-size: 0.98rem; font-weight: 700; }
+  .acc-chevron { transition: transform 0.25s; color: var(--text-muted); font-size: 0.9rem; }
+  .acc-item.open .acc-chevron { transform: rotate(180deg); }
+  .acc-body { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; }
+  .acc-body-inner { padding: 0 20px 20px 66px; }
+  .acc-body-inner ul { padding-left: 18px; font-size: 0.86rem; line-height: 1.7; color: var(--text); }
+
+  /* Equity band */
+  .equity-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px,1fr)); gap: 16px; }
+  .equity-card {
+    background: var(--surface); border-left: 4px solid var(--accent); border-radius: 10px;
+    padding: 16px 18px; box-shadow: var(--shadow);
+  }
+  .equity-card h4 { font-size: 0.92rem; font-weight: 700; margin-bottom: 6px; }
+  .equity-card p { font-size: 0.82rem; color: var(--text-muted); line-height: 1.5; }
+
+  /* Conclusion callout */
+  .callout {
+    background: linear-gradient(135deg, var(--surface2), var(--surface));
+    border: 1px solid var(--border); border-radius: 16px; padding: 28px 30px;
+    box-shadow: var(--shadow);
+  }
+  .callout h3 { font-size: 1.15rem; font-weight: 800; margin-bottom: 10px; }
+  .callout p { font-size: 0.92rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 10px; }
+  .callout p:last-child { margin-bottom: 0; }
+
+  /* References */
+  .ref-list { list-style: none; font-size: 0.82rem; color: var(--text-muted); line-height: 2; }
+  .ref-list li { padding-left: 26px; position: relative; }
+  .ref-list .ref-num { position: absolute; left: 0; color: var(--accent); font-weight: 800; }
+  .ref-list a { color: var(--tag-arch); text-decoration: none; }
+  .ref-list a:hover { text-decoration: underline; }
+
+  footer { text-align: center; padding: 24px; font-size: 0.78rem; color: var(--text-muted); border-top: 1px solid var(--border); margin-top: 8px; }
+
+  @media (max-width: 640px) {
+    .wage-bar-row { grid-template-columns: 1fr; }
+    .wage-bar-value { text-align: left; }
+    .acc-body-inner { padding-left: 20px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="header-brand">
+      <div class="brand-icon">POS</div>
+      <div class="brand-text">
+        <h1>Model Programs of Study</h1>
+        <p>Cybersecurity Career Pathway Framework</p>
+      </div>
+    </div>
+    <div class="header-right">
+      <span class="exam-badge">National Framework</span>
+      <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn">🌙 Dark</button>
+    </div>
+  </div>
+</header>
+
+<nav class="subnav" id="subnav">
+  <div class="subnav-inner">
+    <a href="#progression" class="nav-link">Progression</a>
+    <a href="#credentials" class="nav-link">Stackable Credentials</a>
+    <a href="#pathways" class="nav-link">Pathways</a>
+    <a href="#labor-market" class="nav-link">Labor Market</a>
+    <a href="#federal" class="nav-link">Federal Alignment</a>
+    <a href="#scalability" class="nav-link">Scalability</a>
+    <a href="#implementation" class="nav-link">Implementation</a>
+    <a href="#equity" class="nav-link">Equity</a>
+    <a href="#conclusion" class="nav-link">Conclusion</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <h2>From Middle School to Career: A National Cybersecurity Pathway Framework</h2>
+  <p>A four-stage, research-based model that connects secondary and postsecondary education to high-wage, high-growth cybersecurity careers — built on stackable credentials, four flexible pathways, and alignment with Perkins V and the NICE Framework.</p>
+  <div class="domain-pills">
+    <div class="domain-pill">Developmental Stages <span>4</span></div>
+    <div class="domain-pill">Career Pathways <span>4</span></div>
+    <div class="domain-pill">Target Occupations <span>15</span></div>
+    <div class="domain-pill">Salary Range <span>$62K–$135K</span></div>
+  </div>
+  <a class="hero-cta" href="https://sands-mvcc.github.io/MVCC/pos-fw.html" target="_blank" rel="noopener">🧭 Build Your Local Program of Study Map →</a>
+</div>
+
+<main>
+
+  <!-- PROGRESSION -->
+  <section id="progression">
+    <div class="section-label">📈 Developmental Progression</div>
+    <div class="section-title">A Four-Stage Pathway from Grade 7 to Career</div>
+    <p class="section-intro">The framework scaffolds learning from broad awareness to specialized, credentialed expertise, giving every student an on-ramp and an exit point with real economic value.</p>
+
+    <div class="progress-strip">
+      <div class="progress-block" style="background:var(--tag-gen);"></div>
+      <div class="progress-block" style="background:var(--tag-gen);"></div>
+      <div class="progress-block" style="background:var(--tag-arch);"></div>
+      <div class="progress-block" style="background:var(--tag-arch);"></div>
+      <div class="progress-block" style="background:var(--tag-ops);"></div>
+      <div class="progress-block" style="background:var(--tag-gov);"></div>
+      <div class="progress-block" style="background:var(--tag-gov);"></div>
+      <div class="progress-block" style="background:#888;"></div>
+    </div>
+
+    <div class="card-grid">
+      <div class="card domain-gen">
+        <div class="card-accent-bar"></div>
+        <div class="card-body">
+          <div class="card-header-row">
+            <span class="lesson-num">Stage 1 · Grades 7–10</span>
+            <span class="domain-tag tag-gen">Orientation</span>
+          </div>
+          <div class="card-title">Orientation &amp; Introduction</div>
+          <div class="card-desc">Broad exposure builds baseline digital literacy so every student can make an informed pathway choice.</div>
+          <ul class="card-list">
+            <li>Computer Applications for Business</li>
+            <li>IT Orientation</li>
+            <li>Security Orientation Courses</li>
+          </ul>
+        </div>
+        <div class="card-footer">
+          <span class="card-terms"><strong>Goal:</strong> Baseline literacy &amp; awareness</span>
+        </div>
+      </div>
+
+      <div class="card domain-arch">
+        <div class="card-accent-bar"></div>
+        <div class="card-body">
+          <div class="card-header-row">
+            <span class="lesson-num">Stage 2 · Grades 10–12</span>
+            <span class="domain-tag tag-arch">Skill Development</span>
+          </div>
+          <div class="card-title">Focused Technical Training</div>
+          <div class="card-desc">Multiple pathway options introduce certification-aligned coursework and marketable credentials.</div>
+          <ul class="card-list">
+            <li>Intro to CIS or AP CS Principles</li>
+            <li>Mobile App / Web Development</li>
+            <li>Hardware / OS Courses (IT certs)</li>
+            <li>Computer Science I or AP CS A</li>
+            <li>Intro to Networking (IT certs)</li>
+          </ul>
+        </div>
+        <div class="card-footer">
+          <span class="card-terms"><strong>Goal:</strong> Certification-ready credentials</span>
+        </div>
+      </div>
+
+      <div class="card domain-ops">
+        <div class="card-accent-bar"></div>
+        <div class="card-body">
+          <div class="card-header-row">
+            <span class="lesson-num">Stage 3 · Grade 12</span>
+            <span class="domain-tag tag-ops">Capstone</span>
+          </div>
+          <div class="card-title">Capstone &amp; Advanced</div>
+          <div class="card-desc">Advanced coursework delivers specialization and depth ahead of postsecondary entry.</div>
+          <ul class="card-list">
+            <li>Computer Science I &amp; II</li>
+            <li>Intro to Web Development</li>
+            <li>AAS sequence continuation (cyber certs)</li>
+          </ul>
+        </div>
+        <div class="card-footer">
+          <span class="card-terms"><strong>Goal:</strong> Specialization &amp; depth</span>
+        </div>
+      </div>
+
+      <div class="card domain-special">
+        <div class="card-accent-bar"></div>
+        <div class="card-body">
+          <div class="card-header-row">
+            <span class="lesson-num">Stage 4 · Year 1 College</span>
+            <span class="domain-tag tag-special">Postsecondary</span>
+          </div>
+          <div class="card-title">Postsecondary Courses</div>
+          <div class="card-desc">Recommended first-year college courses build directly on secondary preparation — no redundancy, no wasted time.</div>
+          <ul class="card-list">
+            <li>Seamless articulation from Stage 3</li>
+            <li>Direct entry into AAS/BS coursework</li>
+            <li>Credit for prior certifications</li>
+          </ul>
+        </div>
+        <div class="card-footer">
+          <span class="card-terms"><strong>Goal:</strong> Continuity into a credential</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STACKABLE CREDENTIALS -->
+  <section id="credentials">
+    <div class="section-label">🧱 Stackable Credential Architecture</div>
+    <div class="section-title">Every Credential Builds Toward the Next</div>
+    <p class="section-intro">Credentials earned at each level contribute directly to the next, eliminating wasted time and redundant coursework — a critical barrier in traditional systems where students often repeat content when transitioning between institutions.</p>
+
+    <div class="ladder">
+      <div class="rung">
+        <div class="rung-level" style="background:var(--tag-gen);">1</div>
+        <div class="rung-body">
+          <h4>Entry Point — Industry Certifications</h4>
+          <p>CompTIA A+, Network+, Security+ — earned in high school or early college.</p>
+        </div>
+      </div>
+      <div class="rung-arrow">↓ stacks into</div>
+      <div class="rung">
+        <div class="rung-level" style="background:var(--tag-arch);">2</div>
+        <div class="rung-body">
+          <h4>Mid-Level — Associate of Applied Science (AAS)</h4>
+          <p>Builds on certifications earned in Stage 1, with credit awarded for prior credentials.</p>
+        </div>
+      </div>
+      <div class="rung-arrow">↓ articulates into</div>
+      <div class="rung">
+        <div class="rung-level" style="background:var(--tag-ops);">3</div>
+        <div class="rung-body">
+          <h4>Advanced — Bachelor of Science (BS)</h4>
+          <p>Seamless articulation from AAS programs into four-year cybersecurity or CS degrees.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PATHWAYS -->
+  <section id="pathways">
+    <div class="section-label">🗂️ Four Distinct Career Pathways</div>
+    <div class="section-title">Choose a Pathway, See the Credentials &amp; Outcomes</div>
+    <p class="section-intro">Each pathway maps to a NICE Framework category and leads to specific, well-compensated career outcomes. Select a pathway below to explore its credentials, careers, and wage range.</p>
+
+    <div class="pathway-tabs" id="pathwayTabs">
+      <button class="pathway-tab active" data-tab="cis">Computer Information Systems &amp; Programming</button>
+      <button class="pathway-tab" data-tab="cs">Guided Transfer Computer Science</button>
+      <button class="pathway-tab" data-tab="net">Networking</button>
+      <button class="pathway-tab" data-tab="cyber">Cybersecurity</button>
+    </div>
+
+    <div class="pathway-panel active" data-panel="cis" style="border-top:4px solid var(--tag-gov);">
+      <div class="pathway-panel-head">
+        <h3>Computer Information Systems &amp; Programming</h3>
+        <span class="domain-tag tag-gov">NICE: Analyze</span>
+      </div>
+      <div class="pathway-meta-grid">
+        <div class="meta-box"><div class="label">Credentials</div><div class="value">CIS Certifications, AAS Degree</div></div>
+        <div class="meta-box"><div class="label">Career Outcomes</div><div class="value">Systems Analysts, CIS Managers</div></div>
+        <div class="meta-box"><div class="label">Median Wage</div><div class="value">$65.12/hour</div></div>
+      </div>
+      <div class="wage-bars">
+        <div class="wage-bar-row">
+          <span class="wage-bar-label">CIS / Programming</span>
+          <div class="wage-bar-track"><div class="wage-bar-fill" style="width:100%; background:var(--tag-gov);"></div></div>
+          <span class="wage-bar-value">$65.12/hr</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="pathway-panel" data-panel="cs" style="border-top:4px solid var(--tag-arch);">
+      <div class="pathway-panel-head">
+        <h3>Guided Transfer Computer Science</h3>
+        <span class="domain-tag tag-arch">NICE: Securely Provision</span>
+      </div>
+      <div class="pathway-meta-grid">
+        <div class="meta-box"><div class="label">Credentials</div><div class="value">Associate of Science, Bachelor of Science</div></div>
+        <div class="meta-box"><div class="label">Career Outcomes</div><div class="value">Software Developers</div></div>
+        <div class="meta-box"><div class="label">Median Wage</div><div class="value">$45.88–$51.63/hour</div></div>
+      </div>
+      <div class="wage-bars">
+        <div class="wage-bar-row">
+          <span class="wage-bar-label">Software Developers</span>
+          <div class="wage-bar-track"><div class="wage-bar-fill" style="width:79%; background:var(--tag-arch);"></div></div>
+          <span class="wage-bar-value">$45.88–$51.63/hr</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="pathway-panel" data-panel="net" style="border-top:4px solid var(--tag-ops);">
+      <div class="pathway-panel-head">
+        <h3>Networking</h3>
+        <span class="domain-tag tag-ops">NICE: Operate &amp; Maintain</span>
+      </div>
+      <div class="pathway-meta-grid">
+        <div class="meta-box"><div class="label">Credentials</div><div class="value">Networking Certifications, AAS, BS</div></div>
+        <div class="meta-box"><div class="label">Career Outcomes</div><div class="value">Network Architects, System Administrators</div></div>
+        <div class="meta-box"><div class="label">Median Wage</div><div class="value">$39.87–$56.07/hour</div></div>
+      </div>
+      <div class="wage-bars">
+        <div class="wage-bar-row">
+          <span class="wage-bar-label">Networking</span>
+          <div class="wage-bar-track"><div class="wage-bar-fill" style="width:86%; background:var(--tag-ops);"></div></div>
+          <span class="wage-bar-value">$39.87–$56.07/hr</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="pathway-panel" data-panel="cyber" style="border-top:4px solid var(--tag-threat);">
+      <div class="pathway-panel-head">
+        <h3>Cybersecurity</h3>
+        <span class="domain-tag tag-threats">NICE: Protect &amp; Defend</span>
+      </div>
+      <div class="pathway-meta-grid">
+        <div class="meta-box"><div class="label">Credentials</div><div class="value">Cybersecurity Certifications, AAS, BS</div></div>
+        <div class="meta-box"><div class="label">Career Outcomes</div><div class="value">Information Security Analysts, Penetration Testers</div></div>
+        <div class="meta-box"><div class="label">Median Wage</div><div class="value">$41.12–$57.50/hour</div></div>
+      </div>
+      <div class="wage-bars">
+        <div class="wage-bar-row">
+          <span class="wage-bar-label">Cybersecurity</span>
+          <div class="wage-bar-track"><div class="wage-bar-fill" style="width:88%; background:var(--tag-threat);"></div></div>
+          <span class="wage-bar-value">$41.12–$57.50/hr</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LABOR MARKET -->
+  <section id="labor-market">
+    <div class="section-label">📊 Labor Market Alignment &amp; Economic Impact</div>
+    <div class="section-title">High-Demand, High-Wage Occupations</div>
+    <p class="section-intro">The framework targets 15 cybersecurity-related occupations, each meeting rigorous criteria: near or above living-wage threshold for one adult plus one child, positive 10-year growth projections (5–28%), and substantial annual Illinois job openings (90–2,690 positions). Median wages of $29.80–$65.12/hour translate to roughly $62,000–$135,000 in annual salary.</p>
+
+    <div class="data-table-wrap">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Occupation</th>
+            <th>Median Wage</th>
+            <th>Annual Openings (IL)</th>
+            <th>10-Year Growth</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Information Security Analysts</td>
+            <td>$46.13/hour</td>
+            <td>840</td>
+            <td><span class="growth-chip" style="background:var(--tag-ops-bg); color:var(--tag-ops);">8%</span></td>
+          </tr>
+          <tr>
+            <td>Cybersecurity Specialists</td>
+            <td>$54.42/hour</td>
+            <td>393</td>
+            <td><span class="growth-chip" style="background:var(--tag-ops-bg); color:var(--tag-ops);">23%</span></td>
+          </tr>
+          <tr>
+            <td>Penetration Testers</td>
+            <td>$41.12/hour</td>
+            <td>430</td>
+            <td><span class="growth-chip" style="background:var(--tag-ops-bg); color:var(--tag-ops);">23%</span></td>
+          </tr>
+          <tr>
+            <td>Software Developers</td>
+            <td>$45.88–$51.63/hour</td>
+            <td>2,690–1,030</td>
+            <td><span class="growth-chip" style="background:var(--tag-ops-bg); color:var(--tag-ops);">13–28%</span></td>
+          </tr>
+          <tr>
+            <td>Network Architects</td>
+            <td>$56.07/hour</td>
+            <td>400</td>
+            <td><span class="growth-chip" style="background:var(--tag-ops-bg); color:var(--tag-ops);">21%</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- FEDERAL ALIGNMENT -->
+  <section id="federal">
+    <div class="section-label">🏛️ Application as a National Framework</div>
+    <div class="section-title">Perkins V &amp; NICE Framework Alignment</div>
+    <p class="section-intro">The framework demonstrates strong alignment with national priorities established through Perkins V legislation, and its four pathways map directly onto NICE Framework categories — facilitating adoption across states already invested in NICE.</p>
+
+    <h4 style="font-size:0.95rem; margin-bottom:12px; font-weight:700;">Perkins V Requirements</h4>
+    <div class="check-grid" style="margin-bottom:28px;">
+      <div class="check-item"><span class="check-mark">✓</span><p>Incorporate challenging state academic standards</p></div>
+      <div class="check-item"><span class="check-mark">✓</span><p>Address academic and technical knowledge, including employability skills</p></div>
+      <div class="check-item"><span class="check-mark">✓</span><p>Align with labor market needs for high-skill, high-wage careers</p></div>
+      <div class="check-item"><span class="check-mark">✓</span><p>Progress in specificity from broad industry awareness to occupation-specific instruction</p></div>
+      <div class="check-item"><span class="check-mark">✓</span><p>Include multiple entry and exit points with credentialing opportunities</p></div>
+      <div class="check-item"><span class="check-mark">✓</span><p>Culminate in recognized postsecondary credentials</p></div>
+    </div>
+
+    <h4 style="font-size:0.95rem; margin-bottom:12px; font-weight:700;">NICE Framework Category Mapping</h4>
+    <div class="nice-grid">
+      <div class="nice-card" style="border-left:4px solid var(--tag-arch);">
+        <div class="nice-cat" style="color:var(--tag-arch);">Securely Provision</div>
+        <div class="nice-path">Computer Science Pathway</div>
+        <div class="nice-desc">Guided transfer CS coursework leading to software development careers.</div>
+      </div>
+      <div class="nice-card" style="border-left:4px solid var(--tag-ops);">
+        <div class="nice-cat" style="color:var(--tag-ops);">Operate &amp; Maintain</div>
+        <div class="nice-path">Networking Pathway</div>
+        <div class="nice-desc">Networking certifications through AAS/BS, into network architecture and administration.</div>
+      </div>
+      <div class="nice-card" style="border-left:4px solid var(--tag-threat);">
+        <div class="nice-cat" style="color:var(--tag-threat);">Protect &amp; Defend</div>
+        <div class="nice-path">Cybersecurity Pathway</div>
+        <div class="nice-desc">Cybersecurity certifications and degrees leading to analyst and pentesting roles.</div>
+      </div>
+      <div class="nice-card" style="border-left:4px solid var(--tag-gov);">
+        <div class="nice-cat" style="color:var(--tag-gov);">Analyze</div>
+        <div class="nice-path">Computer Information Systems Pathway</div>
+        <div class="nice-desc">CIS certifications and AAS coursework toward systems analysis and management.</div>
+      </div>
+    </div>
+
+    <div style="margin-top:22px; font-size:0.85rem; color:var(--text-muted);">Also explicitly aligned with the <strong style="color:var(--text);">PWR Act Recommended Technical and Essential Employability Competencies</strong> — problem-solving, communication, adaptability, and professional ethics — reinforced through integrated work-based learning opportunities.</div>
+  </section>
+
+  <!-- SCALABILITY -->
+  <section id="scalability">
+    <div class="section-label">🌐 Scalability &amp; Adaptability</div>
+    <div class="section-title">Designed for National Adoption</div>
+    <p class="section-intro">Built on Illinois labor market data, the framework's structure travels — states can keep the developmental progression and credential architecture while substituting locally relevant career targets.</p>
+
+    <div class="card-grid">
+      <div class="card domain-arch">
+        <div class="card-accent-bar"></div>
+        <div class="card-body">
+          <div class="card-title">🗺️ Regional Flexibility</div>
+          <div class="card-desc">Accommodates state-specific occupational priorities and wage thresholds while preserving the core progression.</div>
+        </div>
+      </div>
+      <div class="card domain-ops">
+        <div class="card-accent-bar"></div>
+        <div class="card-body">
+          <div class="card-title">🤝 Institutional Collaboration</div>
+          <div class="card-desc">Requires coordination across secondary, community college, and four-year institutions — without prescribing a single governance model.</div>
+        </div>
+      </div>
+      <div class="card domain-gov">
+        <div class="card-accent-bar"></div>
+        <div class="card-body">
+          <div class="card-title">🚪 Multiple Entry Points</div>
+          <div class="card-desc">Students enter at any stage based on prior knowledge — serving traditional high schoolers and adult career-changers alike.</div>
+        </div>
+      </div>
+      <div class="card domain-threats">
+        <div class="card-accent-bar"></div>
+        <div class="card-body">
+          <div class="card-title">🧩 Modular Design</div>
+          <div class="card-desc">Districts with limited resources can implement one or two pathways initially, expanding as capacity develops.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- IMPLEMENTATION -->
+  <section id="implementation">
+    <div class="section-label">🛠️ Implementation Recommendations</div>
+    <div class="section-title">What States Need to Adopt This Framework</div>
+    <p class="section-intro">Click each area below to expand recommended actions for national implementation.</p>
+
+    <div class="accordion" id="accordion">
+      <div class="acc-item open">
+        <div class="acc-head" onclick="toggleAcc(this)">
+          <div class="acc-head-left">
+            <div class="acc-icon" style="background:var(--tag-arch-bg); color:var(--tag-arch);">📜</div>
+            <div class="acc-title">Policy Integration</div>
+          </div>
+          <span class="acc-chevron">⌄</span>
+        </div>
+        <div class="acc-body">
+          <div class="acc-body-inner">
+            <ul>
+              <li>Integrate cybersecurity pathways into state CTE plans under Perkins V funding</li>
+              <li>Establish articulation agreements ensuring seamless AAS-to-BS transitions</li>
+              <li>Create dual enrollment mechanisms allowing high school students to earn college credit</li>
+              <li>Develop competency-based assessments aligned with academic standards and industry requirements</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <div class="acc-head" onclick="toggleAcc(this)">
+          <div class="acc-head-left">
+            <div class="acc-icon" style="background:var(--tag-ops-bg); color:var(--tag-ops);">🤝</div>
+            <div class="acc-title">Workforce Partnership Development</div>
+          </div>
+          <span class="acc-chevron">⌄</span>
+        </div>
+        <div class="acc-body">
+          <div class="acc-body-inner">
+            <ul>
+              <li>Advisory committees with cybersecurity employers guiding curriculum currency</li>
+              <li>Work-based learning partnerships providing internships and apprenticeships</li>
+              <li>Equipment and software donations or discounts from technology companies</li>
+              <li>Guest speakers and mentors from the professional cybersecurity community</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <div class="acc-head" onclick="toggleAcc(this)">
+          <div class="acc-head-left">
+            <div class="acc-icon" style="background:var(--tag-gov-bg); color:var(--tag-gov);">🎓</div>
+            <div class="acc-title">Educator Preparation &amp; Support</div>
+          </div>
+          <span class="acc-chevron">⌄</span>
+        </div>
+        <div class="acc-body">
+          <div class="acc-body-inner">
+            <ul>
+              <li>Professional development enabling IT teachers to add cybersecurity specialization</li>
+              <li>Industry certification support for educators (Security+, CEH, CISSP)</li>
+              <li>Summer externships placing teachers in cybersecurity workplace environments</li>
+              <li>Curriculum resources and instructional materials</li>
+              <li>Alternative certification pathways for industry professionals entering teaching</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <div class="acc-head" onclick="toggleAcc(this)">
+          <div class="acc-head-left">
+            <div class="acc-icon" style="background:var(--tag-threat-bg); color:var(--tag-threat);">⚖️</div>
+            <div class="acc-title">Equity &amp; Access Considerations</div>
+          </div>
+          <span class="acc-chevron">⌄</span>
+        </div>
+        <div class="acc-body">
+          <div class="acc-body-inner">
+            <ul>
+              <li>Rural and small district access through virtual instruction and regional collaboration</li>
+              <li>Gender diversity initiatives addressing underrepresentation of women in cybersecurity</li>
+              <li>Support services for underrepresented minorities in technical fields</li>
+              <li>Equipment and connectivity ensuring all students can participate regardless of home resources</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EQUITY (summary band, separate from accordion detail) -->
+  <section id="equity">
+    <div class="section-label">⚖️ Equity at a Glance</div>
+    <div class="section-title">Closing Gaps in National Implementation</div>
+    <div class="equity-grid">
+      <div class="equity-card">
+        <h4>🌾 Rural &amp; Small Districts</h4>
+        <p>Virtual instruction and regional collaboration extend access where local staffing is limited.</p>
+      </div>
+      <div class="equity-card">
+        <h4>♀️ Gender Diversity</h4>
+        <p>Targeted initiatives address the persistent underrepresentation of women in cybersecurity roles.</p>
+      </div>
+      <div class="equity-card">
+        <h4>🤲 Underrepresented Minorities</h4>
+        <p>Dedicated support services help sustain participation and completion in technical fields.</p>
+      </div>
+      <div class="equity-card">
+        <h4>💻 Equipment &amp; Connectivity</h4>
+        <p>Ensures every student can participate in hands-on coursework, regardless of home resources.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONCLUSION -->
+  <section id="conclusion">
+    <div class="section-label">✅ Conclusion</div>
+    <div class="callout">
+      <h3>A Replicable Model for National Cybersecurity Workforce Development</h3>
+      <p>The Model Programs of Study in Cybersecurity provides a comprehensive, research-based framework that successfully integrates secondary and postsecondary education with workforce needs. Its four-stage developmental progression, multiple career pathways, stackable credential architecture, and explicit competency alignment create clear routes from middle school exploration through bachelor's degree attainment and career establishment.</p>
+      <p>As a national framework, this model offers the structure and flexibility necessary for adoption across diverse state contexts while maintaining fidelity to core principles of competency development, industry alignment, and economic opportunity. Its alignment with Perkins V requirements, integration with the NICE Framework, and demonstrated focus on both technical and employability competencies position it as a replicable model that can be adapted and scaled nationally.</p>
+      <p>States seeking to strengthen cybersecurity education and career preparation would benefit significantly from studying and adapting this framework's core components to their specific regional contexts and labor market needs.</p>
+    </div>
+  </section>
+
+  <!-- REFERENCES -->
+  <section id="references">
+    <div class="section-label">📚 References</div>
+    <ol class="ref-list">
+      <li><span class="ref-num">[1]</span>Office of Career, Technical, and Adult Education. (2024). Cybersecurity Education. U.S. Department of Education. <a href="https://cte.ed.gov/initiatives/cybersecurity" target="_blank" rel="noopener">cte.ed.gov/initiatives/cybersecurity</a></li>
+      <li><span class="ref-num">[2]</span>Illinois State Board of Education. (2025). Postsecondary and Workforce Readiness. <a href="https://www.isbe.net/pwr" target="_blank" rel="noopener">isbe.net/pwr</a></li>
+      <li><span class="ref-num">[3]</span>Illinois Community College Board. (2020). Model Programs of Study: Cybersecurity. Retrieved from attached framework document.</li>
+      <li><span class="ref-num">[4]</span>Illinois State Board of Education. (2019). Recommended Technical and Essential Employability Competencies. <a href="https://www.isbe.net/Documents/EDS-PWRAReport.pdf" target="_blank" rel="noopener">isbe.net/Documents/EDS-PWRAReport.pdf</a></li>
+      <li><span class="ref-num">[5]</span>Office of Career, Technical, and Adult Education. (2024). Programs of Study. U.S. Department of Education. <a href="https://cte.ed.gov/initiatives/programs-of-study" target="_blank" rel="noopener">cte.ed.gov/initiatives/programs-of-study</a></li>
+      <li><span class="ref-num">[6]</span>Education Systems Center at Northern Illinois University. (2020). State of Illinois Model Programs of Study Guide: Information Technology. <a href="https://edsystemsniu.org/" target="_blank" rel="noopener">edsystemsniu.org</a></li>
+    </ol>
+  </section>
+
+</main>
+
+<footer>
+  Model Programs of Study in Cybersecurity &nbsp;|&nbsp; National Framework Overview &nbsp;|&nbsp; NCyTE Center &nbsp;|&nbsp; Moraine Valley Community College
+</footer>
+
+<script>
+  // Theme toggle — light default
+  function applyTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    const btn = document.getElementById('themeBtn');
+    btn.textContent = theme === 'dark' ? '☀️ Light' : '🌙 Dark';
+    localStorage.setItem('pos-fw-theme', theme);
+  }
+  function toggleTheme() {
+    const current = document.documentElement.getAttribute('data-theme');
+    applyTheme(current === 'dark' ? 'light' : 'dark');
+  }
+  (function() {
+    const saved = localStorage.getItem('pos-fw-theme');
+    applyTheme(saved === 'dark' ? 'dark' : 'light');
+  })();
+
+  // Pathway tabs
+  const tabs = document.querySelectorAll('.pathway-tab');
+  const panels = document.querySelectorAll('.pathway-panel');
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      tabs.forEach(t => t.classList.remove('active'));
+      panels.forEach(p => p.classList.remove('active'));
+      tab.classList.add('active');
+      document.querySelector('.pathway-panel[data-panel="' + tab.dataset.tab + '"]').classList.add('active');
+    });
+  });
+
+  // Accordion
+  function toggleAcc(headEl) {
+    const item = headEl.parentElement;
+    const body = item.querySelector('.acc-body');
+    const isOpen = item.classList.contains('open');
+    // close all
+    document.querySelectorAll('.acc-item').forEach(i => {
+      i.classList.remove('open');
+      i.querySelector('.acc-body').style.maxHeight = null;
+    });
+    if (!isOpen) {
+      item.classList.add('open');
+      body.style.maxHeight = body.scrollHeight + 'px';
+    }
+  }
+  // Initialize first accordion item open
+  window.addEventListener('load', () => {
+    const first = document.querySelector('.acc-item.open .acc-body');
+    if (first) first.style.maxHeight = first.scrollHeight + 'px';
+  });
+
+  // Sub-nav scroll spy
+  const navLinks = document.querySelectorAll('.subnav .nav-link');
+  const sections = Array.from(navLinks).map(l => document.querySelector(l.getAttribute('href')));
+  function updateActiveNav() {
+    let currentIndex = 0;
+    sections.forEach((sec, i) => {
+      if (sec && sec.getBoundingClientRect().top - 140 <= 0) currentIndex = i;
+    });
+    navLinks.forEach((l, i) => l.classList.toggle('active', i === currentIndex));
+  }
+  window.addEventListener('scroll', updateActiveNav);
+  updateActiveNav();
+</script>
+</body>
+</html>
