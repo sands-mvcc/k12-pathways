@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>EPNC Cyber Pathway Builder — K12 Cybersecurity Program Pathways Designer</title>
+<title>EPNC Cybersecurity Pathway Builder — High School Cybersecurity Program Designer</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -236,7 +236,7 @@ label.small{font-size:12px;color:var(--ink-soft);display:block;margin-bottom:4px
   <div class="brand">
     <div class="brand-mark">CP</div>
     <div class="brand-text">
-      <div class="t1">EPNC Cyber Pathway Builder</div>
+      <div class="t1">EPNC Cybersecurity Pathway Builder</div>
       <div class="t2">K12 CYBERSECURITY PROGRAM PATHWAYS DESIGNER TOOL</div>
     </div>
   </div>
@@ -252,7 +252,7 @@ label.small{font-size:12px;color:var(--ink-soft);display:block;margin-bottom:4px
 <div class="wrap builder-views" id="builderView">
 
   <div class="hero">
-    <h1>Build your cybersecurity program pathway.</h1>
+    <h1>Build your program, step-by-step/h1>
     <p>Select a grade levels, choose prerequisite and core curricula, layer in supplemental training, competitions, and certifications — then generate a formatted proposal ready for administrative or board review.</p>
   </div>
 
@@ -269,7 +269,7 @@ label.small{font-size:12px;color:var(--ink-soft);display:block;margin-bottom:4px
     <div class="section-head" onclick="toggleSection('home')">
       <div class="section-title">
         <span class="section-num">00</span>
-        <div><h3>Program Cluster Home</h3><div class="sub">Grade band, pathway focus, and cluster identity</div></div>
+        <div><h3>Program Cluster Home</h3><div class="sub">Grade levels, pathway focus, and cluster identity</div></div>
       </div>
       <span class="chev">▾</span>
     </div>
@@ -468,6 +468,34 @@ label.small{font-size:12px;color:var(--ink-soft);display:block;margin-bottom:4px
     </div>
   </div>
 
+  <!-- SECTION 8: Workforce Experience Options -->
+  <div class="section" data-sec="work">
+    <div class="section-head" onclick="toggleSection('work')">
+      <div class="section-title">
+        <span class="section-num">08</span>
+        <div><h3>Workforce Experience Options</h3><div class="sub">Employer-connected, applied-learning components of the pathway</div></div>
+      </div>
+      <span class="badge-count zero" id="cnt-work">0</span>
+      <span class="chev">▾</span>
+    </div>
+    <div class="section-body">
+      <p style="margin:0 0 4px;font-size:12.5px;color:var(--ink-soft);">Select every work-based learning option this program will offer or coordinate with regional employers.</p>
+      <div class="grid" id="workGrid"></div>
+
+      <h4 style="margin:20px 0 6px;font-size:14px;">Add a custom workforce experience option</h4>
+      <div class="prereq-input-row">
+        <input type="text" id="workInput" placeholder="e.g. district-specific employer partnership program" onkeydown="if(event.key==='Enter'){addWork();}">
+        <button class="btn btn-outline" onclick="addWork()">Add</button>
+      </div>
+      <div class="chip-list" id="workChips"></div>
+
+      <label class="small" style="margin-top:16px;">EMPLOYER / INDUSTRY PARTNER(S)</label>
+      <input type="text" id="employerPartnerInput" placeholder="e.g. local MSPs, regional SOC employers, [Company Name]" style="width:100%;padding:10px 12px;border-radius:9px;border:1.5px solid var(--line);background:var(--bg);color:var(--ink);margin-top:6px;">
+      <label class="small" style="margin-top:14px;">WORKFORCE EXPERIENCE NOTES</label>
+      <textarea class="note" id="workNote" placeholder="Placement process, supervision/liability arrangements, credit or pay structure, minimum hours, timing (during school year vs. summer), etc."></textarea>
+    </div>
+  </div>
+
   <div class="footer-actions no-print">
     <button class="btn btn-green" onclick="showProposal()">📄 Generate proposal</button>
     <button class="btn btn-outline" onclick="saveProgram()">💾 Save progress</button>
@@ -553,6 +581,14 @@ const CERT_TIER3 = [
   {id:'google', name:'Google Cybersecurity Professional Certificate', desc:'Beginner-friendly Coursera course that preps students for the Security+ exam.', cost:'~$49/mo', grade:'12th (capstone)'},
 ];
 const CERT = [...CERT_TIER1, ...CERT_TIER2, ...CERT_TIER3];
+
+const WORKFORCE = [
+  {id:'jobshadow', name:'Job Shadowing', desc:'Short-term, low-commitment observation of a working cybersecurity/IT professional to expose students to real workplace roles and environments.'},
+  {id:'workstudy', name:'Work-Study Program', desc:'Structured arrangement where students work part-time (often paid) in an IT/cybersecurity-adjacent role while continuing coursework, typically coordinated through the school.'},
+  {id:'apprenticeship', name:'Apprenticeship (Registered / Youth Apprenticeship)', desc:'Formal, structured, multi-year arrangement combining paid on-the-job training with related classroom instruction, often leading to a portable credential.'},
+  {id:'internship', name:'Internship', desc:'Fixed-term (semester or summer) placement with an employer, may be paid or unpaid, providing applied experience tied to the cybersecurity pathway.'},
+  {id:'other', name:'Other Work-Based Learning', desc:'Any other employer-connected experience not captured above — e.g., mentorship programs, capstone projects with industry clients, or virtual/remote work-based learning.'},
+];
 
 const CIP_CODES = [
   {code:'29.0207', title:'Cyber/Electronic Operations and Warfare', notes:'Covers cyber attack and defense operations, cryptography, systems security engineering, threat/vulnerability assessment, and cyber warfare systems.', source:'uploaded'},
@@ -673,7 +709,8 @@ const APPROVAL_MODEL_DESC = {
 let state = {
   school:'', program:'', grade:'9-12', focus:'general', cip:'', mission:'', selState:'',
   prereqChecked:[], prereqs:[], core:[], coreCourses:[], coreCourseCustom:[], stateModel:'', supp:[], comp:[], compExtra:[], intro:[], cert:[],
-  artic:[], articCustom:[], receivingInst:'', articNote:'', cipCustom:''
+  artic:[], articCustom:[], receivingInst:'', articNote:'', cipCustom:'',
+  work:[], workCustom:[], employerPartner:'', workNote:''
 };
 
 function toggleSection(name){
@@ -812,6 +849,7 @@ function renderAll(){
   buildCardGrid('certGridTier2', CERT_TIER2, 'cert', tagCert);
   buildCardGrid('certGridTier3', CERT_TIER3, 'cert', tagCert);
   buildCardGrid('articGrid', ARTICULATION, 'artic', it=>'');
+  buildCardGrid('workGrid', WORKFORCE, 'work', it=>'');
   renderPrereqChips();
   const sel = document.getElementById('stateSelect');
   if(sel.value !== state.selState){ sel.value = state.selState || ''; }
@@ -824,6 +862,7 @@ function renderAll(){
   document.getElementById('cnt-intro').textContent = state.intro.length;
   document.getElementById('cnt-cert').textContent = state.cert.length;
   document.getElementById('cnt-artic').textContent = state.artic.length + state.articCustom.length;
+  document.getElementById('cnt-work').textContent = state.work.length + state.workCustom.length;
   document.querySelectorAll('.badge-count').forEach(b=>{
     b.classList.toggle('zero', b.textContent==='0');
   });
@@ -838,7 +877,15 @@ function renderPrereqChips(){
   el2.innerHTML = state.coreCourseCustom.map((p,i)=>`<div class="chip">${p}<button onclick="removeCoreCourseCustom(${i})">✕</button></div>`).join('');
   const el3 = document.getElementById('articChips');
   el3.innerHTML = state.articCustom.map((p,i)=>`<div class="chip">${p}<button onclick="removeArticCustom(${i})">✕</button></div>`).join('');
+  const el4 = document.getElementById('workChips');
+  el4.innerHTML = state.workCustom.map((p,i)=>`<div class="chip">${p}<button onclick="removeWorkCustom(${i})">✕</button></div>`).join('');
 }
+function addWork(){
+  const inp = document.getElementById('workInput');
+  const v = inp.value.trim();
+  if(v){ state.workCustom.push(v); inp.value=''; renderAll(); }
+}
+function removeWorkCustom(i){ state.workCustom.splice(i,1); renderAll(); }
 function addArtic(){
   const inp = document.getElementById('articInput');
   const v = inp.value.trim();
@@ -940,6 +987,8 @@ function syncFieldsFromInputs(){
   state.stateModel = document.getElementById('stateModelInput').value.trim();
   state.receivingInst = document.getElementById('receivingInstInput').value.trim();
   state.articNote = document.getElementById('articNote').value.trim();
+  state.employerPartner = document.getElementById('employerPartnerInput').value.trim();
+  state.workNote = document.getElementById('workNote').value.trim();
 }
 
 function buildStateSection(){
@@ -1031,10 +1080,20 @@ function buildProposalHTML(){
   ${state.receivingInst ? `<p><strong>Receiving institution(s):</strong> ${state.receivingInst}</p>` : ''}
   ${state.articNote ? `<p><strong>Notes:</strong> ${state.articNote.replace(/\n/g,'<br>')}</p>` : ''}
 
-  <h3>11. Estimated Program Investment</h3>
+  <h3>11. Workforce Experience Options</h3>
+  ${(state.work.length || state.workCustom.length) ? (
+    '<ul>' +
+    state.work.map(id=>{const it=WORKFORCE.find(x=>x.id===id); return it?`<li><strong>${it.name}</strong> — ${it.desc}</li>`:'';}).join('') +
+    state.workCustom.map(p=>`<li>${p}</li>`).join('') +
+    '</ul>'
+  ) : '<p class="empty-note">No workforce experience option selected yet.</p>'}
+  ${state.employerPartner ? `<p><strong>Employer / industry partner(s):</strong> ${state.employerPartner}</p>` : ''}
+  ${state.workNote ? `<p><strong>Notes:</strong> ${state.workNote.replace(/\n/g,'<br>')}</p>` : ''}
+
+  <h3>12. Estimated Program Investment</h3>
   <p class="empty-note">Costs above reflect per-student certification and platform licensing estimates as of program design; final budget should be confirmed with current vendor pricing at time of adoption.</p>
 
-  <h3>12. Recommendation</h3>
+  <h3>13. Recommendation</h3>
   <p>It is recommended that ${schoolName} adopt the above framework as the foundation of its cybersecurity pathway, phased in alignment with staffing, lab infrastructure, and CTE funding availability. This proposal is submitted for administrative and board review.</p>
 
   <div class="sig-line">
@@ -1104,7 +1163,7 @@ function openLoadMenu(){
 }
 function newProgram(){
   if(!confirm('Start a new program? Unsaved changes will be lost unless you saved them.')) return;
-  state = {school:'', program:'', grade:'9-12', focus:'general', cip:'', cipCustom:'', mission:'', selState:'', prereqChecked:[], prereqs:[], core:[], coreCourses:[], coreCourseCustom:[], stateModel:'', supp:[], comp:[], compExtra:[], intro:[], cert:[], artic:[], articCustom:[], receivingInst:'', articNote:''};
+  state = {school:'', program:'', grade:'9-12', focus:'general', cip:'', cipCustom:'', mission:'', selState:'', prereqChecked:[], prereqs:[], core:[], coreCourses:[], coreCourseCustom:[], stateModel:'', supp:[], comp:[], compExtra:[], intro:[], cert:[], artic:[], articCustom:[], receivingInst:'', articNote:'', work:[], workCustom:[], employerPartner:'', workNote:''};
   applyStateToInputs();
   renderAll();
 }
@@ -1121,6 +1180,8 @@ function applyStateToInputs(){
   document.getElementById('stateModelInput').value = state.stateModel;
   document.getElementById('receivingInstInput').value = state.receivingInst || '';
   document.getElementById('articNote').value = state.articNote || '';
+  document.getElementById('employerPartnerInput').value = state.employerPartner || '';
+  document.getElementById('workNote').value = state.workNote || '';
   populateStateSelect();
   document.getElementById('stateSelect').value = state.selState || '';
 }
