@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>EPNC Cyber Pathway Builder — High School Cybersecurity Program Designer</title>
+<title>EPNC Cyber Pathway Builder — K12 Cybersecurity Program Pathways Designer</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -236,8 +236,8 @@ label.small{font-size:12px;color:var(--ink-soft);display:block;margin-bottom:4px
   <div class="brand">
     <div class="brand-mark">CP</div>
     <div class="brand-text">
-      <div class="t1">Cyber Pathway Builder</div>
-      <div class="t2">HIGH SCHOOL CYBERSECURITY PROGRAM DESIGNER</div>
+      <div class="t1">EPC Cyber Pathway Builder</div>
+      <div class="t2">K12 CYBERSECURITY PROGRAM PATHWAYS DESIGNER TOOL</div>
     </div>
   </div>
   <input type="text" id="schoolNameInput" placeholder="School / District name">
@@ -252,8 +252,8 @@ label.small{font-size:12px;color:var(--ink-soft);display:block;margin-bottom:4px
 <div class="wrap builder-views" id="builderView">
 
   <div class="hero">
-    <h1>Build your program, station by station</h1>
-    <p>Select a grade band, choose prerequisite and core curricula, layer in supplemental training, competitions, and certifications — then generate a formatted proposal ready for administrative or board review.</p>
+    <h1>Build your cybersecurity program pathway.</h1>
+    <p>Select a grade levels, choose prerequisite and core curricula, layer in supplemental training, competitions, and certifications — then generate a formatted proposal ready for administrative or board review.</p>
   </div>
 
   <div class="mapcard">
@@ -264,7 +264,7 @@ label.small{font-size:12px;color:var(--ink-soft);display:block;margin-bottom:4px
     <svg id="pathSvg" viewBox="0 0 1100 150" xmlns="http://www.w3.org/2000/svg"></svg>
   </div>
 
-  <!-- SECTION 0: Cluster Home / Grade band -->
+  <!-- SECTION 0: Cluster Home / Grade Levels -->
   <div class="section open" data-sec="home">
     <div class="section-head" onclick="toggleSection('home')">
       <div class="section-title">
@@ -276,7 +276,7 @@ label.small{font-size:12px;color:var(--ink-soft);display:block;margin-bottom:4px
     <div class="section-body">
       <div class="field-row">
         <div>
-          <label class="small">GRADE BAND</label>
+          <label class="small">GRADE LEVELS</label>
           <select id="gradeBand" class="grade-select" style="width:100%" onchange="renderAll()">
             <option value="k8">K–8 (Introductory / Digital Citizenship)</option>
             <option value="9-10">9–10 (Foundations)</option>
