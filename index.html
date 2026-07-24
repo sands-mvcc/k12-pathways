@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cyber Pathway Builder — High School Cybersecurity Program Designer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0b1f3a;
+  --navy-2:#123059;
+  --green:#00c389;
+  --green-dim:#00a86b;
+  --amber:#f2a641;
+  --bg:#f4f7fb;
+  --card:#ffffff;
+  --ink:#0f1b2e;
+  --ink-soft:#5a6b85;
+  --line:#dde5f0;
+  --shadow:0 1px 3px rgba(11,31,58,0.06), 0 8px 24px rgba(11,31,58,0.05);
+  --radius:14px;
+}
+[data-theme="dark"]{
+  --bg:#08101c;
+  --card:#0f1c30;
+  --ink:#e9f1fb;
+  --ink-soft:#93a7c4;
+  --line:#1c3050;
+  --shadow:0 1px 3px rgba(0,0,0,0.3), 0 8px 24px rgba(0,0,0,0.25);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:'Inter',sans-serif;
+  transition:background .25s ease, color .25s ease;
+  padding-bottom:80px;
+}
+.mono{font-family:'IBM Plex Mono',monospace;}
+h1,h2,h3,.display{font-family:'Space Grotesk',sans-serif;}
+a{color:var(--green-dim);}
+
+/* ---------- Top bar ---------- */
+.topbar{
+  position:sticky; top:0; z-index:50;
+  background:var(--navy);
+  color:#eaf1fb;
+  padding:14px 20px;
+  display:flex; align-items:center; gap:14px; flex-wrap:wrap;
+  box-shadow:0 4px 18px rgba(0,0,0,0.18);
+}
+.brand{display:flex; align-items:center; gap:10px; margin-right:auto;}
+.brand-mark{
+  width:34px;height:34px;border-radius:8px;
+  background:linear-gradient(135deg,var(--green),var(--navy-2));
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Space Grotesk';font-weight:700;color:#08101c;font-size:15px;
+  flex-shrink:0;
+}
+.brand-text{line-height:1.15;}
+.brand-text .t1{font-family:'Space Grotesk';font-weight:600;font-size:15px;}
+.brand-text .t2{font-size:11px;color:#9fb0c9;letter-spacing:.03em;}
+.topbar input[type=text]{
+  background:rgba(255,255,255,0.08);
+  border:1px solid rgba(255,255,255,0.15);
+  color:#fff; border-radius:8px; padding:8px 10px; font-size:13px; font-family:'Inter';
+  min-width:150px;
+}
+.topbar input[type=text]::placeholder{color:#a9bad3;}
+.btn{
+  border:none; border-radius:8px; padding:9px 14px; font-size:13px; font-weight:600;
+  cursor:pointer; font-family:'Inter'; display:inline-flex; align-items:center; gap:6px;
+  transition:transform .1s ease, opacity .15s ease;
+}
+.btn:active{transform:scale(0.97);}
+.btn-green{background:var(--green); color:#05261b;}
+.btn-ghost{background:rgba(255,255,255,0.08); color:#eaf1fb; border:1px solid rgba(255,255,255,0.18);}
+.btn-outline{background:transparent;border:1px solid var(--line);color:var(--ink);}
+.btn-amber{background:var(--amber);color:#3a2405;}
+.icon-btn{width:36px;height:36px;border-radius:8px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);color:#eaf1fb;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:15px;}
+
+/* ---------- Layout ---------- */
+.wrap{max-width:1180px;margin:0 auto;padding:26px 20px 0;}
+.hero{margin-bottom:22px;}
+.hero h1{font-size:28px;margin:0 0 6px;}
+.hero p{color:var(--ink-soft);margin:0;font-size:14.5px;max-width:680px;}
+
+/* ---------- Pathway Map (signature element) ---------- */
+.mapcard{
+  background:var(--navy);
+  border-radius:18px;
+  padding:22px 22px 10px;
+  margin-bottom:28px;
+  box-shadow:var(--shadow);
+  position:relative;
+  overflow:hidden;
+}
+.mapcard::before{
+  content:"";position:absolute;inset:0;
+  background:radial-gradient(600px 200px at 10% 0%, rgba(0,195,137,0.14), transparent 60%);
+  pointer-events:none;
+}
+.map-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px;color:#eaf1fb;flex-wrap:wrap;gap:6px;}
+.map-head h2{font-size:15px;margin:0;letter-spacing:.02em;color:#dce7f7;}
+.map-pct{font-family:'IBM Plex Mono';color:var(--green);font-size:13px;}
+#pathSvg{width:100%;height:auto;display:block;}
+.station-label{font-family:'Space Grotesk';font-size:12.5px;fill:#c9d7ec;font-weight:600;}
+.station-sub{font-family:'IBM Plex Mono';font-size:10px;fill:#7f93b3;}
+
+/* ---------- Section ---------- */
+.section{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  margin-bottom:20px;
+  box-shadow:var(--shadow);
+  overflow:hidden;
+}
+.section-head{
+  padding:18px 22px; display:flex; align-items:center; justify-content:space-between; cursor:pointer;
+  gap:12px;
+}
+.section-head:hover{background:rgba(0,168,107,0.04);}
+.section-title{display:flex;align-items:center;gap:12px;}
+.section-num{
+  font-family:'IBM Plex Mono'; font-size:12px; color:var(--green-dim);
+  border:1px solid var(--line); border-radius:6px; padding:3px 7px;
+}
+.section-title h3{margin:0;font-size:16.5px;}
+.section-title .sub{font-size:12.5px;color:var(--ink-soft);margin-top:2px;}
+.chev{transition:transform .2s ease; color:var(--ink-soft);}
+.section.open .chev{transform:rotate(180deg);}
+.section-body{
+  padding:0 22px 22px; display:none;
+}
+.section.open .section-body{display:block;}
+.badge-count{
+  background:var(--green); color:#05261b; font-family:'IBM Plex Mono'; font-size:11px;
+  padding:2px 8px; border-radius:20px; font-weight:600;
+}
+.badge-count.zero{background:var(--line); color:var(--ink-soft);}
+
+/* ---------- Cards grid ---------- */
+.grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:14px; margin-top:14px;}
+.opt-card{
+  border:1.5px solid var(--line); border-radius:12px; padding:14px; cursor:pointer;
+  transition:border-color .15s ease, background .15s ease;
+  position:relative;
+}
+.opt-card:hover{border-color:var(--green-dim);}
+.opt-card.checked{border-color:var(--green); background:rgba(0,195,137,0.06);}
+.opt-card .oc-head{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;}
+.opt-card h4{margin:0 0 4px;font-size:14.5px;font-family:'Space Grotesk';}
+.opt-card p{margin:0 0 8px;font-size:12.5px;color:var(--ink-soft);line-height:1.5;}
+.tagrow{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;}
+.tag{font-family:'IBM Plex Mono';font-size:10.5px;padding:2px 7px;border-radius:5px;background:var(--bg);border:1px solid var(--line);color:var(--ink-soft);}
+.tag.cost{color:var(--amber);border-color:var(--amber);}
+.tag.free{color:var(--green-dim);border-color:var(--green-dim);}
+.check{
+  width:18px;height:18px;border-radius:5px;border:2px solid var(--line);flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;margin-top:2px;
+}
+.opt-card.checked .check{background:var(--green);border-color:var(--green);}
+.check svg{display:none;width:12px;height:12px;}
+.opt-card.checked .check svg{display:block;}
+.oc-link{font-size:11.5px;text-decoration:none;font-weight:600;}
+
+/* ---------- Prereq list ---------- */
+.prereq-input-row{display:flex;gap:8px;margin-top:12px;}
+.prereq-input-row input{
+  flex:1;padding:10px 12px;border-radius:9px;border:1.5px solid var(--line);background:var(--bg);color:var(--ink);font-family:'Inter';font-size:13.5px;
+}
+.chip-list{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;}
+.chip{
+  background:var(--bg);border:1px solid var(--line);border-radius:20px;padding:6px 8px 6px 12px;
+  font-size:13px;display:flex;align-items:center;gap:8px;
+}
+.chip button{
+  background:none;border:none;color:var(--ink-soft);cursor:pointer;font-size:13px;width:18px;height:18px;
+  border-radius:50%;display:flex;align-items:center;justify-content:center;
+}
+.chip button:hover{background:rgba(220,60,60,0.15);color:#c0392b;}
+
+select, .grade-select{
+  padding:10px 12px;border-radius:9px;border:1.5px solid var(--line);background:var(--bg);color:var(--ink);font-family:'Inter';font-size:13.5px;
+}
+
+/* ---------- Proposal ---------- */
+#proposal{
+  background:var(--card); border:1px solid var(--line); border-radius:var(--radius); padding:30px 34px;
+  font-family:'Inter'; line-height:1.65; box-shadow:var(--shadow);
+}
+#proposal h2{font-family:'Space Grotesk';border-bottom:3px solid var(--green); padding-bottom:10px; margin-top:0;}
+#proposal h3{font-family:'Space Grotesk';color:var(--navy-2); margin-top:26px;}
+[data-theme="dark"] #proposal h3{color:var(--green);}
+#proposal table{width:100%;border-collapse:collapse;margin:10px 0;font-size:13.5px;}
+#proposal td, #proposal th{border:1px solid var(--line); padding:7px 10px; text-align:left;}
+#proposal .empty-note{color:var(--ink-soft); font-style:italic;}
+.sig-line{margin-top:34px; display:flex; gap:40px; flex-wrap:wrap;}
+.sig-line div{flex:1; min-width:220px; border-top:1px solid var(--ink-soft); padding-top:6px; font-size:12.5px; color:var(--ink-soft);}
+
+/* ---------- Misc ---------- */
+.footer-actions{display:flex;gap:10px;flex-wrap:wrap;margin:24px 0 40px;}
+.toast{
+  position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);
+  background:var(--navy);color:#eaf1fb;padding:11px 18px;border-radius:10px;font-size:13.5px;
+  box-shadow:0 8px 30px rgba(0,0,0,0.25); opacity:0; pointer-events:none; transition:all .25s ease; z-index:100;
+}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+textarea.note{
+  width:100%;min-height:60px;border-radius:9px;border:1.5px solid var(--line);background:var(--bg);color:var(--ink);
+  font-family:'Inter';font-size:13px;padding:9px 11px;margin-top:10px;resize:vertical;
+}
+label.small{font-size:12px;color:var(--ink-soft);display:block;margin-bottom:4px;font-weight:600;}
+.field-row{display:flex;gap:14px;flex-wrap:wrap;margin-top:14px;}
+.field-row > div{flex:1;min-width:180px;}
+
+@media print{
+  .topbar, .mapcard, .footer-actions, .no-print, .section-head .badge-count{display:none !important;}
+  body{background:#fff;padding:0;}
+  .section{display:none !important;}
+  #proposal{display:block !important; box-shadow:none; border:none; padding:0;}
+  #proposalWrap{display:block !important;}
+}
+#proposalWrap{display:none;}
+#proposalWrap.active{display:block;}
+.builder-views{display:block;}
+.builder-views.hidden{display:none;}
+</style>
+</head>
+<body data-theme="light">
+
+<div class="topbar">
+  <div class="brand">
+    <div class="brand-mark">CP</div>
+    <div class="brand-text">
+      <div class="t1">Cyber Pathway Builder</div>
+      <div class="t2">HIGH SCHOOL CYBERSECURITY PROGRAM DESIGNER</div>
+    </div>
+  </div>
+  <input type="text" id="schoolNameInput" placeholder="School / District name">
+  <input type="text" id="programNameInput" placeholder="Program name (e.g. Cyber Defense Pathway)">
+  <button class="btn btn-ghost no-print" onclick="saveProgram()">💾 Save</button>
+  <button class="btn btn-ghost no-print" onclick="openLoadMenu()">📂 Load</button>
+  <button class="btn btn-ghost no-print" onclick="newProgram()">＋ New</button>
+  <button class="btn btn-green no-print" onclick="showProposal()">📄 Proposal</button>
+  <button class="icon-btn no-print" id="themeToggle" onclick="toggleTheme()" title="Toggle dark mode">◐</button>
+</div>
+
+<div class="wrap builder-views" id="builderView">
+
+  <div class="hero">
+    <h1>Build your program, station by station</h1>
+    <p>Select a grade band, choose prerequisite and core curricula, layer in supplemental training, competitions, and certifications — then generate a formatted proposal ready for administrative or board review.</p>
+  </div>
+
+  <div class="mapcard">
+    <div class="map-head">
+      <h2>PATHWAY MAP — PROGRAM COMPLETION</h2>
+      <div class="map-pct mono"><span id="pctText">0%</span> built</div>
+    </div>
+    <svg id="pathSvg" viewBox="0 0 1100 150" xmlns="http://www.w3.org/2000/svg"></svg>
+  </div>
+
+  <!-- SECTION 0: Cluster Home / Grade band -->
+  <div class="section open" data-sec="home">
+    <div class="section-head" onclick="toggleSection('home')">
+      <div class="section-title">
+        <span class="section-num">00</span>
+        <div><h3>Program Cluster Home</h3><div class="sub">Grade band, pathway focus, and cluster identity</div></div>
+      </div>
+      <span class="chev">▾</span>
+    </div>
+    <div class="section-body">
+      <div class="field-row">
+        <div>
+          <label class="small">GRADE BAND</label>
+          <select id="gradeBand" class="grade-select" style="width:100%" onchange="renderAll()">
+            <option value="k8">K–8 (Introductory / Digital Citizenship)</option>
+            <option value="9-10">9–10 (Foundations)</option>
+            <option value="9-12" selected>9–12 (Full Pathway)</option>
+            <option value="11-12">11–12 (Applied / Capstone)</option>
+          </select>
+        </div>
+        <div>
+          <label class="small">PATHWAY FOCUS</label>
+          <select id="pathwayFocus" class="grade-select" style="width:100%" onchange="renderAll()">
+            <option value="general">General Cybersecurity</option>
+            <option value="defense">Cyber Defense / SOC</option>
+            <option value="offense">Ethical Hacking / Offensive Security</option>
+            <option value="networking">Networking & Infrastructure Security</option>
+            <option value="policy">Cyber Policy & Risk Management</option>
+          </select>
+        </div>
+        <div>
+          <label class="small">CIP / CTE CLUSTER CODE (optional)</label>
+          <input type="text" id="cipCode" placeholder="e.g. 11.1003 Cyber/Info Security" style="width:100%;padding:10px 12px;border-radius:9px;border:1.5px solid var(--line);background:var(--bg);color:var(--ink);">
+        </div>
+      </div>
+      <label class="small" style="margin-top:16px;">PROGRAM MISSION / RATIONALE</label>
+      <textarea class="note" id="missionNote" placeholder="Why does this school need a cybersecurity pathway? (workforce demand, student interest, regional employer need, etc.)"></textarea>
+
+      <div style="margin-top:22px;border-top:1px solid var(--line);padding-top:18px;">
+        <h4 style="margin:0 0 4px;font-size:14.5px;font-family:'Space Grotesk';">State Career Cluster &amp; Approval Pathway</h4>
+        <p style="margin:0 0 10px;font-size:12.5px;color:var(--ink-soft);">Select your state to see where cybersecurity typically lives in the CTE career-cluster structure, and — where documented — how programs get proposed and approved.</p>
+        <select id="stateSelect" class="grade-select" style="width:100%;max-width:340px;" onchange="renderStateInfo()"></select>
+        <div id="stateInfoPanel" style="margin-top:14px;"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 1: Prerequisites -->
+  <div class="section" data-sec="prereq">
+    <div class="section-head" onclick="toggleSection('prereq')">
+      <div class="section-title">
+        <span class="section-num">01</span>
+        <div><h3>Prerequisite Classes</h3><div class="sub">Courses students complete before entering the pathway</div></div>
+      </div>
+      <span class="badge-count zero" id="cnt-prereq">0</span>
+      <span class="chev">▾</span>
+    </div>
+    <div class="section-body">
+      <div class="prereq-input-row">
+        <input type="text" id="prereqInput" placeholder="e.g. Intro to IT, Digital Literacy, Algebra I" onkeydown="if(event.key==='Enter'){addPrereq();}">
+        <button class="btn btn-outline" onclick="addPrereq()">Add</button>
+      </div>
+      <div class="chip-list" id="prereqChips"></div>
+      <div class="tagrow" style="margin-top:14px;">
+        <span class="tag">Common suggestions:</span>
+        <span class="tag" style="cursor:pointer" onclick="quickPrereq('Intro to Information Technology')">Intro to IT</span>
+        <span class="tag" style="cursor:pointer" onclick="quickPrereq('Digital Literacy')">Digital Literacy</span>
+        <span class="tag" style="cursor:pointer" onclick="quickPrereq('Computer Science Principles')">CS Principles</span>
+        <span class="tag" style="cursor:pointer" onclick="quickPrereq('Algebra I')">Algebra I</span>
+        <span class="tag" style="cursor:pointer" onclick="quickPrereq('Keyboarding / Business Computer Applications')">Keyboarding / Business Apps</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 2: Core Curricula -->
+  <div class="section" data-sec="core">
+    <div class="section-head" onclick="toggleSection('core')">
+      <div class="section-title">
+        <span class="section-num">02</span>
+        <div><h3>Core Classes — Comprehensive & State-Aligned Curricula</h3><div class="sub">Select the anchor curriculum (or curricula) for the pathway</div></div>
+      </div>
+      <span class="badge-count zero" id="cnt-core">0</span>
+      <span class="chev">▾</span>
+    </div>
+    <div class="section-body">
+      <div class="grid" id="coreGrid"></div>
+      <label class="small" style="margin-top:16px;">STATE-SPECIFIC MODEL CURRICULUM (if applicable)</label>
+      <input type="text" id="stateModelInput" placeholder="e.g. Texas CTE Cybersecurity Model, Nevada Cyber Pathway, Maryland Cyber Curriculum" style="width:100%;padding:10px 12px;border-radius:9px;border:1.5px solid var(--line);background:var(--bg);color:var(--ink);margin-top:6px;">
+    </div>
+  </div>
+
+  <!-- SECTION 3: Supplemental Platforms -->
+  <div class="section" data-sec="supp">
+    <div class="section-head" onclick="toggleSection('supp')">
+      <div class="section-title">
+        <span class="section-num">03</span>
+        <div><h3>Supplemental Platforms &amp; Training</h3><div class="sub">Hands-on labs and applied practice layered onto the core curriculum</div></div>
+      </div>
+      <span class="badge-count zero" id="cnt-supp">0</span>
+      <span class="chev">▾</span>
+    </div>
+    <div class="section-body">
+      <div class="grid" id="suppGrid"></div>
+    </div>
+  </div>
+
+  <!-- SECTION 4: Competitions & Cyber Ranges -->
+  <div class="section" data-sec="comp">
+    <div class="section-head" onclick="toggleSection('comp')">
+      <div class="section-title">
+        <span class="section-num">04</span>
+        <div><h3>Competitions &amp; Cyber Ranges</h3><div class="sub">Team competitions and performance-based practice environments</div></div>
+      </div>
+      <span class="badge-count zero" id="cnt-comp">0</span>
+      <span class="chev">▾</span>
+    </div>
+    <div class="section-body">
+      <div class="grid" id="compGrid"></div>
+      <h4 style="margin:20px 0 6px;font-size:14px;">Additional high school student competitions</h4>
+      <div class="grid" id="compExtraGrid"></div>
+    </div>
+  </div>
+
+  <!-- SECTION 5: Intro Tools -->
+  <div class="section" data-sec="intro">
+    <div class="section-head" onclick="toggleSection('intro')">
+      <div class="section-title">
+        <span class="section-num">05</span>
+        <div><h3>Interactive &amp; Introductory Tools</h3><div class="sub">K–8 / early-pathway digital citizenship and intro tools</div></div>
+      </div>
+      <span class="badge-count zero" id="cnt-intro">0</span>
+      <span class="chev">▾</span>
+    </div>
+    <div class="section-body">
+      <div class="grid" id="introGrid"></div>
+    </div>
+  </div>
+
+  <!-- SECTION 6: Certifications -->
+  <div class="section" data-sec="cert">
+    <div class="section-head" onclick="toggleSection('cert')">
+      <div class="section-title">
+        <span class="section-num">06</span>
+        <div><h3>Key Entry-Level Certifications</h3><div class="sub">Target credential(s) students can earn by pathway completion</div></div>
+      </div>
+      <span class="badge-count zero" id="cnt-cert">0</span>
+      <span class="chev">▾</span>
+    </div>
+    <div class="section-body">
+      <div class="grid" id="certGrid"></div>
+    </div>
+  </div>
+
+  <div class="footer-actions no-print">
+    <button class="btn btn-green" onclick="showProposal()">📄 Generate proposal</button>
+    <button class="btn btn-outline" onclick="saveProgram()">💾 Save progress</button>
+    <button class="btn btn-outline" onclick="downloadJSON()">⬇ Export data (.json)</button>
+  </div>
+</div>
+
+<!-- PROPOSAL VIEW -->
+<div class="wrap builder-views hidden" id="proposalWrap">
+  <div class="footer-actions no-print" style="margin-top:22px;">
+    <button class="btn btn-outline" onclick="backToBuilder()">← Back to builder</button>
+    <button class="btn btn-green" onclick="window.print()">🖨 Print / Save as PDF</button>
+    <button class="btn btn-outline" onclick="downloadMarkdown()">⬇ Download as Word-ready (.doc)</button>
+  </div>
+  <div id="proposal"></div>
+  <div class="footer-actions no-print" style="margin-bottom:60px;">
+    <button class="btn btn-outline" onclick="backToBuilder()">← Back to builder</button>
+    <button class="btn btn-green" onclick="window.print()">🖨 Print / Save as PDF</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* =========================== DATA =========================== */
+const CORE = [
+  {id:'cyberorg', name:'CYBER.ORG', desc:'Free, CISA-funded curriculum units (K-12) with a cyber range and career tools.', cost:'Free', hours:'Modular', grade:'K-12', link:'https://cyber.org'},
+  {id:'teachcyber', name:'Teach Cyber (HSCCG)', desc:'Free, project-based high school framework developed with NSA/NSF support.', cost:'Free', hours:'150 hrs', grade:'HS', link:'https://teachcyber.org'},
+  {id:'ring', name:'The RING (Regions Investing in the Next Generation)', desc:'Free, asynchronous high school course (DoD/NSA funded) — ideal for schools without existing programs.', cost:'Free', hours:'180 hrs', grade:'HS', link:'https://ring.mysdusd.org'},
+  {id:'apcyber', name:'AP Cybersecurity (College Board)', desc:'Official yearlong, college-aligned high school course focusing on digital defense and risk management.', cost:'Exam fee', hours:'Full year', grade:'HS', link:'https://apcentral.collegeboard.org'},
+  {id:'statemodel', name:'State-Specific Model Curricula', desc:'Frameworks and courses developed by individual states (e.g., Texas, Nevada, Maryland). Specify below.', cost:'Varies', hours:'Varies', grade:'HS', link:'#'},
+];
+const SUPP = [
+  {id:'tryhackme', name:'TryHackMe Classrooms', desc:'Browser-based, interactive offensive/defensive labs with educator tools.', cost:'Freemium', grade:'HS / College'},
+  {id:'htb', name:'Hack The Box (HTB) Academy', desc:'Advanced, realistic hands-on training mapped to NICE frameworks.', cost:'Freemium', grade:'Intermediate–Advanced HS / College'},
+  {id:'pltw', name:'Project Lead The Way (PLTW)', desc:'Cybersecurity curriculum often utilized within IT Support Specialist pathways.', cost:'Paid', grade:'HS'},
+  {id:'gameplan', name:'Gameplan (Codelicious)', desc:'"Cybersecurity Fundamentals" course and capstone project for high schools.', cost:'Paid', grade:'HS'},
+];
+const COMP = [
+  {id:'cyberpatriot', name:'CyberPatriot (AFA)', desc:'National Youth Cyber Defense Competition and summer camps.', grade:'K-12'},
+  {id:'ncl', name:'National Cyber League (NCL)', desc:'Performance-based, CTF-style learning community and competition.', grade:'HS / College'},
+];
+const COMP_EXTRA = [
+  {id:'picoctf', name:'picoCTF (Carnegie Mellon)', desc:'Free, beginner-friendly year-round capture-the-flag competition and practice archive.', grade:'MS/HS'},
+  {id:'gencyber', name:'GenCyber Camps (NSA/NSF)', desc:'Free summer cybersecurity camps for students and teachers hosted at partner universities.', grade:'HS'},
+  {id:'uscybergames', name:'US Cyber Games / Cyber FastTrack', desc:'National talent pipeline competitions identifying and training top young cyber talent.', grade:'HS / College'},
+  {id:'cybersci', name:'CyberSci / Regional CTF Circuits', desc:'Regional and state-level capture-the-flag circuits, often feeding into CyberPatriot or NCL.', grade:'HS'},
+];
+const INTRO = [
+  {id:'minecraft', name:'Minecraft Education: Cyber & Digital Defense', desc:'Immersive lessons within Minecraft.', grade:'K-8'},
+  {id:'bia', name:'Be Internet Awesome (Google)', desc:'Digital citizenship games for younger grades.', grade:'K-6'},
+  {id:'fbisos', name:'FBI Safe Online Surfing (SOS)', desc:'Online safety curriculum.', grade:'3-8'},
+  {id:'netsmartz', name:'Netsmartz (NCMEC)', desc:'Internet safety and classroom resources.', grade:'K-8'},
+  {id:'cryptoscratch', name:'CryptoScratch', desc:'Block-based tool to teach cryptography concepts.', grade:'MS/HS'},
+];
+const CERT = [
+  {id:'secplus', name:'CompTIA Security+', desc:'The industry gold standard for entry-level roles.', cost:'~$404'},
+  {id:'isc2cc', name:'ISC2 Certified in Cybersecurity (CC)', desc:'Zero-experience beginner certification.', cost:'~$50 (often free)'},
+  {id:'google', name:'Google Cybersecurity Professional Certificate', desc:'Beginner-friendly Coursera course prepping for Security+.', cost:'~$49/mo'},
+  {id:'ccst', name:'Cisco CCST Cybersecurity', desc:'Focuses on networking and security monitoring basics.', cost:'~$125'},
+];
+
+/* =========================== STATE CAREER CLUSTER DATA (K-12 Cyber Clusters Table) =========================== */
+const STATE_CLUSTERS = {
+"Alabama":{primary:"IT",secondary:["CS","BUS"],notes:"Follows national CTE cluster use; cybersecurity CTE most often in IT cluster nationally."},
+"Alaska":{primary:"IT",secondary:["CS"],notes:"State uses national clusters; cyber CTE aligns with IT like most states."},
+"Arizona":{primary:"IT",secondary:["CS","BUS"],notes:"State CTE clusters mirror national; CYBER.ORG report notes CS-led cyber in many states."},
+"Arkansas":{primary:"IT",secondary:["CS"],notes:"Uses national clusters, with cyber generally classified in IT."},
+"California":{primary:"IT",secondary:["CS","BUS"],notes:"Large CS standards footprint; cyber concepts appear in CS and IT pathways."},
+"Colorado":{primary:"IT",secondary:["CS","STEM"],notes:"CTE aligned to national clusters; cyber in IT cluster per national guidance."},
+"Connecticut":{primary:"IT",secondary:["STEM","CS"],notes:"Perkins V clusters include IT and STEM; cyber pathways align to IT."},
+"Delaware":{primary:"IT",secondary:["CS"],notes:"Uses national clusters, with cyber most often in IT cluster."},
+"Florida":{primary:"IT",secondary:["CS","LPSCS"],notes:"Mix of IT CTE pathways and digital forensics/justice tracks."},
+"Georgia":{primary:"IT",secondary:["CS"],notes:"State's IT pathways house cyber CTE; CS standards carry intro content."},
+"Hawaii":{primary:"IT",secondary:["CS"],notes:"National pattern: cyber CTE in IT cluster; CS in general ed."},
+"Idaho":{primary:"IT",secondary:["CS"],notes:"Follows national cluster pattern with IT as cyber home."},
+"Illinois":{primary:"IT",secondary:["BUS","CS"],notes:"ISBE uses model programs of study for IT; cyber is typically a strand there."},
+"Indiana":{primary:"IT",secondary:["CS"],notes:"State CTE pathways aligned to IT cluster for networking/cyber."},
+"Iowa":{primary:"IT",secondary:["CS"],notes:"National guidance indicates IT cluster placement."},
+"Kansas":{primary:"IT",secondary:["CS"],notes:"Similar to other Plains states; cyber generally in IT cluster."},
+"Kentucky":{primary:"IT",secondary:["CS"],notes:"CTE directory includes AP Cybersecurity and IT pathways; cyber sits in IT cluster."},
+"Louisiana":{primary:"IT",secondary:["CS"],notes:"CYBER.ORG (based in LA) notes CTE cyber programs as IT pathways."},
+"Maine":{primary:"IT",secondary:["CS"],notes:"Uses national clusters; cyber content mostly aligned to IT."},
+"Maryland":{primary:"IT",secondary:["CS","LPSCS"],notes:"MSDE has a Cybersecurity Program of Study in CTE (IT cluster) and CS standards with cyber concepts."},
+"Massachusetts":{primary:"IT",secondary:["CS"],notes:"Strong CS standards; cyber in CS and IT pathways."},
+"Michigan":{primary:"IT",secondary:["CS","BUS"],notes:"Business & IT legacy structures; national IT cluster alignment for cyber CTE."},
+"Minnesota":{primary:"IT",secondary:["CS"],notes:"CTE programs include IT pathways; national IT cluster guidance."},
+"Mississippi":{primary:"IT",secondary:["CS"],notes:"CTE cyber programs typically in IT cluster."},
+"Missouri":{primary:"IT",secondary:["BUS","CS"],notes:"DESE groups Business, Marketing & IT; cyber content often under this combined division."},
+"Montana":{primary:"IT",secondary:["CS"],notes:"National pattern: cyber in IT cluster."},
+"Nebraska":{primary:"IT",secondary:["CS"],notes:"State uses IT cluster for cyber CTE; Nevada-style frameworks are a parallel example."},
+"Nevada":{primary:"IT",secondary:["CS"],notes:"Nevada CTE Cybersecurity Framework explicitly aligns to IT-style program, using national clusters."},
+"New Hampshire":{primary:"IT",secondary:["CS"],notes:"CS standards plus IT CTE programs; national guidance."},
+"New Jersey":{primary:"IT",secondary:["CS","LPSCS"],notes:"NJDOE lists Information Technology cluster; cybersecurity pathways are typically placed there."},
+"New Mexico":{primary:"IT",secondary:["CS"],notes:"CTE clusters mirror national; cyber CTE in IT cluster."},
+"New York":{primary:"IT",secondary:["CS"],notes:"NYSED CTE programs align to CDOS/IT standards; CS standards carry cyber concepts."},
+"North Carolina":{primary:"IT",secondary:["CS"],notes:"IT cluster pathways house cyber; CS standards integrate security concepts."},
+"North Dakota":{primary:"IT",secondary:["CS"],notes:"National cyber CTE guidance (NICE/NIST) indicates IT placement."},
+"Ohio":{primary:"IT",secondary:["CS"],notes:"CTE-26 IT applications include cyber, aligning with IT cluster."},
+"Oklahoma":{primary:"IT",secondary:["CS"],notes:"National pattern: IT cluster home for cyber programs."},
+"Oregon":{primary:"IT",secondary:["CS"],notes:"Uses national clusters; cyber CTE in IT pathways."},
+"Pennsylvania":{primary:"IT",secondary:["CS"],notes:"PDE's modernized clusters include IT; cyber content aligned there."},
+"Rhode Island":{primary:"IT",secondary:["CS"],notes:"IT CTE programs plus CS standards; national guidance."},
+"South Carolina":{primary:"IT",secondary:["CS"],notes:"IT cluster houses networking/cyber; CS carries earlier concepts."},
+"South Dakota":{primary:"IT",secondary:["CS"],notes:"State IT cluster description includes networking/security; cyber is part of IT cluster."},
+"Tennessee":{primary:"IT",secondary:["CS","BUS"],notes:"State uses national IT cluster; some Business & IT overlap."},
+"Texas":{primary:"IT",secondary:["CS"],notes:"TEA has a named Cybersecurity Program of Study in the IT cluster; CS apps carry intro content."},
+"Utah":{primary:"IT",secondary:["CS"],notes:"Utah CTE clusters include IT-aligned pathways; cyber in IT cluster pathways."},
+"Vermont":{primary:"IT",secondary:["CS"],notes:"Small state; national IT cluster pattern."},
+"Virginia":{primary:"IT",secondary:["CS"],notes:"IT cluster pathways with dedicated cyber; CS standards embed security."},
+"Washington":{primary:"IT",secondary:["CS"],notes:"OSPI CTE IT programs house cyber; CS standards cover foundational topics."},
+"West Virginia":{primary:"IT",secondary:["CS"],notes:"CTE IT cluster and CS standards as dual homes."},
+"Wisconsin":{primary:"IT",secondary:["CS","BUS"],notes:"CTE pathways documents highlight cyber as IT priority; some Business & IT overlap."},
+"Wyoming":{primary:"IT",secondary:["CS"],notes:"State uses national cluster framework; cyber aligned to IT."}
+};
+const CLUSTER_FULL = {IT:"Information Technology",BUS:"Business Management & Administration",STEM:"Science, Technology, Engineering & Mathematics",LPSCS:"Law, Public Safety, Corrections & Security",CS:"K-12 Computer Science standards (non-CTE, IT-aligned)"};
+
+/* =========================== STATE APPROVAL PROCESS DATA (K-12 CTE Approval Processes by State) =========================== */
+const STATE_APPROVAL = {
+"Texas":{authority:"Texas Education Agency (TEA)",model:"State-Driven Adoption (Centralized)",focus:"State-defined Cybersecurity Program of Study",process:"SBOE adopts TEKS; full statewide Cybersecurity Program of Study with an official TEA course catalog & codes (e.g., Foundations of Cybersecurity, Capstone). Districts \"propose\" by adopting TEA-approved courses; new local electives need local board approval plus TEA check."},
+"Washington":{authority:"Office of Superintendent of Public Instruction (OSPI)",model:"Local Application & State Review (Process-Oriented)",focus:"State-defined Cybersecurity Program of Study",process:"OSPI CTE course application via EDS required for every CTE course, with detailed framework, skills-gap evidence, and labor market data. Deadlines: Apr 15 (1st semester), Oct 15 (2nd semester). A program is a sequence of individually approved courses."},
+"Utah":{authority:"Utah State Board of Education (USBE)",model:"Local Application & State Review (Process-Oriented)",focus:"State-defined Cybersecurity Program of Study",process:"Governed by R277-911; requires the formal \"New School CTE Program Approval Process and Application,\" documenting career clusters, curriculum standards, instructors, facilities, and industry alignment. Deadline: May 1. Application determines state/federal funding eligibility."},
+"Nevada":{authority:"Nevada Department of Education (NDE)",model:"State-Driven Adoption (Centralized)",focus:"General CTE Approval Process (CIP-based)",process:"NDE Cybersecurity Curriculum Framework defines standards, recommended sequence, and assessments, serving as the state-approved model for local adoption. Approval is an alignment check against the framework; districts submit CTE program applications using approved CIP codes."},
+"Maryland":{authority:"Maryland State Department of Education (MSDE)",model:"State-Driven Adoption (Centralized)",focus:"General CTE Approval Process (Perkins V)",process:"MSDE Program of Study Guide for Cybersecurity communicates standards, sequences, skills, work-based learning, and credentialing. Local implementation is adoption plus submission of plans through MSDE's local plan process, showing fidelity to the POS."},
+"New York":{authority:"New York State Education Department (NYSED)",model:"Local Application & State Review (Process-Oriented)",focus:"Funding Approval via CTE Program Quality Review",process:"Regulation-driven (Commissioner's Regulations, e.g., CR 100.5); a content-agnostic process aligned with CDOS & Computer Science/Digital Fluency standards. Districts submit CTE programs for approval through the Quality Review process to access funding; specialized CS/IT programs follow general rules."},
+"Illinois":{authority:"Illinois State Board of Education (ISBE)",model:"Guided by Model Programs of Study (Guidance-Oriented)",focus:"Model Programs of Study in the IT cluster",process:"ISBE Model Programs of Study Guides in IT define course sequences and dual-credit options, guiding local design and approval conversations rather than mandating a single state program. Often linked to Perkins planning; cybersecurity typically appears as a strand within broader IT."},
+"Kentucky":{authority:"Kentucky Department of Education",model:"Partial / Indirect",focus:"Programs of Study Directory",process:"The Programs of Study Directory lists offerings such as AP Cybersecurity, but does not document an explicit statewide approval workflow. Confirm current process directly with KDE."},
+"Wisconsin":{authority:"Wisconsin Dept. of Public Instruction",model:"Partial / Indirect",focus:"Referenced priority area",process:"Cybersecurity is referenced as a CTE priority, but explicit approval-workflow documentation was not available at time of publication. Confirm current process directly with DPI."}
+};
+const APPROVAL_MODEL_DESC = {
+"State-Driven Adoption (Centralized)":"State authorship, local adoption — the state develops the Program of Study, standards, or framework, and districts propose by choosing to offer state-approved courses/pathways.",
+"Local Application & State Review (Process-Oriented)":"Local proposal, state review — the district (LEA) submits a detailed application for a new CTE program; the state reviews alignment with industry, standards, and funding against set deadlines.",
+"Guided by Model Programs of Study (Guidance-Oriented)":"State models, local design — the state provides Model Programs of Study for guidance; local design aligns to these models, which are used as a reference point in approval conversations.",
+"Partial / Indirect":"No fully documented statewide workflow was found in available sources — treat state guidance as directional and confirm the current process directly with the state CTE office."
+};
+
+/* =========================== STATE =========================== */
+let state = {
+  school:'', program:'', grade:'9-12', focus:'general', cip:'', mission:'', selState:'',
+  prereqs:[], core:[], stateModel:'', supp:[], comp:[], compExtra:[], intro:[], cert:[]
+};
+
+function toggleSection(name){
+  document.querySelectorAll('.section').forEach(s=>{
+    if(s.dataset.sec===name){ s.classList.toggle('open'); }
+  });
+}
+
+function checkIcon(){
+  return '<svg viewBox="0 0 24 24" fill="none"><path d="M5 12l5 5L20 7" stroke="#05261b" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+}
+
+function buildCardGrid(gridId, items, stateKey, tagFn){
+  const grid = document.getElementById(gridId);
+  grid.innerHTML = items.map(it=>{
+    const checked = state[stateKey].includes(it.id) ? 'checked' : '';
+    const tags = tagFn ? tagFn(it) : '';
+    const link = it.link ? `<a class="oc-link" href="${it.link}" target="_blank" onclick="event.stopPropagation()">Visit site →</a>` : '';
+    return `<div class="opt-card ${checked}" onclick="toggleOpt('${stateKey}','${it.id}','${gridId}')">
+      <div class="oc-head">
+        <div><h4>${it.name}</h4></div>
+        <div class="check">${checkIcon()}</div>
+      </div>
+      <p>${it.desc}</p>
+      <div class="tagrow">${tags}</div>
+      ${link}
+    </div>`;
+  }).join('');
+}
+
+function toggleOpt(key, id, gridId){
+  const arr = state[key];
+  const idx = arr.indexOf(id);
+  if(idx>-1) arr.splice(idx,1); else arr.push(id);
+  renderAll();
+}
+
+function tagCore(it){ return `<span class="tag">${it.grade}</span><span class="tag ${it.cost==='Free'?'free':'cost'}">${it.cost}</span><span class="tag">${it.hours}</span>`; }
+function tagSupp(it){ return `<span class="tag">${it.grade}</span><span class="tag ${it.cost==='Freemium'?'':'cost'}">${it.cost}</span>`; }
+function tagComp(it){ return `<span class="tag">${it.grade}</span>`; }
+function tagCert(it){ return `<span class="tag cost">${it.cost}</span>`; }
+
+function populateStateSelect(){
+  const sel = document.getElementById('stateSelect');
+  if(sel.options.length>0) return;
+  const opt0 = document.createElement('option');
+  opt0.value=''; opt0.textContent='— Select a state —';
+  sel.appendChild(opt0);
+  Object.keys(STATE_CLUSTERS).forEach(name=>{
+    const o = document.createElement('option');
+    o.value = name; o.textContent = name;
+    sel.appendChild(o);
+  });
+}
+
+function renderStateInfo(){
+  const sel = document.getElementById('stateSelect');
+  state.selState = sel.value;
+  const panel = document.getElementById('stateInfoPanel');
+  if(!state.selState){ panel.innerHTML=''; return; }
+  const c = STATE_CLUSTERS[state.selState];
+  const a = STATE_APPROVAL[state.selState];
+  let html = `<div class="grid" style="grid-template-columns:repeat(auto-fill,minmax(280px,1fr));">`;
+  html += `<div class="opt-card" style="cursor:default;">
+    <h4>Career Cluster Placement</h4>
+    <p><strong>Primary:</strong> ${c.primary} — ${CLUSTER_FULL[c.primary]}</p>
+    <p><strong>Secondary:</strong> ${c.secondary.map(s=>`${s} (${CLUSTER_FULL[s]||s})`).join(', ')}</p>
+    <p style="margin-top:8px;">${c.notes}</p>
+  </div>`;
+  if(a){
+    html += `<div class="opt-card" style="cursor:default;">
+      <h4>Approval Pathway</h4>
+      <div class="tagrow" style="margin-bottom:8px;"><span class="tag">${a.model}</span></div>
+      <p><strong>Authority:</strong> ${a.authority}</p>
+      <p><strong>Approval Focus:</strong> ${a.focus}</p>
+      <p style="margin-top:8px;">${a.process}</p>
+      <p style="margin-top:8px;font-size:12px;color:var(--ink-soft);"><em>${APPROVAL_MODEL_DESC[a.model]}</em></p>
+    </div>`;
+  } else {
+    html += `<div class="opt-card" style="cursor:default;">
+      <h4>Approval Pathway</h4>
+      <p class="empty-note">No specific approval workflow on file for ${state.selState} yet. Districts should confirm the current CTE program-approval process directly with the state department of education — most states route new CTE programs through either a state-defined Program of Study, a local application reviewed by the state, or a Perkins V / funding-eligibility review.</p>
+    </div>`;
+  }
+  html += `</div>`;
+  panel.innerHTML = html;
+}
+
+function renderAll(){
+  populateStateSelect();
+  buildCardGrid('coreGrid', CORE, 'core', tagCore);
+  buildCardGrid('suppGrid', SUPP, 'supp', tagSupp);
+  buildCardGrid('compGrid', COMP, 'comp', tagComp);
+  buildCardGrid('compExtraGrid', COMP_EXTRA, 'compExtra', tagComp);
+  buildCardGrid('introGrid', INTRO, 'intro', tagComp);
+  buildCardGrid('certGrid', CERT, 'cert', tagCert);
+  renderPrereqChips();
+  const sel = document.getElementById('stateSelect');
+  if(sel.value !== state.selState){ sel.value = state.selState || ''; }
+  renderStateInfo();
+
+  document.getElementById('cnt-prereq').textContent = state.prereqs.length;
+  document.getElementById('cnt-core').textContent = state.core.length;
+  document.getElementById('cnt-supp').textContent = state.supp.length;
+  document.getElementById('cnt-comp').textContent = state.comp.length + state.compExtra.length;
+  document.getElementById('cnt-intro').textContent = state.intro.length;
+  document.getElementById('cnt-cert').textContent = state.cert.length;
+  document.querySelectorAll('.badge-count').forEach(b=>{
+    b.classList.toggle('zero', b.textContent==='0');
+  });
+
+  drawPathMap();
+}
+
+function renderPrereqChips(){
+  const el = document.getElementById('prereqChips');
+  el.innerHTML = state.prereqs.map((p,i)=>`<div class="chip">${p}<button onclick="removePrereq(${i})">✕</button></div>`).join('');
+}
+function addPrereq(){
+  const inp = document.getElementById('prereqInput');
+  const v = inp.value.trim();
+  if(v){ state.prereqs.push(v); inp.value=''; renderAll(); }
+}
+function quickPrereq(v){ if(!state.prereqs.includes(v)){ state.prereqs.push(v); renderAll(); } }
+function removePrereq(i){ state.prereqs.splice(i,1); renderAll(); }
+
+/* =========================== PATHWAY MAP (signature viz) =========================== */
+function drawPathMap(){
+  const stations = [
+    {label:'PREREQ', sub: state.prereqs.length + ' course(s)', filled: state.prereqs.length>0},
+    {label:'CORE CURRICULUM', sub: state.core.length + ' selected', filled: state.core.length>0},
+    {label:'APPLIED / LABS', sub: (state.supp.length+state.comp.length+state.compExtra.length) + ' selected', filled: (state.supp.length+state.comp.length+state.compExtra.length)>0},
+    {label:'CERTIFIED', sub: state.cert.length + ' target(s)', filled: state.cert.length>0},
+  ];
+  const n = stations.length;
+  const W = 1100, H = 150, marginX = 90;
+  const step = (W - marginX*2) / (n-1);
+  const y = 80;
+  let filledCount = stations.filter(s=>s.filled).length;
+  const pct = Math.round((filledCount/n)*100);
+  document.getElementById('pctText').textContent = pct + '%';
+
+  let svg = '';
+  // base line
+  svg += `<line x1="${marginX}" y1="${y}" x2="${W-marginX}" y2="${y}" stroke="#1e3357" stroke-width="4" stroke-linecap="round"/>`;
+  // progress line (dashes lit green up to last filled contiguous station)
+  let litUntil = 0;
+  for(let i=0;i<n;i++){ if(stations[i].filled) litUntil = i; else break; }
+  if(stations[0].filled){
+    const x2 = marginX + step*litUntil;
+    svg += `<line x1="${marginX}" y1="${y}" x2="${x2}" y2="${y}" stroke="#00c389" stroke-width="4" stroke-linecap="round"/>`;
+  }
+  for(let i=0;i<n;i++){
+    const x = marginX + step*i;
+    const s = stations[i];
+    const fill = s.filled ? '#00c389' : '#16294a';
+    const stroke = s.filled ? '#00c389' : '#2a4066';
+    svg += `<circle cx="${x}" cy="${y}" r="14" fill="${fill}" stroke="${stroke}" stroke-width="3"/>`;
+    if(s.filled){
+      svg += `<path d="M${x-5} ${y} l4 4 l7 -8" stroke="#052617" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`;
+    } else {
+      svg += `<text x="${x}" y="${y+5}" text-anchor="middle" class="mono" font-size="12" fill="#7f93b3">${i+1}</text>`;
+    }
+    svg += `<text x="${x}" y="${y+38}" text-anchor="middle" class="station-label">${s.label}</text>`;
+    svg += `<text x="${x}" y="${y+54}" text-anchor="middle" class="station-sub">${s.sub}</text>`;
+  }
+  document.getElementById('pathSvg').innerHTML = svg;
+}
+
+/* =========================== PROPOSAL =========================== */
+function labelById(list, id){ const it = list.find(x=>x.id===id); return it ? it.name : id; }
+function gradeLabel(v){
+  return {'k8':'K–8 (Introductory / Digital Citizenship)','9-10':'9–10 (Foundations)','9-12':'9–12 (Full Pathway)','11-12':'11–12 (Applied / Capstone)'}[v] || v;
+}
+function focusLabel(v){
+  return {'general':'General Cybersecurity','defense':'Cyber Defense / SOC','offense':'Ethical Hacking / Offensive Security','networking':'Networking & Infrastructure Security','policy':'Cyber Policy & Risk Management'}[v] || v;
+}
+
+function listOrEmpty(arr, list){
+  if(arr.length===0) return '<p class="empty-note">No selections made yet.</p>';
+  return '<ul>' + arr.map(id=>{
+    const it = list.find(x=>x.id===id);
+    if(!it) return `<li>${id}</li>`;
+    let extra = [];
+    if(it.hours) extra.push(it.hours);
+    if(it.cost) extra.push(it.cost);
+    if(it.grade) extra.push(it.grade);
+    return `<li><strong>${it.name}</strong>${extra.length?` — ${extra.join(' · ')}`:''}<br><span style="color:var(--ink-soft);font-size:13px;">${it.desc}</span></li>`;
+  }).join('') + '</ul>';
+}
+
+function syncFieldsFromInputs(){
+  state.school = document.getElementById('schoolNameInput').value.trim();
+  state.program = document.getElementById('programNameInput').value.trim();
+  state.grade = document.getElementById('gradeBand').value;
+  state.focus = document.getElementById('pathwayFocus').value;
+  state.cip = document.getElementById('cipCode').value.trim();
+  state.mission = document.getElementById('missionNote').value.trim();
+  state.stateModel = document.getElementById('stateModelInput').value.trim();
+}
+
+function buildStateSection(){
+  if(!state.selState) return '<p class="empty-note">No state selected — choose one in the Program Cluster Home section to include career-cluster placement and approval-pathway guidance.</p>';
+  const c = STATE_CLUSTERS[state.selState];
+  const a = STATE_APPROVAL[state.selState];
+  let html = `<p><strong>National Career Cluster placement (${state.selState}):</strong> ${c.primary} — ${CLUSTER_FULL[c.primary]}, with secondary alignment to ${c.secondary.map(s=>CLUSTER_FULL[s]||s).join(' and ')}. ${c.notes}</p>`;
+  if(a){
+    html += `<p><strong>Approval model:</strong> ${a.model}. ${APPROVAL_MODEL_DESC[a.model]}</p>
+    <table>
+      <tr><td><strong>Approval Authority</strong></td><td>${a.authority}</td></tr>
+      <tr><td><strong>Approval Focus</strong></td><td>${a.focus}</td></tr>
+      <tr><td><strong>Process</strong></td><td>${a.process}</td></tr>
+    </table>`;
+  } else {
+    html += `<p class="empty-note">No documented statewide approval workflow on file for ${state.selState}; confirm current process with the state department of education before submitting.</p>`;
+  }
+  return html;
+}
+
+function buildProposalHTML(){
+  syncFieldsFromInputs();
+  const today = new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
+  const schoolName = state.school || '[School / District Name]';
+  const programName = state.program || '[Program Name]';
+
+  let html = `
+  <h2>${programName}<br><span style="font-size:16px;font-weight:500;color:var(--ink-soft);">A Cybersecurity Program Proposal — ${schoolName}</span></h2>
+  <p class="empty-note" style="margin-top:-6px;">Prepared ${today} using the Cyber Pathway Builder framework.</p>
+
+  <h3>1. Program Overview</h3>
+  <table>
+    <tr><td><strong>State</strong></td><td>${state.selState || '—'}</td></tr>
+    <tr><td><strong>Grade Band</strong></td><td>${gradeLabel(state.grade)}</td></tr>
+    <tr><td><strong>Pathway Focus</strong></td><td>${focusLabel(state.focus)}</td></tr>
+    <tr><td><strong>CIP / CTE Cluster Code</strong></td><td>${state.cip || '—'}</td></tr>
+  </table>
+
+  <h3>2. Rationale &amp; Mission</h3>
+  <p>${state.mission ? state.mission.replace(/\n/g,'<br>') : '<span class="empty-note">No rationale entered yet — add one in the Program Cluster Home section.</span>'}</p>
+
+  <h3>3. Career Cluster Placement &amp; State Approval Pathway</h3>
+  ${buildStateSection()}
+
+  <h3>4. Prerequisite Classes</h3>
+  ${state.prereqs.length ? '<ul>' + state.prereqs.map(p=>`<li>${p}</li>`).join('') + '</ul>' : '<p class="empty-note">No prerequisites specified.</p>'}
+
+  <h3>5. Core Curriculum</h3>
+  ${listOrEmpty(state.core, CORE)}
+  ${state.stateModel ? `<p><strong>State-specific model referenced:</strong> ${state.stateModel}</p>` : ''}
+
+  <h3>6. Supplemental Platforms &amp; Applied Training</h3>
+  ${listOrEmpty(state.supp, SUPP)}
+
+  <h3>7. Competitions &amp; Cyber Ranges</h3>
+  ${listOrEmpty(state.comp, COMP)}
+  ${state.compExtra.length ? listOrEmpty(state.compExtra, COMP_EXTRA) : ''}
+
+  ${state.grade==='k8' || state.intro.length ? `<h3>8. Introductory / Digital Citizenship Tools</h3>${listOrEmpty(state.intro, INTRO)}` : ''}
+
+  <h3>9. Target Industry Certifications</h3>
+  ${listOrEmpty(state.cert, CERT)}
+
+  <h3>10. Estimated Program Investment</h3>
+  <p class="empty-note">Costs above reflect per-student certification and platform licensing estimates as of program design; final budget should be confirmed with current vendor pricing at time of adoption.</p>
+
+  <h3>11. Recommendation</h3>
+  <p>It is recommended that ${schoolName} adopt the above framework as the foundation of its cybersecurity pathway, phased in alignment with staffing, lab infrastructure, and CTE funding availability. This proposal is submitted for administrative and board review.</p>
+
+  <div class="sig-line">
+    <div>Program Lead / Instructor — Date</div>
+    <div>Department Chair / CTE Director — Date</div>
+    <div>Principal / Superintendent Approval — Date</div>
+  </div>
+  `;
+  return html;
+}
+
+function showProposal(){
+  document.getElementById('proposal').innerHTML = buildProposalHTML();
+  document.getElementById('builderView').classList.add('hidden');
+  document.getElementById('proposalWrap').classList.add('active');
+  window.scrollTo(0,0);
+}
+function backToBuilder(){
+  document.getElementById('builderView').classList.remove('hidden');
+  document.getElementById('proposalWrap').classList.remove('active');
+  window.scrollTo(0,0);
+}
+
+function downloadMarkdown(){
+  syncFieldsFromInputs();
+  const div = document.createElement('div');
+  div.innerHTML = buildProposalHTML();
+  const text = div.innerText;
+  const blob = new Blob([`<html><head><meta charset="utf-8"></head><body style="font-family:Calibri,Arial,sans-serif;">${document.getElementById('proposal').innerHTML}</body></html>`], {type:'application/msword'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = (state.program || 'cybersecurity-program-proposal').replace(/[^a-z0-9\-]/gi,'_') + '.doc';
+  a.click();
+  showToast('Proposal downloaded — open in Word to finalize formatting.');
+}
+
+/* =========================== SAVE / LOAD =========================== */
+function currentKey(){
+  return 'cyberpathway::' + (state.program || 'untitled') + '::' + (state.school||'');
+}
+function saveProgram(){
+  syncFieldsFromInputs();
+  try{
+    const list = JSON.parse(localStorage.getItem('cyberpathway::index')||'[]');
+    const key = currentKey();
+    if(!list.includes(key)) list.push(key);
+    localStorage.setItem('cyberpathway::index', JSON.stringify(list));
+    localStorage.setItem(key, JSON.stringify(state));
+    showToast('Progress saved to this browser.');
+  }catch(e){ showToast('Could not save — storage unavailable.'); }
+}
+function openLoadMenu(){
+  let list = [];
+  try{ list = JSON.parse(localStorage.getItem('cyberpathway::index')||'[]'); }catch(e){}
+  if(list.length===0){ showToast('No saved programs found in this browser yet.'); return; }
+  const choice = prompt('Saved programs:\n\n' + list.map((k,i)=>`${i+1}. ${k.split('::')[1]} (${k.split('::')[2]||'no school'})`).join('\n') + '\n\nEnter a number to load:');
+  const idx = parseInt(choice,10)-1;
+  if(list[idx]){
+    try{
+      const loaded = JSON.parse(localStorage.getItem(list[idx]));
+      state = Object.assign(state, loaded);
+      applyStateToInputs();
+      renderAll();
+      showToast('Loaded: ' + list[idx].split('::')[1]);
+    }catch(e){ showToast('Could not load that program.'); }
+  }
+}
+function newProgram(){
+  if(!confirm('Start a new program? Unsaved changes will be lost unless you saved them.')) return;
+  state = {school:'', program:'', grade:'9-12', focus:'general', cip:'', mission:'', selState:'', prereqs:[], core:[], stateModel:'', supp:[], comp:[], compExtra:[], intro:[], cert:[]};
+  applyStateToInputs();
+  renderAll();
+}
+function applyStateToInputs(){
+  document.getElementById('schoolNameInput').value = state.school;
+  document.getElementById('programNameInput').value = state.program;
+  document.getElementById('gradeBand').value = state.grade;
+  document.getElementById('pathwayFocus').value = state.focus;
+  document.getElementById('cipCode').value = state.cip;
+  document.getElementById('missionNote').value = state.mission;
+  document.getElementById('stateModelInput').value = state.stateModel;
+  populateStateSelect();
+  document.getElementById('stateSelect').value = state.selState || '';
+}
+function downloadJSON(){
+  syncFieldsFromInputs();
+  const blob = new Blob([JSON.stringify(state,null,2)], {type:'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = (state.program || 'cybersecurity-program').replace(/[^a-z0-9\-]/gi,'_') + '.json';
+  a.click();
+}
+
+function showToast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), 2600);
+}
+
+function toggleTheme(){
+  const body = document.body;
+  const isDark = body.getAttribute('data-theme')==='dark';
+  body.setAttribute('data-theme', isDark?'light':'dark');
+  document.getElementById('themeToggle').textContent = isDark ? '◐' : '◑';
+  localStorage.setItem('cyberpathway::theme', isDark?'light':'dark');
+}
+
+/* =========================== INIT =========================== */
+document.getElementById('schoolNameInput').addEventListener('input', ()=>{});
+['schoolNameInput','programNameInput'].forEach(id=>{
+  document.getElementById(id).addEventListener('blur', saveProgramSilent);
+});
+function saveProgramSilent(){ syncFieldsFromInputs(); }
+
+(function init(){
+  const savedTheme = localStorage.getItem('cyberpathway::theme');
+  if(savedTheme==='dark'){ document.body.setAttribute('data-theme','dark'); document.getElementById('themeToggle').textContent='◑'; }
+  renderAll();
+})();
+</script>
+</body>
+</html>
