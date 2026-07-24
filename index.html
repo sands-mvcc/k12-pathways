@@ -415,13 +415,23 @@ label.small{font-size:12px;color:var(--ink-soft);display:block;margin-bottom:4px
     <div class="section-head" onclick="toggleSection('cert')">
       <div class="section-title">
         <span class="section-num">06</span>
-        <div><h3>Key Entry-Level Certifications</h3><div class="sub">Target credential(s) students can earn by pathway completion</div></div>
+        <div><h3>Industry Certifications</h3><div class="sub">Target credentials mapped to grade-band, from digital literacy through employment-ready capstones</div></div>
       </div>
       <span class="badge-count zero" id="cnt-cert">0</span>
       <span class="chev">▾</span>
     </div>
     <div class="section-body">
-      <div class="grid" id="certGrid"></div>
+      <h4 style="margin:6px 0 4px;font-size:14px;">Foundational &amp; Literacy Certifications <span style="font-weight:400;color:var(--ink-soft);font-family:'Inter';">— typically MS / early HS (grades 9–10)</span></h4>
+      <p style="margin:0 0 10px;font-size:12.5px;color:var(--ink-soft);">Validate general digital literacy, safe computing habits, and introductory IT concepts.</p>
+      <div class="grid" id="certGridTier1"></div>
+
+      <h4 style="margin:22px 0 4px;font-size:14px;">Core Technology Benchmarks <span style="font-weight:400;color:var(--ink-soft);font-family:'Inter';">— typically grades 10–11</span></h4>
+      <p style="margin:0 0 10px;font-size:12.5px;color:var(--ink-soft);">Fundamental IT and networking infrastructure knowledge before tackling specialized security.</p>
+      <div class="grid" id="certGridTier2"></div>
+
+      <h4 style="margin:22px 0 4px;font-size:14px;">Employment-Ready Cybersecurity Certifications <span style="font-weight:400;color:var(--ink-soft);font-family:'Inter';">— capstone, senior year (grade 12)</span></h4>
+      <p style="margin:0 0 10px;font-size:12.5px;color:var(--ink-soft);">Passing these allows students to graduate directly into junior security roles.</p>
+      <div class="grid" id="certGridTier3"></div>
     </div>
   </div>
 
@@ -480,12 +490,24 @@ const INTRO = [
   {id:'netsmartz', name:'Netsmartz (NCMEC)', desc:'Internet safety and classroom resources.', grade:'K-8'},
   {id:'cryptoscratch', name:'CryptoScratch', desc:'Block-based tool to teach cryptography concepts.', grade:'MS/HS'},
 ];
-const CERT = [
-  {id:'secplus', name:'CompTIA Security+', desc:'The industry gold standard for entry-level roles.', cost:'~$404'},
-  {id:'isc2cc', name:'ISC2 Certified in Cybersecurity (CC)', desc:'Zero-experience beginner certification.', cost:'~$50 (often free)'},
-  {id:'google', name:'Google Cybersecurity Professional Certificate', desc:'Beginner-friendly Coursera course prepping for Security+.', cost:'~$49/mo'},
-  {id:'ccst', name:'Cisco CCST Cybersecurity', desc:'Focuses on networking and security monitoring basics.', cost:'~$125'},
+const CERT_TIER1 = [
+  {id:'itfplus', name:'CompTIA IT Fundamentals (ITF+)', desc:"Establishes a basic understanding of hardware, databases, software development, and security concepts.", cost:'~$134', grade:'MS / early HS'},
+  {id:'ic3', name:'Certiport IC3 Digital Literacy (Living Online)', desc:"Evaluates a student's baseline ability to navigate internet security, cloud computing, and digital citizenship safely.", cost:'~$45–$60', grade:'MS / early HS'},
+  {id:'isc2cc', name:'ISC2 Certified in Cybersecurity (CC)', desc:'Zero-experience beginner certification validating foundational cybersecurity concepts.', cost:'~$50 (often free)', grade:'early HS'},
 ];
+const CERT_TIER2 = [
+  {id:'aplus', name:'CompTIA A+', desc:'The industry gold standard for technical support, teaching device hardware, operating systems, and basic troubleshooting.', cost:'~$246/exam (2 required)', grade:'10th–11th'},
+  {id:'netplus', name:'CompTIA Network+', desc:'Teaches students how data travels across enterprise networks, routing, switching, and fundamental network security architecture.', cost:'~$358', grade:'10th–11th'},
+  {id:'ccna', name:'Cisco CCNA (or Certified Support Technician – Networking)', desc:'Prominently featured in Cisco Networking Academies within technical high schools to teach hands-on infrastructure configuration.', cost:'~$300', grade:'10th–11th'},
+  {id:'ccst', name:'Cisco CCST Cybersecurity', desc:'Focuses on networking and security monitoring basics.', cost:'~$125', grade:'10th–11th'},
+];
+const CERT_TIER3 = [
+  {id:'secplus', name:'CompTIA Security+', desc:'The most universally aligned capstone in K–12 cybersecurity education. Validates core knowledge in threat mitigation, risk management, and security operations.', cost:'~$404', grade:'12th (capstone)'},
+  {id:'ehe', name:'EC-Council Ethical Hacking Essentials (EHE)', desc:'Increasingly popular in modern curricula to safely teach the basics of vulnerability assessment and penetration testing frameworks.', cost:'~$200–$300', grade:'12th (capstone)'},
+  {id:'cyberops', name:'Cisco CyberOps Associate', desc:'Widely adopted by specialized tech tracks to train students specifically for roles inside a Security Operations Center (SOC).', cost:'~$300', grade:'12th (capstone)'},
+  {id:'google', name:'Google Cybersecurity Professional Certificate', desc:'Beginner-friendly Coursera course that preps students for the Security+ exam.', cost:'~$49/mo', grade:'12th (capstone)'},
+];
+const CERT = [...CERT_TIER1, ...CERT_TIER2, ...CERT_TIER3];
 
 const PREREQ_LIST = [
   {id:'digitallit', name:'Digital Literacy / Computer Literacy / Digital Information Technology', desc:'Foundational computer and digital-tools literacy required before pathway entry.'},
@@ -634,7 +656,7 @@ function toggleOpt(key, id, gridId){
 function tagCore(it){ return `<span class="tag">${it.grade}</span><span class="tag ${it.cost==='Free'?'free':'cost'}">${it.cost}</span><span class="tag">${it.hours}</span>`; }
 function tagSupp(it){ return `<span class="tag">${it.grade}</span><span class="tag ${it.cost==='Freemium'?'':'cost'}">${it.cost}</span>`; }
 function tagComp(it){ return `<span class="tag">${it.grade}</span>`; }
-function tagCert(it){ return `<span class="tag cost">${it.cost}</span>`; }
+function tagCert(it){ return `<span class="tag cost">${it.cost}</span><span class="tag">${it.grade}</span>`; }
 
 function populateStateSelect(){
   const sel = document.getElementById('stateSelect');
@@ -691,7 +713,9 @@ function renderAll(){
   buildCardGrid('compGrid', COMP, 'comp', tagComp);
   buildCardGrid('compExtraGrid', COMP_EXTRA, 'compExtra', tagComp);
   buildCardGrid('introGrid', INTRO, 'intro', tagComp);
-  buildCardGrid('certGrid', CERT, 'cert', tagCert);
+  buildCardGrid('certGridTier1', CERT_TIER1, 'cert', tagCert);
+  buildCardGrid('certGridTier2', CERT_TIER2, 'cert', tagCert);
+  buildCardGrid('certGridTier3', CERT_TIER3, 'cert', tagCert);
   renderPrereqChips();
   const sel = document.getElementById('stateSelect');
   if(sel.value !== state.selState){ sel.value = state.selState || ''; }
@@ -876,7 +900,12 @@ function buildProposalHTML(){
   ${state.grade==='k8' || state.intro.length ? `<h3>8. Introductory / Digital Citizenship Tools</h3>${listOrEmpty(state.intro, INTRO)}` : ''}
 
   <h3>9. Target Industry Certifications</h3>
-  ${listOrEmpty(state.cert, CERT)}
+  <h4>Foundational &amp; Literacy (MS / early HS)</h4>
+  ${listOrEmpty(state.cert.filter(id=>CERT_TIER1.some(x=>x.id===id)), CERT_TIER1)}
+  <h4>Core Technology Benchmarks (10th–11th)</h4>
+  ${listOrEmpty(state.cert.filter(id=>CERT_TIER2.some(x=>x.id===id)), CERT_TIER2)}
+  <h4>Employment-Ready Cybersecurity (12th, capstone)</h4>
+  ${listOrEmpty(state.cert.filter(id=>CERT_TIER3.some(x=>x.id===id)), CERT_TIER3)}
 
   <h3>10. Estimated Program Investment</h3>
   <p class="empty-note">Costs above reflect per-student certification and platform licensing estimates as of program design; final budget should be confirmed with current vendor pricing at time of adoption.</p>
