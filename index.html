@@ -435,6 +435,34 @@ label.small{font-size:12px;color:var(--ink-soft);display:block;margin-bottom:4px
     </div>
   </div>
 
+  <!-- SECTION 7: Articulation Options -->
+  <div class="section" data-sec="artic">
+    <div class="section-head" onclick="toggleSection('artic')">
+      <div class="section-title">
+        <span class="section-num">07</span>
+        <div><h3>K–12 to College Articulation Options</h3><div class="sub">How pathway credit can transfer into postsecondary programs</div></div>
+      </div>
+      <span class="badge-count zero" id="cnt-artic">0</span>
+      <span class="chev">▾</span>
+    </div>
+    <div class="section-body">
+      <p style="margin:0 0 4px;font-size:12.5px;color:var(--ink-soft);">Select every articulation model this program will pursue with partner colleges or the state. These are general models common across CTE systems — confirm exact terms with each receiving institution.</p>
+      <div class="grid" id="articGrid"></div>
+
+      <h4 style="margin:20px 0 6px;font-size:14px;">Add a custom articulation arrangement</h4>
+      <div class="prereq-input-row">
+        <input type="text" id="articInput" placeholder="e.g. locally negotiated MOU with [College Name]" onkeydown="if(event.key==='Enter'){addArtic();}">
+        <button class="btn btn-outline" onclick="addArtic()">Add</button>
+      </div>
+      <div class="chip-list" id="articChips"></div>
+
+      <label class="small" style="margin-top:16px;">RECEIVING INSTITUTION(S)</label>
+      <input type="text" id="receivingInstInput" placeholder="e.g. Moraine Valley Community College, [State] Community College System" style="width:100%;padding:10px 12px;border-radius:9px;border:1.5px solid var(--line);background:var(--bg);color:var(--ink);margin-top:6px;">
+      <label class="small" style="margin-top:14px;">ARTICULATION NOTES</label>
+      <textarea class="note" id="articNote" placeholder="Credit terms, minimum grade/certification requirements, expiration windows, signed agreement status, etc."></textarea>
+    </div>
+  </div>
+
   <div class="footer-actions no-print">
     <button class="btn btn-green" onclick="showProposal()">📄 Generate proposal</button>
     <button class="btn btn-outline" onclick="saveProgram()">💾 Save progress</button>
@@ -490,6 +518,17 @@ const INTRO = [
   {id:'netsmartz', name:'Netsmartz (NCMEC)', desc:'Internet safety and classroom resources.', grade:'K-8'},
   {id:'cryptoscratch', name:'CryptoScratch', desc:'Block-based tool to teach cryptography concepts.', grade:'MS/HS'},
 ];
+const ARTICULATION = [
+  {id:'dualcredit', name:'Dual Credit / Concurrent Enrollment', desc:'Students earn simultaneous high school and college credit for courses taken in high school through a dual-enrollment agreement with a partner community or technical college.'},
+  {id:'statewide', name:'Statewide Articulation / Tech Prep Agreement', desc:'A formal state-level agreement mapping specific approved high school CTE courses to college credit at any participating institution statewide.'},
+  {id:'certcredit', name:'Direct College Credit for Industry Certification', desc:'The receiving college awards credit or advanced placement based on proof of an industry certification (e.g., Security+, CCNA) earned while in high school.'},
+  {id:'institutional', name:'Institution-Specific Articulated Credit (MOU)', desc:'A signed one-to-one agreement between the high school and a specific college or university mapping named high school courses to named college courses.'},
+  {id:'earlycollege', name:'Early College High School / P-TECH Model', desc:'An integrated 4–6 year model where students can earn an associate degree or up to 60 college credits alongside their high school diploma.'},
+  {id:'apcredit', name:'AP Cybersecurity Exam Credit', desc:'College credit or placement awarded based on AP Cybersecurity exam score, per each receiving institution\'s AP credit policy.'},
+  {id:'clep', name:'CLEP / Prior Learning Assessment Credit', desc:'Articulation through nationally recognized prior-learning exams (e.g., CLEP) accepted for credit by many colleges and universities.'},
+  {id:'consortium', name:'Regional / Consortium Articulation Agreement', desc:'A shared regional agreement covering multiple high schools that feed into one or more community or technical colleges, standardizing credit transfer across the region.'},
+];
+
 const CERT_TIER1 = [
   {id:'itfplus', name:'CompTIA IT Fundamentals (ITF+)', desc:"Establishes a basic understanding of hardware, databases, software development, and security concepts.", cost:'~$134', grade:'MS / early HS'},
   {id:'ic3', name:'Certiport IC3 Digital Literacy (Living Online)', desc:"Evaluates a student's baseline ability to navigate internet security, cloud computing, and digital citizenship safely.", cost:'~$45–$60', grade:'MS / early HS'},
@@ -615,7 +654,8 @@ const APPROVAL_MODEL_DESC = {
 /* =========================== STATE =========================== */
 let state = {
   school:'', program:'', grade:'9-12', focus:'general', cip:'', mission:'', selState:'',
-  prereqChecked:[], prereqs:[], core:[], coreCourses:[], coreCourseCustom:[], stateModel:'', supp:[], comp:[], compExtra:[], intro:[], cert:[]
+  prereqChecked:[], prereqs:[], core:[], coreCourses:[], coreCourseCustom:[], stateModel:'', supp:[], comp:[], compExtra:[], intro:[], cert:[],
+  artic:[], articCustom:[], receivingInst:'', articNote:''
 };
 
 function toggleSection(name){
@@ -716,6 +756,7 @@ function renderAll(){
   buildCardGrid('certGridTier1', CERT_TIER1, 'cert', tagCert);
   buildCardGrid('certGridTier2', CERT_TIER2, 'cert', tagCert);
   buildCardGrid('certGridTier3', CERT_TIER3, 'cert', tagCert);
+  buildCardGrid('articGrid', ARTICULATION, 'artic', it=>'');
   renderPrereqChips();
   const sel = document.getElementById('stateSelect');
   if(sel.value !== state.selState){ sel.value = state.selState || ''; }
@@ -727,6 +768,7 @@ function renderAll(){
   document.getElementById('cnt-comp').textContent = state.comp.length + state.compExtra.length;
   document.getElementById('cnt-intro').textContent = state.intro.length;
   document.getElementById('cnt-cert').textContent = state.cert.length;
+  document.getElementById('cnt-artic').textContent = state.artic.length + state.articCustom.length;
   document.querySelectorAll('.badge-count').forEach(b=>{
     b.classList.toggle('zero', b.textContent==='0');
   });
@@ -739,7 +781,15 @@ function renderPrereqChips(){
   el.innerHTML = state.prereqs.map((p,i)=>`<div class="chip">${p}<button onclick="removePrereq(${i})">✕</button></div>`).join('');
   const el2 = document.getElementById('coreCourseChips');
   el2.innerHTML = state.coreCourseCustom.map((p,i)=>`<div class="chip">${p}<button onclick="removeCoreCourseCustom(${i})">✕</button></div>`).join('');
+  const el3 = document.getElementById('articChips');
+  el3.innerHTML = state.articCustom.map((p,i)=>`<div class="chip">${p}<button onclick="removeArticCustom(${i})">✕</button></div>`).join('');
 }
+function addArtic(){
+  const inp = document.getElementById('articInput');
+  const v = inp.value.trim();
+  if(v){ state.articCustom.push(v); inp.value=''; renderAll(); }
+}
+function removeArticCustom(i){ state.articCustom.splice(i,1); renderAll(); }
 function addPrereq(){
   const inp = document.getElementById('prereqInput');
   const v = inp.value.trim();
@@ -826,6 +876,8 @@ function syncFieldsFromInputs(){
   state.cip = document.getElementById('cipCode').value.trim();
   state.mission = document.getElementById('missionNote').value.trim();
   state.stateModel = document.getElementById('stateModelInput').value.trim();
+  state.receivingInst = document.getElementById('receivingInstInput').value.trim();
+  state.articNote = document.getElementById('articNote').value.trim();
 }
 
 function buildStateSection(){
@@ -907,10 +959,20 @@ function buildProposalHTML(){
   <h4>Employment-Ready Cybersecurity (12th, capstone)</h4>
   ${listOrEmpty(state.cert.filter(id=>CERT_TIER3.some(x=>x.id===id)), CERT_TIER3)}
 
-  <h3>10. Estimated Program Investment</h3>
+  <h3>10. K–12 to College Articulation</h3>
+  ${(state.artic.length || state.articCustom.length) ? (
+    '<ul>' +
+    state.artic.map(id=>{const it=ARTICULATION.find(x=>x.id===id); return it?`<li><strong>${it.name}</strong> — ${it.desc}</li>`:'';}).join('') +
+    state.articCustom.map(p=>`<li>${p}</li>`).join('') +
+    '</ul>'
+  ) : '<p class="empty-note">No articulation model selected yet.</p>'}
+  ${state.receivingInst ? `<p><strong>Receiving institution(s):</strong> ${state.receivingInst}</p>` : ''}
+  ${state.articNote ? `<p><strong>Notes:</strong> ${state.articNote.replace(/\n/g,'<br>')}</p>` : ''}
+
+  <h3>11. Estimated Program Investment</h3>
   <p class="empty-note">Costs above reflect per-student certification and platform licensing estimates as of program design; final budget should be confirmed with current vendor pricing at time of adoption.</p>
 
-  <h3>11. Recommendation</h3>
+  <h3>12. Recommendation</h3>
   <p>It is recommended that ${schoolName} adopt the above framework as the foundation of its cybersecurity pathway, phased in alignment with staffing, lab infrastructure, and CTE funding availability. This proposal is submitted for administrative and board review.</p>
 
   <div class="sig-line">
@@ -980,7 +1042,7 @@ function openLoadMenu(){
 }
 function newProgram(){
   if(!confirm('Start a new program? Unsaved changes will be lost unless you saved them.')) return;
-  state = {school:'', program:'', grade:'9-12', focus:'general', cip:'', mission:'', selState:'', prereqChecked:[], prereqs:[], core:[], coreCourses:[], coreCourseCustom:[], stateModel:'', supp:[], comp:[], compExtra:[], intro:[], cert:[]};
+  state = {school:'', program:'', grade:'9-12', focus:'general', cip:'', mission:'', selState:'', prereqChecked:[], prereqs:[], core:[], coreCourses:[], coreCourseCustom:[], stateModel:'', supp:[], comp:[], compExtra:[], intro:[], cert:[], artic:[], articCustom:[], receivingInst:'', articNote:''};
   applyStateToInputs();
   renderAll();
 }
@@ -992,6 +1054,8 @@ function applyStateToInputs(){
   document.getElementById('cipCode').value = state.cip;
   document.getElementById('missionNote').value = state.mission;
   document.getElementById('stateModelInput').value = state.stateModel;
+  document.getElementById('receivingInstInput').value = state.receivingInst || '';
+  document.getElementById('articNote').value = state.articNote || '';
   populateStateSelect();
   document.getElementById('stateSelect').value = state.selState || '';
 }
