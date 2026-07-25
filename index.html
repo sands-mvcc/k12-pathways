@@ -3,111 +3,117 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>EPNC Cybersecurity Pathway Builder — High School Cybersecurity Program Designer</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<title>EPNC/NCyTE Cybersecurity Programs of Study Builder</title>
 <style>
 :root{
-  --navy:#0b1f3a;
-  --navy-2:#123059;
-  --green:#00c389;
-  --green-dim:#00a86b;
-  --amber:#f2a641;
-  --bg:#f4f7fb;
+  --navy:#1a1e2e;
+  --navy-2:#2d3258;
+  --green:#e8340f;
+  --green-dim:#c02200;
+  --green-light:#fff0ed;
+  --amber:#e65100;
+  --amber-bg:#fff3e0;
+  --bg:#f4f6f9;
   --card:#ffffff;
-  --ink:#0f1b2e;
-  --ink-soft:#5a6b85;
-  --line:#dde5f0;
-  --shadow:0 1px 3px rgba(11,31,58,0.06), 0 8px 24px rgba(11,31,58,0.05);
+  --card2:#f0f4ff;
+  --ink:#1a1e2e;
+  --ink-soft:#5a6480;
+  --line:#d1d9e6;
+  --shadow:0 2px 8px rgba(0,0,0,0.10);
+  --shadow-hover:0 8px 24px rgba(0,0,0,0.15);
   --radius:14px;
 }
 [data-theme="dark"]{
-  --bg:#08101c;
-  --card:#0f1c30;
-  --ink:#e9f1fb;
-  --ink-soft:#93a7c4;
-  --line:#1c3050;
-  --shadow:0 1px 3px rgba(0,0,0,0.3), 0 8px 24px rgba(0,0,0,0.25);
+  --bg:#0f1117;
+  --card:#1c1f2e;
+  --card2:#252840;
+  --ink:#e8ecf4;
+  --ink-soft:#8a92b2;
+  --line:#2e3352;
+  --navy:#0a0c14;
+  --navy-2:#1c1f2e;
+  --green:#ff5533;
+  --green-dim:#ff7755;
+  --green-light:#2a1510;
+  --amber:#ffcc80;
+  --amber-bg:#2a1a00;
+  --shadow:0 2px 8px rgba(0,0,0,0.40);
+  --shadow-hover:0 8px 24px rgba(0,0,0,0.55);
 }
 *{box-sizing:border-box;}
 html,body{margin:0;padding:0;}
 body{
   background:var(--bg);
   color:var(--ink);
-  font-family:'Inter',sans-serif;
+  font-family:'Segoe UI', system-ui, sans-serif;
   transition:background .25s ease, color .25s ease;
   padding-bottom:80px;
 }
-.mono{font-family:'IBM Plex Mono',monospace;}
-h1,h2,h3,.display{font-family:'Space Grotesk',sans-serif;}
-a{color:var(--green-dim);}
+.mono{font-family:'Segoe UI', system-ui, sans-serif;}
+h1,h2,h3,.display{font-family:'Segoe UI', system-ui, sans-serif; font-weight:800;}
+a{color:var(--green);}
 
 /* ---------- Top bar ---------- */
 .topbar{
   position:sticky; top:0; z-index:50;
   background:var(--navy);
-  color:#eaf1fb;
-  padding:14px 20px;
+  color:#fff;
+  padding:14px 24px;
   display:flex; align-items:center; gap:14px; flex-wrap:wrap;
-  box-shadow:0 4px 18px rgba(0,0,0,0.18);
+  box-shadow:0 2px 12px rgba(0,0,0,0.3);
 }
 .brand{display:flex; align-items:center; gap:10px; margin-right:auto;}
 .brand-mark{
-  width:34px;height:34px;border-radius:8px;
-  background:linear-gradient(135deg,var(--green),var(--navy-2));
+  width:36px;height:36px;border-radius:10px;
+  background:var(--green);
   display:flex;align-items:center;justify-content:center;
-  font-family:'Space Grotesk';font-weight:700;color:#08101c;font-size:15px;
+  font-weight:900;color:#fff;font-size:13px;letter-spacing:-0.5px;
   flex-shrink:0;
 }
 .brand-text{line-height:1.15;}
-.brand-text .t1{font-family:'Space Grotesk';font-weight:600;font-size:15px;}
-.brand-text .t2{font-size:11px;color:#9fb0c9;letter-spacing:.03em;}
+.brand-text .t1{font-weight:700;font-size:15px;letter-spacing:0.01em;}
+.brand-text .t2{font-size:11px;opacity:.65;letter-spacing:.03em;}
 .topbar input[type=text]{
-  background:rgba(255,255,255,0.08);
-  border:1px solid rgba(255,255,255,0.15);
-  color:#fff; border-radius:8px; padding:8px 10px; font-size:13px; font-family:'Inter';
+  background:rgba(255,255,255,0.1);
+  border:1px solid rgba(255,255,255,0.18);
+  color:#fff; border-radius:20px; padding:8px 14px; font-size:13px; font-family:inherit;
   min-width:150px;
 }
-.topbar input[type=text]::placeholder{color:#a9bad3;}
+.topbar input[type=text]::placeholder{color:rgba(255,255,255,0.6);}
 .btn{
-  border:none; border-radius:8px; padding:9px 14px; font-size:13px; font-weight:600;
-  cursor:pointer; font-family:'Inter'; display:inline-flex; align-items:center; gap:6px;
-  transition:transform .1s ease, opacity .15s ease;
+  border:none; border-radius:20px; padding:9px 16px; font-size:13px; font-weight:700;
+  cursor:pointer; font-family:inherit; display:inline-flex; align-items:center; gap:6px;
+  transition:transform .15s ease, box-shadow .2s ease;
 }
 .btn:active{transform:scale(0.97);}
-.btn-green{background:var(--green); color:#05261b;}
-.btn-ghost{background:rgba(255,255,255,0.08); color:#eaf1fb; border:1px solid rgba(255,255,255,0.18);}
-.btn-outline{background:transparent;border:1px solid var(--line);color:var(--ink);}
+.btn-green{background:var(--green); color:#fff; box-shadow:0 4px 14px rgba(232,52,15,0.3);}
+.btn-green:hover{box-shadow:0 6px 18px rgba(232,52,15,0.4);}
+.btn-ghost{background:rgba(255,255,255,0.12); color:#fff; border:1px solid rgba(255,255,255,0.18);}
+.btn-ghost:hover{background:rgba(255,255,255,0.22);}
+.btn-outline{background:transparent;border:2px solid var(--line);color:var(--ink);}
+.btn-outline:hover{border-color:var(--green);}
 .btn-amber{background:var(--amber);color:#3a2405;}
-.icon-btn{width:36px;height:36px;border-radius:8px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);color:#eaf1fb;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:15px;}
+.icon-btn{width:36px;height:36px;border-radius:20px;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.18);color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:15px;}
 
 /* ---------- Layout ---------- */
 .wrap{max-width:1180px;margin:0 auto;padding:26px 20px 0;}
-.hero{margin-bottom:22px;}
-.hero h1{font-size:28px;margin:0 0 6px;}
-.hero p{color:var(--ink-soft);margin:0;font-size:14.5px;max-width:680px;}
+.hero{
+  background:linear-gradient(135deg, var(--navy) 0%, var(--navy-2) 60%, color-mix(in srgb, var(--green) 15%, transparent) 100%);
+  color:#fff; border-radius:18px; padding:32px 28px 28px; text-align:center; margin-bottom:22px;
+}
+.hero h1{font-size:26px;margin:0 0 10px;font-weight:800;}
+.hero p{color:rgba(255,255,255,0.78);margin:0 auto;font-size:14.5px;max-width:680px;}
 
-/* ---------- Pathway Map (signature element) ---------- */
-.mapcard{
-  background:var(--navy);
-  border-radius:18px;
-  padding:22px 22px 10px;
-  margin-bottom:28px;
-  box-shadow:var(--shadow);
-  position:relative;
-  overflow:hidden;
+.about-panel{
+  background:linear-gradient(135deg, var(--card2), var(--card));
+  border:1px solid var(--line); border-radius:16px; padding:26px 28px;
+  box-shadow:var(--shadow); margin-bottom:22px;
 }
-.mapcard::before{
-  content:"";position:absolute;inset:0;
-  background:radial-gradient(600px 200px at 10% 0%, rgba(0,195,137,0.14), transparent 60%);
-  pointer-events:none;
-}
-.map-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px;color:#eaf1fb;flex-wrap:wrap;gap:6px;}
-.map-head h2{font-size:15px;margin:0;letter-spacing:.02em;color:#dce7f7;}
-.map-pct{font-family:'IBM Plex Mono';color:var(--green);font-size:13px;}
-#pathSvg{width:100%;height:auto;display:block;}
-.station-label{font-family:'Space Grotesk';font-size:12.5px;fill:#c9d7ec;font-weight:600;}
-.station-sub{font-family:'IBM Plex Mono';font-size:10px;fill:#7f93b3;}
+.about-panel h3{font-size:15px;font-weight:800;margin:0 0 10px;}
+.about-panel p{font-size:13px;color:var(--ink-soft);line-height:1.65;margin:0 0 10px;max-width:900px;}
+.about-panel p:last-child{margin-bottom:0;}
+.about-panel a{color:var(--green);font-weight:600;}
+
 
 /* ---------- Section ---------- */
 .section{
@@ -122,13 +128,13 @@ a{color:var(--green-dim);}
   padding:18px 22px; display:flex; align-items:center; justify-content:space-between; cursor:pointer;
   gap:12px;
 }
-.section-head:hover{background:rgba(0,168,107,0.04);}
+.section-head:hover{background:var(--card2);}
 .section-title{display:flex;align-items:center;gap:12px;}
 .section-num{
-  font-family:'IBM Plex Mono'; font-size:12px; color:var(--green-dim);
-  border:1px solid var(--line); border-radius:6px; padding:3px 7px;
+  font-size:11px; font-weight:800; color:var(--green);
+  background:var(--green-light); border-radius:10px; padding:3px 9px; letter-spacing:0.04em;
 }
-.section-title h3{margin:0;font-size:16.5px;}
+.section-title h3{margin:0;font-size:16.5px;font-weight:800;}
 .section-title .sub{font-size:12.5px;color:var(--ink-soft);margin-top:2px;}
 .chev{transition:transform .2s ease; color:var(--ink-soft);}
 .section.open .chev{transform:rotate(180deg);}
@@ -137,40 +143,45 @@ a{color:var(--green-dim);}
 }
 .section.open .section-body{display:block;}
 .badge-count{
-  background:var(--green); color:#05261b; font-family:'IBM Plex Mono'; font-size:11px;
-  padding:2px 8px; border-radius:20px; font-weight:600;
+  background:var(--green); color:#fff; font-size:11px;
+  padding:2px 9px; border-radius:20px; font-weight:700;
 }
 .badge-count.zero{background:var(--line); color:var(--ink-soft);}
 
 /* ---------- Cards grid ---------- */
 .grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:14px; margin-top:14px;}
 .opt-card{
-  border:1.5px solid var(--line); border-radius:12px; padding:14px; cursor:pointer;
-  transition:border-color .15s ease, background .15s ease;
-  position:relative;
+  border:1px solid var(--line); border-radius:14px; padding:14px; cursor:pointer;
+  transition:transform .2s ease, box-shadow .2s ease, border-color .15s ease, background .15s ease;
+  position:relative; overflow:hidden; background:var(--card); box-shadow:var(--shadow);
 }
-.opt-card:hover{border-color:var(--green-dim);}
-.opt-card.checked{border-color:var(--green); background:rgba(0,195,137,0.06);}
-.opt-card .oc-head{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;}
-.opt-card h4{margin:0 0 4px;font-size:14.5px;font-family:'Space Grotesk';}
+.opt-card::before{
+  content:''; position:absolute; top:0; left:0; right:0; height:4px; background:var(--line);
+  transition:background .15s ease;
+}
+.opt-card:hover{transform:translateY(-3px); box-shadow:var(--shadow-hover);}
+.opt-card.checked{border-color:var(--green); background:var(--green-light);}
+.opt-card.checked::before{background:var(--green);}
+.opt-card .oc-head{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-top:4px;}
+.opt-card h4{margin:0 0 4px;font-size:14.5px;font-weight:700;}
 .opt-card p{margin:0 0 8px;font-size:12.5px;color:var(--ink-soft);line-height:1.5;}
 .tagrow{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;}
-.tag{font-family:'IBM Plex Mono';font-size:10.5px;padding:2px 7px;border-radius:5px;background:var(--bg);border:1px solid var(--line);color:var(--ink-soft);}
-.tag.cost{color:var(--amber);border-color:var(--amber);}
-.tag.free{color:var(--green-dim);border-color:var(--green-dim);}
+.tag{font-size:10.5px;font-weight:700;padding:3px 9px;border-radius:20px;background:var(--card2);color:var(--ink-soft);text-transform:uppercase;letter-spacing:0.03em;}
+.tag.cost{color:var(--amber);background:var(--amber-bg);}
+.tag.free{color:var(--green);background:var(--green-light);}
 .check{
-  width:18px;height:18px;border-radius:5px;border:2px solid var(--line);flex-shrink:0;
+  width:18px;height:18px;border-radius:6px;border:2px solid var(--line);flex-shrink:0;
   display:flex;align-items:center;justify-content:center;margin-top:2px;
 }
 .opt-card.checked .check{background:var(--green);border-color:var(--green);}
 .check svg{display:none;width:12px;height:12px;}
 .opt-card.checked .check svg{display:block;}
-.oc-link{font-size:11.5px;text-decoration:none;font-weight:600;}
+.oc-link{font-size:11.5px;text-decoration:none;font-weight:700;color:var(--green);}
 
 /* ---------- Prereq list ---------- */
 .prereq-input-row{display:flex;gap:8px;margin-top:12px;}
 .prereq-input-row input{
-  flex:1;padding:10px 12px;border-radius:9px;border:1.5px solid var(--line);background:var(--bg);color:var(--ink);font-family:'Inter';font-size:13.5px;
+  flex:1;padding:10px 14px;border-radius:20px;border:1.5px solid var(--line);background:var(--bg);color:var(--ink);font-family:inherit;font-size:13.5px;
 }
 .chip-list{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;}
 .chip{
@@ -184,16 +195,16 @@ a{color:var(--green-dim);}
 .chip button:hover{background:rgba(220,60,60,0.15);color:#c0392b;}
 
 select, .grade-select{
-  padding:10px 12px;border-radius:9px;border:1.5px solid var(--line);background:var(--bg);color:var(--ink);font-family:'Inter';font-size:13.5px;
+  padding:10px 14px;border-radius:10px;border:1.5px solid var(--line);background:var(--bg);color:var(--ink);font-family:inherit;font-size:13.5px;
 }
 
 /* ---------- Proposal ---------- */
 #proposal{
   background:var(--card); border:1px solid var(--line); border-radius:var(--radius); padding:30px 34px;
-  font-family:'Inter'; line-height:1.65; box-shadow:var(--shadow);
+  font-family:inherit; line-height:1.65; box-shadow:var(--shadow);
 }
-#proposal h2{font-family:'Space Grotesk';border-bottom:3px solid var(--green); padding-bottom:10px; margin-top:0;}
-#proposal h3{font-family:'Space Grotesk';color:var(--navy-2); margin-top:26px;}
+#proposal h2{font-weight:800;border-bottom:3px solid var(--green); padding-bottom:10px; margin-top:0;}
+#proposal h3{font-weight:800;color:var(--navy-2); margin-top:26px;}
 [data-theme="dark"] #proposal h3{color:var(--green);}
 #proposal table{width:100%;border-collapse:collapse;margin:10px 0;font-size:13.5px;}
 #proposal td, #proposal th{border:1px solid var(--line); padding:7px 10px; text-align:left;}
@@ -205,20 +216,20 @@ select, .grade-select{
 .footer-actions{display:flex;gap:10px;flex-wrap:wrap;margin:24px 0 40px;}
 .toast{
   position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);
-  background:var(--navy);color:#eaf1fb;padding:11px 18px;border-radius:10px;font-size:13.5px;
+  background:var(--navy);color:#fff;padding:11px 18px;border-radius:20px;font-size:13.5px;
   box-shadow:0 8px 30px rgba(0,0,0,0.25); opacity:0; pointer-events:none; transition:all .25s ease; z-index:100;
 }
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
 textarea.note{
-  width:100%;min-height:60px;border-radius:9px;border:1.5px solid var(--line);background:var(--bg);color:var(--ink);
-  font-family:'Inter';font-size:13px;padding:9px 11px;margin-top:10px;resize:vertical;
+  width:100%;min-height:60px;border-radius:10px;border:1.5px solid var(--line);background:var(--bg);color:var(--ink);
+  font-family:inherit;font-size:13px;padding:9px 11px;margin-top:10px;resize:vertical;
 }
 label.small{font-size:12px;color:var(--ink-soft);display:block;margin-bottom:4px;font-weight:600;}
 .field-row{display:flex;gap:14px;flex-wrap:wrap;margin-top:14px;}
 .field-row > div{flex:1;min-width:180px;}
 
 @media print{
-  .topbar, .mapcard, .footer-actions, .no-print, .section-head .badge-count{display:none !important;}
+  .topbar, .footer-actions, .no-print, .section-head .badge-count{display:none !important;}
   body{background:#fff;padding:0;}
   .section{display:none !important;}
   #proposal{display:block !important; box-shadow:none; border:none; padding:0;}
@@ -234,10 +245,10 @@ label.small{font-size:12px;color:var(--ink-soft);display:block;margin-bottom:4px
 
 <div class="topbar">
   <div class="brand">
-    <div class="brand-mark">CP</div>
+    <div class="brand-mark">POS</div>
     <div class="brand-text">
-      <div class="t1">EPNC Cybersecurity Pathway Builder</div>
-      <div class="t2">K12 CYBERSECURITY PROGRAM PATHWAYS DESIGNER TOOL</div>
+      <div class="t1">EPNC/NCyTE Cybersecurity Programs of Study Builder</div>
+      <div class="t2">HIGH SCHOOL CYBERSECURITY PROGRAM DESIGNER</div>
     </div>
   </div>
   <input type="text" id="schoolNameInput" placeholder="School / District name">
@@ -252,31 +263,32 @@ label.small{font-size:12px;color:var(--ink-soft);display:block;margin-bottom:4px
 <div class="wrap builder-views" id="builderView">
 
   <div class="hero">
-    <h1>Build your program, step-by-step/h1>
-    <p>Select a grade levels, choose prerequisite and core curricula, layer in supplemental training, competitions, and certifications — then generate a formatted proposal ready for administrative or board review.</p>
+    <h1>Build your program, section by section</h1>
+    <p>Select a grade band, choose prerequisite and core curricula, layer in supplemental training, competitions, and certifications — then generate a formatted proposal ready for administrative or board review.</p>
   </div>
 
-  <div class="mapcard">
-    <div class="map-head">
-      <h2>PATHWAY MAP — PROGRAM COMPLETION</h2>
-      <div class="map-pct mono"><span id="pctText">0%</span> built</div>
-    </div>
-    <svg id="pathSvg" viewBox="0 0 1100 150" xmlns="http://www.w3.org/2000/svg"></svg>
+  <div class="about-panel no-print">
+    <h3>About this tool</h3>
+    <p>The EPNC/NCyTE Cybersecurity Programs of Study Builder is a free planning tool that helps K&ndash;12 schools and districts design, propose, and implement high-quality cybersecurity career pathways &mdash; from initial concept through board-ready approval.</p>
+    <p>Developed by the National Cybersecurity Training and Education Center (<a href="https://www.ncyte.net/about-ncyte/about-us" target="_blank" rel="noopener">NCyTE</a>) and the Education Pathways National Center (EPNC), the tool grew out of a national study of cybersecurity programs of study from schools and states across the country. That research was distilled into a single master framework covering everything a strong pathway needs: grade-band placement, prerequisite and core coursework, supplemental training platforms, competitions and cyber ranges, industry certifications, college articulation options, and workforce experience opportunities.</p>
+    <p>Schools work through the framework step by step &mdash; selecting their state to see how cybersecurity fits into their CTE career-cluster structure and approval process, building out prerequisites and core courses, layering in labs and certifications, and defining articulation and work-based learning options. The tool then generates a formatted proposal, ready to print, download, or submit for administrative and board review.</p>
+    <p>By giving every school a clear, research-backed path to building a rigorous cybersecurity program, NCyTE and EPNC aim to grow the national cybersecurity talent pipeline and help close the workforce gap behind the country's most pressing infrastructure and security threats.</p>
   </div>
 
-  <!-- SECTION 0: Cluster Home / Grade Levels -->
+  <!-- SECTION 0: Cluster Home / Grade band -->
+
   <div class="section open" data-sec="home">
     <div class="section-head" onclick="toggleSection('home')">
       <div class="section-title">
         <span class="section-num">00</span>
-        <div><h3>Program Cluster Home</h3><div class="sub">Grade levels, pathway focus, and cluster identity</div></div>
+        <div><h3>Program Cluster Home</h3><div class="sub">Grade band, pathway focus, and cluster identity</div></div>
       </div>
       <span class="chev">▾</span>
     </div>
     <div class="section-body">
       <div class="field-row">
         <div>
-          <label class="small">GRADE LEVELS</label>
+          <label class="small">GRADE BAND</label>
           <select id="gradeBand" class="grade-select" style="width:100%" onchange="renderAll()">
             <option value="k8">K–8 (Introductory / Digital Citizenship)</option>
             <option value="9-10">9–10 (Foundations)</option>
@@ -302,13 +314,13 @@ label.small{font-size:12px;color:var(--ink-soft);display:block;margin-bottom:4px
       <div id="cipNoteBox" style="margin-top:10px;"></div>
       <div id="cipCustomBox" style="display:none;margin-top:10px;">
         <label class="small">CUSTOM CIP CODE / TITLE</label>
-        <input type="text" id="cipCustomInput" placeholder="e.g. 11.1099 Computer/IT Services Administration and Management, Other" style="width:100%;padding:10px 12px;border-radius:9px;border:1.5px solid var(--line);background:var(--bg);color:var(--ink);" oninput="syncCipCustom()">
+        <input type="text" id="cipCustomInput" placeholder="e.g. 11.1099 Computer/IT Services Administration and Management, Other" style="width:100%;padding:10px 12px;border-radius:10px;border:1.5px solid var(--line);background:var(--bg);color:var(--ink);" oninput="syncCipCustom()">
       </div>
       <label class="small" style="margin-top:16px;">PROGRAM MISSION / RATIONALE</label>
       <textarea class="note" id="missionNote" placeholder="Why does this school need a cybersecurity pathway? (workforce demand, student interest, regional employer need, etc.)"></textarea>
 
       <div style="margin-top:22px;border-top:1px solid var(--line);padding-top:18px;">
-        <h4 style="margin:0 0 4px;font-size:14.5px;font-family:'Space Grotesk';">State Career Cluster &amp; Approval Pathway</h4>
+        <h4 style="margin:0 0 4px;font-size:14.5px;">State Career Cluster &amp; Approval Pathway</h4>
         <p style="margin:0 0 10px;font-size:12.5px;color:var(--ink-soft);">Select your state to see where cybersecurity typically lives in the CTE career-cluster structure, and — where documented — how programs get proposed and approved.</p>
         <select id="stateSelect" class="grade-select" style="width:100%;max-width:340px;" onchange="renderStateInfo()"></select>
         <div id="stateInfoPanel" style="margin-top:14px;"></div>
@@ -352,10 +364,10 @@ label.small{font-size:12px;color:var(--ink-soft);display:block;margin-bottom:4px
     <div class="section-body">
       <div class="grid" id="coreGrid"></div>
       <label class="small" style="margin-top:16px;">STATE-SPECIFIC MODEL CURRICULUM (if applicable)</label>
-      <input type="text" id="stateModelInput" placeholder="e.g. Texas CTE Cybersecurity Model, Nevada Cyber Pathway, Maryland Cyber Curriculum" style="width:100%;padding:10px 12px;border-radius:9px;border:1.5px solid var(--line);background:var(--bg);color:var(--ink);margin-top:6px;">
+      <input type="text" id="stateModelInput" placeholder="e.g. Texas CTE Cybersecurity Model, Nevada Cyber Pathway, Maryland Cyber Curriculum" style="width:100%;padding:10px 12px;border-radius:10px;border:1.5px solid var(--line);background:var(--bg);color:var(--ink);margin-top:6px;">
 
       <div style="margin-top:24px;border-top:1px solid var(--line);padding-top:18px;">
-        <h4 style="margin:0 0 4px;font-size:14.5px;font-family:'Space Grotesk';">Core Cybersecurity Pathway Courses</h4>
+        <h4 style="margin:0 0 4px;font-size:14.5px;">Core Cybersecurity Pathway Courses</h4>
         <p style="margin:0 0 10px;font-size:12.5px;color:var(--ink-soft);">The courses where students move beyond general IT into sustained cybersecurity learning. A typical 3-year sequence: <strong>Year 1</strong> — Cybersecurity Fundamentals / Intro to Cybersecurity · <strong>Year 2</strong> — Cybersecurity I plus Network Defense and Security · <strong>Year 3</strong> — Cybersecurity II / Operations plus Certification Prep or a Capstone.</p>
         <div class="grid" id="coreCoursesGrid"></div>
         <h4 style="margin:20px 0 6px;font-size:14px;">Add a custom core course</h4>
@@ -426,15 +438,15 @@ label.small{font-size:12px;color:var(--ink-soft);display:block;margin-bottom:4px
       <span class="chev">▾</span>
     </div>
     <div class="section-body">
-      <h4 style="margin:6px 0 4px;font-size:14px;">Foundational &amp; Literacy Certifications <span style="font-weight:400;color:var(--ink-soft);font-family:'Inter';">— typically MS / early HS (grades 9–10)</span></h4>
+      <h4 style="margin:6px 0 4px;font-size:14px;">Foundational &amp; Literacy Certifications <span style="font-weight:400;color:var(--ink-soft);">— typically MS / early HS (grades 9–10)</span></h4>
       <p style="margin:0 0 10px;font-size:12.5px;color:var(--ink-soft);">Validate general digital literacy, safe computing habits, and introductory IT concepts.</p>
       <div class="grid" id="certGridTier1"></div>
 
-      <h4 style="margin:22px 0 4px;font-size:14px;">Core Technology Benchmarks <span style="font-weight:400;color:var(--ink-soft);font-family:'Inter';">— typically grades 10–11</span></h4>
+      <h4 style="margin:22px 0 4px;font-size:14px;">Core Technology Benchmarks <span style="font-weight:400;color:var(--ink-soft);">— typically grades 10–11</span></h4>
       <p style="margin:0 0 10px;font-size:12.5px;color:var(--ink-soft);">Fundamental IT and networking infrastructure knowledge before tackling specialized security.</p>
       <div class="grid" id="certGridTier2"></div>
 
-      <h4 style="margin:22px 0 4px;font-size:14px;">Employment-Ready Cybersecurity Certifications <span style="font-weight:400;color:var(--ink-soft);font-family:'Inter';">— capstone, senior year (grade 12)</span></h4>
+      <h4 style="margin:22px 0 4px;font-size:14px;">Employment-Ready Cybersecurity Certifications <span style="font-weight:400;color:var(--ink-soft);">— capstone, senior year (grade 12)</span></h4>
       <p style="margin:0 0 10px;font-size:12.5px;color:var(--ink-soft);">Passing these allows students to graduate directly into junior security roles.</p>
       <div class="grid" id="certGridTier3"></div>
     </div>
@@ -462,7 +474,7 @@ label.small{font-size:12px;color:var(--ink-soft);display:block;margin-bottom:4px
       <div class="chip-list" id="articChips"></div>
 
       <label class="small" style="margin-top:16px;">RECEIVING INSTITUTION(S)</label>
-      <input type="text" id="receivingInstInput" placeholder="e.g. Moraine Valley Community College, [State] Community College System" style="width:100%;padding:10px 12px;border-radius:9px;border:1.5px solid var(--line);background:var(--bg);color:var(--ink);margin-top:6px;">
+      <input type="text" id="receivingInstInput" placeholder="e.g. Moraine Valley Community College, [State] Community College System" style="width:100%;padding:10px 12px;border-radius:10px;border:1.5px solid var(--line);background:var(--bg);color:var(--ink);margin-top:6px;">
       <label class="small" style="margin-top:14px;">ARTICULATION NOTES</label>
       <textarea class="note" id="articNote" placeholder="Credit terms, minimum grade/certification requirements, expiration windows, signed agreement status, etc."></textarea>
     </div>
@@ -490,7 +502,7 @@ label.small{font-size:12px;color:var(--ink-soft);display:block;margin-bottom:4px
       <div class="chip-list" id="workChips"></div>
 
       <label class="small" style="margin-top:16px;">EMPLOYER / INDUSTRY PARTNER(S)</label>
-      <input type="text" id="employerPartnerInput" placeholder="e.g. local MSPs, regional SOC employers, [Company Name]" style="width:100%;padding:10px 12px;border-radius:9px;border:1.5px solid var(--line);background:var(--bg);color:var(--ink);margin-top:6px;">
+      <input type="text" id="employerPartnerInput" placeholder="e.g. local MSPs, regional SOC employers, [Company Name]" style="width:100%;padding:10px 12px;border-radius:10px;border:1.5px solid var(--line);background:var(--bg);color:var(--ink);margin-top:6px;">
       <label class="small" style="margin-top:14px;">WORKFORCE EXPERIENCE NOTES</label>
       <textarea class="note" id="workNote" placeholder="Placement process, supervision/liability arrangements, credit or pay structure, minimum hours, timing (during school year vs. summer), etc."></textarea>
     </div>
@@ -866,8 +878,6 @@ function renderAll(){
   document.querySelectorAll('.badge-count').forEach(b=>{
     b.classList.toggle('zero', b.textContent==='0');
   });
-
-  drawPathMap();
 }
 
 function renderPrereqChips(){
@@ -904,49 +914,6 @@ function addCoreCourse(){
   if(v){ state.coreCourseCustom.push(v); inp.value=''; renderAll(); }
 }
 function removeCoreCourseCustom(i){ state.coreCourseCustom.splice(i,1); renderAll(); }
-
-/* =========================== PATHWAY MAP (signature viz) =========================== */
-function drawPathMap(){
-  const stations = [
-    {label:'PREREQ', sub: state.prereqs.length + ' course(s)', filled: state.prereqs.length>0},
-    {label:'CORE CURRICULUM', sub: state.core.length + ' selected', filled: state.core.length>0},
-    {label:'APPLIED / LABS', sub: (state.supp.length+state.comp.length+state.compExtra.length) + ' selected', filled: (state.supp.length+state.comp.length+state.compExtra.length)>0},
-    {label:'CERTIFIED', sub: state.cert.length + ' target(s)', filled: state.cert.length>0},
-  ];
-  const n = stations.length;
-  const W = 1100, H = 150, marginX = 90;
-  const step = (W - marginX*2) / (n-1);
-  const y = 80;
-  let filledCount = stations.filter(s=>s.filled).length;
-  const pct = Math.round((filledCount/n)*100);
-  document.getElementById('pctText').textContent = pct + '%';
-
-  let svg = '';
-  // base line
-  svg += `<line x1="${marginX}" y1="${y}" x2="${W-marginX}" y2="${y}" stroke="#1e3357" stroke-width="4" stroke-linecap="round"/>`;
-  // progress line (dashes lit green up to last filled contiguous station)
-  let litUntil = 0;
-  for(let i=0;i<n;i++){ if(stations[i].filled) litUntil = i; else break; }
-  if(stations[0].filled){
-    const x2 = marginX + step*litUntil;
-    svg += `<line x1="${marginX}" y1="${y}" x2="${x2}" y2="${y}" stroke="#00c389" stroke-width="4" stroke-linecap="round"/>`;
-  }
-  for(let i=0;i<n;i++){
-    const x = marginX + step*i;
-    const s = stations[i];
-    const fill = s.filled ? '#00c389' : '#16294a';
-    const stroke = s.filled ? '#00c389' : '#2a4066';
-    svg += `<circle cx="${x}" cy="${y}" r="14" fill="${fill}" stroke="${stroke}" stroke-width="3"/>`;
-    if(s.filled){
-      svg += `<path d="M${x-5} ${y} l4 4 l7 -8" stroke="#052617" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`;
-    } else {
-      svg += `<text x="${x}" y="${y+5}" text-anchor="middle" class="mono" font-size="12" fill="#7f93b3">${i+1}</text>`;
-    }
-    svg += `<text x="${x}" y="${y+38}" text-anchor="middle" class="station-label">${s.label}</text>`;
-    svg += `<text x="${x}" y="${y+54}" text-anchor="middle" class="station-sub">${s.sub}</text>`;
-  }
-  document.getElementById('pathSvg').innerHTML = svg;
-}
 
 /* =========================== PROPOSAL =========================== */
 function cipDisplay(){
@@ -1017,7 +984,7 @@ function buildProposalHTML(){
 
   let html = `
   <h2>${programName}<br><span style="font-size:16px;font-weight:500;color:var(--ink-soft);">A Cybersecurity Program Proposal — ${schoolName}</span></h2>
-  <p class="empty-note" style="margin-top:-6px;">Prepared ${today} using the Cyber Pathway Builder framework.</p>
+  <p class="empty-note" style="margin-top:-6px;">Prepared ${today} using the EPNC/NCyTE Cybersecurity Programs of Study Builder.</p>
 
   <h3>1. Program Overview</h3>
   <table>
