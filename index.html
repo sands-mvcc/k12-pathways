@@ -548,6 +548,7 @@ const SUPP = [
   {id:'pltw', name:'Project Lead The Way (PLTW)', desc:'Cybersecurity curriculum often utilized within IT Support Specialist pathways.', cost:'Paid', grade:'HS'},
   {id:'gameplan', name:'Gameplan (Codelicious)', desc:'"Cybersecurity Fundamentals" course and capstone project for high schools.', cost:'Paid', grade:'HS'},
   {id:'ndgnetlabs', name:'NDG NetLabs', desc:'Advanced, virtual lab environment for hands-on training, mapped to Security+ and RING.', cost:'Institutional license', grade:'Intermediate–Advanced HS / College'},
+  {id:'myemates', name:'myEMATES.org', desc:'Free, grant-funded collection of animated, interactive lessons ("EMATE Interactives") that explain difficult STEM and cybersecurity concepts using visuals, simple text, and gamified activities. Serves as ready-made concept demos, micro-lessons, and formative checks — no accounts or local installs required.', cost:'Free', grade:'K-12', link:'https://myemates.org'},
 ];
 const COMP = [
   {id:'cyberpatriot', name:'CyberPatriot (AFA)', desc:'National Youth Cyber Defense Competition and summer camps.', grade:'K-12'},
@@ -763,7 +764,7 @@ function toggleOpt(key, id, gridId){
 }
 
 function tagCore(it){ return `<span class="tag">${it.grade}</span><span class="tag ${it.cost==='Free'?'free':'cost'}">${it.cost}</span><span class="tag">${it.hours}</span>`; }
-function tagSupp(it){ return `<span class="tag">${it.grade}</span><span class="tag ${it.cost==='Freemium'?'':'cost'}">${it.cost}</span>`; }
+function tagSupp(it){ return `<span class="tag">${it.grade}</span><span class="tag ${(it.cost==='Freemium'||it.cost==='Free')?'free':'cost'}">${it.cost}</span>`; }
 function tagComp(it){ return `<span class="tag">${it.grade}</span>`; }
 function tagCert(it){ return `<span class="tag cost">${it.cost}</span><span class="tag">${it.grade}</span>`; }
 
