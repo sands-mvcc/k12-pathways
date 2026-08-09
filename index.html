@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>K-12 Cybersecurity Pathways of Study — Replicable Model &amp; Case Studies</title>
+<title>PoS Tool — K-12 Cybersecurity Pathways</title>
 <style>
   :root{
     --navy:#0f2a4a;
@@ -12,8 +12,6 @@
     --blue-light:#e8f0fb;
     --gold:#c98a1f;
     --gold-light:#f7ecd8;
-    --green:#1f7a4d;
-    --green-light:#e6f4ec;
     --ink:#1c2733;
     --muted:#5c6b7a;
     --line:#dde3ea;
@@ -24,260 +22,48 @@
     font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
   }
   *{box-sizing:border-box;}
-  html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);scroll-behavior:smooth;}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);}
   a{color:var(--blue);text-decoration:none;}
   a:hover{text-decoration:underline;}
-  img,svg{max-width:100%;}
 
-  /* ---------- Header / Nav ---------- */
-  header.site{
-    position:sticky;top:0;z-index:50;background:var(--navy);color:#fff;
-    box-shadow:0 2px 10px rgba(0,0,0,0.15);
-  }
-  .nav-wrap{
-    max-width:1180px;margin:0 auto;display:flex;align-items:center;
-    justify-content:space-between;padding:12px 20px;gap:16px;flex-wrap:wrap;
-  }
+  header.site{position:sticky;top:0;z-index:50;background:var(--navy);color:#fff;box-shadow:0 2px 10px rgba(0,0,0,0.15);}
+  .nav-wrap{max-width:1180px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:12px 20px;gap:16px;flex-wrap:wrap;}
   .brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:1.05rem;white-space:nowrap;}
   .brand .cap{font-size:1.3rem;}
   .brand small{display:block;font-weight:400;font-size:.72rem;color:#c9d6e8;letter-spacing:.02em;}
   nav.links{display:flex;gap:4px;flex-wrap:wrap;}
-  nav.links a, nav.links button{
-    color:#e7edf6;background:transparent;border:none;font-size:.92rem;
-    padding:8px 12px;border-radius:8px;cursor:pointer;font-family:inherit;
-  }
-  nav.links a:hover, nav.links button:hover{background:rgba(255,255,255,0.12);text-decoration:none;}
+  nav.links a{color:#e7edf6;background:transparent;border:none;font-size:.92rem;padding:8px 12px;border-radius:8px;font-family:inherit;}
+  nav.links a:hover{background:rgba(255,255,255,0.12);text-decoration:none;}
   nav.links a.active{background:rgba(255,255,255,0.18);font-weight:600;}
 
-  /* ---------- Hero ---------- */
-  .hero{
-    background:linear-gradient(135deg,var(--navy) 0%, var(--blue) 100%);
-    color:#fff;padding:56px 20px 64px;
-  }
+  .hero{background:linear-gradient(135deg,var(--navy) 0%, var(--blue) 100%);color:#fff;padding:48px 20px 56px;}
   .hero-inner{max-width:1180px;margin:0 auto;}
   .eyebrow{text-transform:uppercase;letter-spacing:.08em;font-size:.75rem;color:var(--gold-light);font-weight:700;margin-bottom:10px;}
-  .hero h1{font-size:2.3rem;margin:0 0 12px;line-height:1.15;}
-  .hero p.lede{font-size:1.08rem;max-width:800px;color:#dbe6f5;line-height:1.6;margin:0 0 22px;}
-  .badges{display:flex;gap:10px;flex-wrap:wrap;}
-  .badge{
-    background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.25);
-    border-radius:999px;padding:6px 14px;font-size:.85rem;color:#f2f6fb;
-  }
-  .badge b{color:#fff;}
-
-  /* ---------- Sections ---------- */
-  main{max-width:1180px;margin:0 auto;padding:0 20px 80px;}
-  section.block{padding:48px 0;border-bottom:1px solid var(--line);}
-  section.block:last-of-type{border-bottom:none;}
-  .section-head{display:flex;align-items:baseline;gap:10px;margin-bottom:6px;flex-wrap:wrap;}
-  .section-head .ic{font-size:1.4rem;}
-  .section-head h2{font-size:1.55rem;margin:0;}
-  .section-sub{color:var(--muted);margin:6px 0 26px;max-width:840px;line-height:1.6;}
-  .section-kicker{text-transform:uppercase;letter-spacing:.07em;font-size:.72rem;font-weight:700;color:var(--blue);margin-bottom:6px;}
-
-  h3.sub-h{font-size:1.15rem;margin:0 0 4px;display:flex;align-items:center;gap:8px;}
-  p.body-text{font-size:.93rem;line-height:1.65;color:var(--ink);margin:0 0 12px;}
-  p.body-text:last-child{margin-bottom:0;}
-
-  .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
-  @media (max-width:820px){.grid-3{grid-template-columns:repeat(2,1fr);}}
-  @media (max-width:560px){.grid-3{grid-template-columns:1fr;}}
-
-  .stat-card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px 20px;box-shadow:var(--shadow);}
-  .stat-card .num{font-size:1.6rem;font-weight:800;color:var(--navy);}
-  .stat-card .lab{color:var(--muted);font-size:.86rem;margin-top:2px;}
-
-  .pillars{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
-  @media (max-width:900px){.pillars{grid-template-columns:repeat(2,1fr);}}
-  @media (max-width:560px){.pillars{grid-template-columns:1fr;}}
-  .pillar{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px;box-shadow:var(--shadow);}
-  .pillar .ic{font-size:1.3rem;margin-bottom:6px;display:block;}
-  .pillar h3{margin:0 0 4px;font-size:1rem;}
-  .pillar p{margin:0;color:var(--muted);font-size:.87rem;line-height:1.5;}
-
-  /* ---------- PoS Model sub-blocks ---------- */
-  .submodel{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:24px 26px;box-shadow:var(--shadow);margin-bottom:20px;}
-  .submodel > h3.sub-h{font-size:1.25rem;margin-bottom:12px;}
-
-  .flow-steps{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:16px 0 4px;}
-  @media (max-width:820px){.flow-steps{grid-template-columns:repeat(2,1fr);}}
-  .flow-step{background:var(--blue-light);border-radius:10px;padding:14px 16px;font-size:.85rem;}
-  .flow-step b{display:block;color:var(--navy);margin-bottom:3px;font-size:.9rem;}
-
-  .align-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;}
-  .align-tag{background:var(--blue-light);color:var(--navy);border-radius:999px;padding:5px 12px;font-size:.8rem;font-weight:600;}
-
-  .metric-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px;}
-  @media (max-width:900px){.metric-grid{grid-template-columns:repeat(2,1fr);}}
-  @media (max-width:560px){.metric-grid{grid-template-columns:1fr;}}
-  .metric{background:var(--green-light);border-radius:10px;padding:14px 16px;text-align:center;}
-  .metric .num{font-size:1.45rem;font-weight:800;color:var(--green);}
-  .metric .lab{font-size:.78rem;color:#375943;margin-top:3px;line-height:1.35;}
-
-  .impact-list{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;}
-  @media (max-width:700px){.impact-list{grid-template-columns:1fr;}}
-  .impact-item{border-left:3px solid var(--gold);padding:4px 0 4px 14px;}
-  .impact-item b{display:block;font-size:.88rem;color:var(--navy);margin-bottom:2px;}
-  .impact-item span{font-size:.85rem;color:var(--muted);line-height:1.5;}
-
-  .toolkit-groups{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;}
-  @media (max-width:800px){.toolkit-groups{grid-template-columns:1fr;}}
-  .toolkit-group h4{margin:0 0 8px;font-size:.95rem;color:var(--navy);display:flex;align-items:center;gap:6px;}
-  .toolkit-group ul{margin:0;padding-left:0;list-style:none;}
-  .toolkit-group li{font-size:.86rem;padding:7px 0;border-bottom:1px solid var(--line);line-height:1.5;}
-  .toolkit-group li:last-child{border-bottom:none;}
-  .toolkit-group li a{font-weight:600;}
-
-  .roadmap-table{width:100%;border-collapse:collapse;font-size:.88rem;margin-top:6px;}
-  .roadmap-table th,.roadmap-table td{text-align:left;padding:10px;border-bottom:1px solid var(--line);vertical-align:top;}
-  .roadmap-table th{color:var(--muted);font-size:.78rem;text-transform:uppercase;letter-spacing:.02em;}
-
-  .practice-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;}
-  @media (max-width:700px){.practice-grid{grid-template-columns:1fr;}}
-  .practice-card{background:var(--gold-light);border-radius:10px;padding:14px 16px;font-size:.86rem;line-height:1.55;color:#5b4108;}
-  .practice-card b{display:block;color:#4a350a;margin-bottom:3px;}
-
-  .cl-pair{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--line);border-radius:10px;overflow:hidden;margin-bottom:10px;}
-  @media (max-width:700px){.cl-pair{grid-template-columns:1fr;}}
-  .cl-pair .challenge, .cl-pair .solution{padding:12px 14px;font-size:.85rem;line-height:1.5;}
-  .cl-pair .challenge{background:#fbeaea;color:#7a2222;border-right:1px solid var(--line);}
-  .cl-pair .solution{background:var(--green-light);color:#1f5537;}
-  .cl-pair small{display:block;text-transform:uppercase;font-size:.68rem;letter-spacing:.05em;font-weight:700;opacity:.75;margin-bottom:3px;}
-  @media (max-width:700px){.cl-pair .challenge{border-right:none;border-bottom:1px solid var(--line);}}
-
-  .lessons-list{display:flex;flex-direction:column;gap:10px;}
-  .lesson-row{display:flex;gap:12px;align-items:flex-start;background:#fff;border:1px solid var(--line);border-radius:10px;padding:12px 14px;}
-  .lesson-row .num-badge{flex:none;width:28px;height:28px;border-radius:8px;background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.85rem;}
-  .lesson-row div p{margin:0;font-size:.87rem;line-height:1.55;}
-  .lesson-row div b{font-size:.92rem;color:var(--navy);}
-
-  /* ---------- Browse toolbar ---------- */
-  .browse-toolbar{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:22px;}
-  #stateSearch{flex:1;min-width:220px;padding:11px 14px;border:1px solid var(--line);border-radius:10px;font-size:.95rem;background:#fff;}
-  #stateSearch:focus{outline:2px solid var(--blue);outline-offset:1px;}
-  .result-count{color:var(--muted);font-size:.85rem;white-space:nowrap;}
-
-  .partner-strip{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px;}
-  .partner-chip{background:#fff;border:1px solid var(--line);border-radius:999px;padding:6px 13px;font-size:.82rem;color:var(--navy);cursor:pointer;font-family:inherit;}
-  .partner-chip:hover{background:var(--blue-light);}
-
-  /* ---------- State / case-study cards ---------- */
-  .state-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
-  @media (max-width:900px){.state-grid{grid-template-columns:repeat(2,1fr);}}
-  @media (max-width:600px){.state-grid{grid-template-columns:1fr;}}
-
-  .state-card{
-    background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
-    padding:18px;box-shadow:var(--shadow);cursor:pointer;transition:transform .12s ease, box-shadow .12s ease;
-    text-align:left;display:flex;flex-direction:column;gap:10px;font-family:inherit;width:100%;
-  }
-  .state-card:hover{transform:translateY(-3px);box-shadow:0 4px 8px rgba(15,42,74,0.1), 0 14px 28px rgba(15,42,74,0.12);}
-  .state-card .top-row{display:flex;align-items:center;gap:12px;}
-  .state-abbr{
-    width:44px;height:44px;border-radius:10px;background:var(--blue-light);color:var(--navy);
-    display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.95rem;flex:none;
-  }
-  .state-card h3{margin:0;font-size:1.08rem;}
-  .state-card .meta{color:var(--muted);font-size:.85rem;}
-  .code-pill{
-    display:inline-block;background:var(--gold-light);color:#7a5310;border-radius:999px;
-    padding:3px 10px;font-size:.78rem;font-weight:700;letter-spacing:.02em;
-  }
-  .case-tag{display:inline-block;background:var(--green-light);color:var(--green);border-radius:999px;padding:3px 10px;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.03em;}
-  .state-card .stat-line{color:var(--muted);font-size:.85rem;}
-  .state-card .partner-line{color:var(--ink);font-size:.83rem;font-weight:600;}
-  .state-card .view-link{margin-top:auto;color:var(--blue);font-weight:600;font-size:.88rem;}
-
-  .no-results{color:var(--muted);padding:30px 0;text-align:center;}
-
-  /* ---------- Appendices ---------- */
-  .appendix-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;}
-  @media (max-width:800px){.appendix-grid{grid-template-columns:1fr;}}
-  .appendix-card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:20px 22px;box-shadow:var(--shadow);}
-  .appendix-card .letter{
-    display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:8px;
-    background:var(--navy);color:#fff;font-weight:800;font-size:.9rem;margin-bottom:10px;
-  }
-  .appendix-card h3{margin:0 0 8px;font-size:1.02rem;}
-  .appendix-card ul{margin:0;padding-left:0;list-style:none;}
-  .appendix-card li{font-size:.87rem;padding:7px 0;border-bottom:1px solid var(--line);line-height:1.5;}
-  .appendix-card li:last-child{border-bottom:none;}
-  .appendix-note{background:var(--gold-light);border:1px solid #ecd9ac;border-radius:10px;padding:14px 16px;font-size:.86rem;color:#6b4d10;line-height:1.55;margin-top:20px;}
-  .appendix-note b{display:block;margin-bottom:4px;color:#5b3f0c;}
-
-  /* ---------- Detail view ---------- */
-  #view-detail{display:none;}
-  .detail-header{
-    background:linear-gradient(135deg,var(--navy) 0%, var(--blue) 100%);
-    color:#fff;padding:36px 20px 40px;
-  }
-  .detail-header-inner{max-width:1180px;margin:0 auto;}
+  .hero h1{font-size:2.1rem;margin:0 0 12px;line-height:1.15;}
+  .hero p.lede{font-size:1.05rem;max-width:760px;color:#dbe6f5;line-height:1.6;margin:0;}
   .back-link{
     background:rgba(255,255,255,0.14);border:1px solid rgba(255,255,255,0.3);color:#fff;
-    border-radius:8px;padding:7px 14px;font-size:.88rem;cursor:pointer;font-family:inherit;
-    display:inline-flex;align-items:center;gap:6px;margin-bottom:18px;
+    border-radius:8px;padding:7px 14px;font-size:.88rem;display:inline-flex;align-items:center;gap:6px;margin-bottom:18px;
   }
-  .back-link:hover{background:rgba(255,255,255,0.24);}
-  .detail-title-row{display:flex;align-items:center;gap:16px;flex-wrap:wrap;}
-  .detail-abbr{
-    width:64px;height:64px;border-radius:14px;background:rgba(255,255,255,0.14);
-    display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.4rem;
-    border:1px solid rgba(255,255,255,0.3);
+  .back-link:hover{background:rgba(255,255,255,0.24);text-decoration:none;}
+
+  main{max-width:1180px;margin:0 auto;padding:48px 20px 80px;}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:28px 30px;box-shadow:var(--shadow);margin-bottom:20px;}
+  .card h2{margin:0 0 10px;font-size:1.25rem;display:flex;align-items:center;gap:8px;}
+  .card p{font-size:.94rem;line-height:1.65;color:var(--ink);margin:0 0 12px;}
+  .card p:last-child{margin-bottom:0;}
+  .placeholder-note{
+    background:var(--gold-light);border:1px solid #ecd9ac;border-radius:10px;padding:16px 18px;
+    font-size:.88rem;color:#6b4d10;line-height:1.6;
   }
-  .detail-header h1{margin:0 0 4px;font-size:2rem;}
-  .detail-header .agency{color:#dbe6f5;font-size:.95rem;}
+  .placeholder-note b{display:block;margin-bottom:4px;color:#5b3f0c;}
+  ul.plan{margin:0;padding-left:0;list-style:none;}
+  ul.plan li{padding:10px 0;border-bottom:1px solid var(--line);font-size:.9rem;line-height:1.55;}
+  ul.plan li:last-child{border-bottom:none;}
+  ul.plan li b{display:block;color:var(--navy);}
 
-  .detail-body{max-width:1180px;margin:0 auto;padding:36px 20px 80px;}
-  .replic-note{
-    background:rgba(201,138,31,0.12);border:1px solid rgba(201,138,31,0.35);border-radius:10px;
-    padding:12px 16px;font-size:.87rem;color:#6b4d10;margin-bottom:22px;line-height:1.55;
-  }
-  .replic-note a{font-weight:700;}
-  .detail-grid{display:grid;grid-template-columns:1.4fr 1fr;gap:24px;}
-  @media (max-width:900px){.detail-grid{grid-template-columns:1fr;}}
-
-  .card{
-    background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
-    padding:22px 24px;box-shadow:var(--shadow);margin-bottom:20px;
-  }
-  .card h2{font-size:1.15rem;margin:0 0 14px;display:flex;align-items:center;gap:8px;}
-  .card h2 .ic{font-size:1.2rem;}
-  .kv{display:grid;grid-template-columns:auto 1fr;gap:8px 16px;font-size:.92rem;}
-  .kv dt{color:var(--muted);white-space:nowrap;}
-  .kv dd{margin:0;font-weight:600;}
-  dl.kv{margin:0;}
-
-  table.simple{width:100%;border-collapse:collapse;font-size:.9rem;}
-  table.simple th, table.simple td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top;}
-  table.simple th{color:var(--muted);font-weight:600;font-size:.82rem;text-transform:uppercase;letter-spacing:.02em;}
-
-  ul.clean{margin:0;padding:0;list-style:none;}
-  ul.clean li{padding:10px 0;border-bottom:1px solid var(--line);font-size:.92rem;line-height:1.5;}
-  ul.clean li:last-child{border-bottom:none;}
-  ul.clean li b{display:block;color:var(--navy);}
-  ul.clean li span{color:var(--muted);}
-
-  .stat-row{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:6px;}
-  .mini-stat{background:var(--blue-light);border-radius:10px;padding:12px 16px;flex:1;min-width:150px;}
-  .mini-stat .num{font-size:1.3rem;font-weight:800;color:var(--navy);}
-  .mini-stat .lab{font-size:.78rem;color:var(--muted);margin-top:2px;}
-
-  .note-box{background:var(--gold-light);border:1px solid #ecd9ac;border-radius:10px;padding:14px 16px;font-size:.88rem;color:#6b4d10;line-height:1.55;}
-  .note-box b{display:block;margin-bottom:4px;color:#5b3f0c;}
-
-  .prevnext{display:flex;justify-content:space-between;margin-top:8px;gap:10px;flex-wrap:wrap;}
-  .prevnext button{
-    background:#fff;border:1px solid var(--line);border-radius:8px;padding:9px 14px;
-    font-family:inherit;font-size:.88rem;cursor:pointer;color:var(--navy);font-weight:600;
-  }
-  .prevnext button:hover{background:var(--blue-light);}
-
-  /* ---------- Footer ---------- */
   footer.site{background:var(--navy-dark);color:#c9d6e8;padding:26px 20px;text-align:center;font-size:.85rem;}
-  footer.site a{color:#dce8f8;}
   footer.site .sep{margin:0 8px;color:#5c7291;}
-
-  .sr-only{position:absolute;left:-9999px;}
 </style>
 </head>
 <body>
@@ -291,400 +77,54 @@
         <small>Programs of Study Model &amp; Partner Case Studies</small>
       </div>
     </div>
-    <nav class="links" id="mainNav">
-      <a href="#intro" data-nav="intro">Introduction</a>
-      <a href="#pos-model" data-nav="pos-model">PoS Model</a>
-      <a href="#case-studies" data-nav="case-studies">Case Studies</a>
-      <a href="#appendices" data-nav="appendices">Appendices</a>
+    <nav class="links">
+      <a href="index.html#intro">Introduction</a>
+      <a href="index.html#pos-model">PoS Model</a>
+      <a href="pos-tool.html" class="active">PoS Tool</a>
+      <a href="index.html#case-studies">Case Studies</a>
+      <a href="index.html#appendices">Appendices</a>
     </nav>
   </div>
 </header>
 
-<!-- ======================= HOME VIEW ======================= -->
-<div id="view-home">
-
-  <div class="hero">
-    <div class="hero-inner">
-      <div class="eyebrow">NCyTE Partner Network · NCAE-C Cybersecurity Education Innovation Grant</div>
-      <h1>Building Grades 7–12 Pathways Into Cybersecurity</h1>
-      <p class="lede">
-        A replicable Program of Study (PoS) model, the evidence behind it, and real implementations from ten
-        Midwest state partners — compiled from four years of framework development, articulation work, and
-        stakeholder engagement led by Moraine Valley Community College.
-      </p>
-      <div class="badges">
-        <span class="badge"><b>10</b> Partner States</span>
-        <span class="badge">Award <b>H98230-21-1-0152</b></span>
-        <span class="badge">Year 4 Final Report · <b>2026</b></span>
-        <span class="badge">PI: <b>Dr. John Sands</b></span>
-      </div>
-    </div>
-  </div>
-
-  <main>
-
-    <!-- ================= INTRODUCTION ================= -->
-    <section class="block" id="intro">
-      <div class="section-kicker">Introduction</div>
-      <div class="section-head"><span class="ic">🧭</span><h2>The Many Doors Into Cybersecurity</h2></div>
-      <p class="section-sub">
-        Cybersecurity is no longer a single elective bolted onto a computer lab — it's a career field students
-        can enter through several distinct doors, starting well before graduation and, increasingly, before
-        high school.
-      </p>
-      <p class="body-text">
-        For students in <b>grades 7 and 8</b>, that path usually starts informally: career-awareness activities,
-        interactive virtual environments, and low-barrier exploration tools that introduce cybersecurity roles
-        long before a student ever declares a CTE sequence. This grant's own resource library — 143+ interactive
-        EMATES activities, a 3D/2D Virtual Cybersecurity Career Exploration environment with 17 workforce avatars,
-        and challenge-based "Easter egg" activities — was built to work at that early-exposure stage precisely
-        because it requires no lab infrastructure and runs in any browser.
-      </p>
-      <p class="body-text">
-        By <b>grade 9</b>, most participating states have translated that early exposure into a formal, state-coded
-        Program of Study. Rather than a single mandated course, four broad pathways carry students from
-        introduction to workforce- or college-ready credential:
-      </p>
-      <div class="pillars">
-        <div class="pillar"><span class="ic">💻</span><h3>Computer Science Programs</h3><p>Cybersecurity concepts embedded in CS curricula — secure coding, algorithms, and foundational security.</p></div>
-        <div class="pillar"><span class="ic">🌐</span><h3>Information Technology Programs</h3><p>Network security, system administration, infrastructure protection, and operational security management.</p></div>
-        <div class="pillar"><span class="ic">📈</span><h3>Business Programs</h3><p>Cybersecurity governance, risk management, compliance, policy development, and business continuity.</p></div>
-        <div class="pillar"><span class="ic">🛡️</span><h3>Dedicated Cybersecurity Programs</h3><p>Comprehensive, cybersecurity-focused curricula spanning technical, managerial, and operational competencies.</p></div>
-      </div>
-      <p class="body-text" style="margin-top:16px;">
-        Layered on top of all four pathways are the mechanisms that shorten time-to-credential: dual credit and
-        concurrent enrollment with a local community college, articulation agreements that guarantee transfer
-        credit, and industry certifications (CompTIA Security+ and CySA+, Cisco CCST/CCNA, EC-Council) that give
-        students a workforce-recognized credential before they ever set foot on a college campus. The rest of this
-        site documents the model behind that structure, the evidence that it works, and ten state-level examples
-        of it in practice.
-      </p>
-      <div class="grid-3" style="margin-top:26px;">
-        <div class="stat-card"><div class="num">10</div><div class="lab">Midwest states with a documented K-12 pathway model</div></div>
-        <div class="stat-card"><div class="num">100+</div><div class="lab">CAE institutions engaged across the region</div></div>
-        <div class="stat-card"><div class="num">4</div><div class="lab">Educational pathways: CS, IT, Business, Dedicated Cyber</div></div>
-        <div class="stat-card"><div class="num">143+</div><div class="lab">Interactive EMATES learning activities produced</div></div>
-        <div class="stat-card"><div class="num">10</div><div class="lab">Concurrent-enrollment partner institutions, one per state</div></div>
-        <div class="stat-card"><div class="num">2021–2026</div><div class="lab">Grant performance period (Years 1–4)</div></div>
-      </div>
-    </section>
-
-    <!-- ================= PoS MODEL ================= -->
-    <section class="block" id="pos-model">
-      <div class="section-kicker">The Replicable Model</div>
-      <div class="section-head"><span class="ic">🧩</span><h2>Programs of Study (PoS) Model</h2></div>
-      <p class="section-sub">
-        The core deliverable of this initiative: a framework any state or district can use to define, code, and
-        report a high school cybersecurity pathway — without requiring every state to adopt the same course code.
-      </p>
-
-      <div class="submodel">
-        <h3 class="sub-h">📐 Model Description</h3>
-        <p class="body-text">
-          The <b>Formal Framework for High School Cybersecurity Pathways of Study</b> organizes cybersecurity
-          content into the four pathways introduced above, then asks each state to map its own course system onto
-          five common elements — a Primary Course Code, an Official Title, a Career Cluster, an Advanced/Capstone
-          Code, and a Program of Study designation — rather than adopting a single national code. Illinois's own
-          build-out of that mapping (Course 10011A001 / 10020A001, "Cybersecurity," under the Networking &amp;
-          Cybersecurity Pathway) served as the originating template that the project then helped nine additional
-          states replicate inside their own state course systems (ISBE, IDOE, KSDE, MDE, DPI, DESE, NDE, ODEW, and
-          Iowa's SCED-based system).
-        </p>
-        <div class="flow-steps">
-          <div class="flow-step"><b>1. Map</b>Inventory the state's existing course codes and career-cluster taxonomy for anything cybersecurity-adjacent.</div>
-          <div class="flow-step"><b>2. Code</b>Establish (or confirm) a standalone Cybersecurity course code and, where possible, an advanced/capstone code.</div>
-          <div class="flow-step"><b>3. Connect</b>Attach articulation and concurrent-enrollment agreements so the course carries college credit.</div>
-          <div class="flow-step"><b>4. Report</b>Route enrollment through the state's CTE reporting system so growth is visible to funders and policymakers.</div>
-        </div>
-        <p class="body-text" style="margin-top:14px;"><b>The framework is explicitly aligned with:</b></p>
-        <div class="align-tags">
-          <span class="align-tag">NCAE-C designation requirements &amp; knowledge units</span>
-          <span class="align-tag">NIST/NICE Cybersecurity Workforce Framework</span>
-          <span class="align-tag">State-specific CTE standards</span>
-          <span class="align-tag">Industry certifications (CompTIA, (ISC)², GIAC)</span>
-          <span class="align-tag">Academic transfer requirements</span>
-        </div>
-      </div>
-
-      <div class="submodel">
-        <h3 class="sub-h">📊 Supporting Evidence of Quality &amp; Impact</h3>
-        <p class="body-text">Quantitative reach after four years of implementation:</p>
-        <div class="metric-grid">
-          <div class="metric"><div class="num">10</div><div class="lab">State meetings held across the Midwest</div></div>
-          <div class="metric"><div class="num">100+</div><div class="lab">CAE institutions engaged</div></div>
-          <div class="metric"><div class="num">50,000+</div><div class="lab">Hits on top EMATES activities</div></div>
-          <div class="metric"><div class="num">10</div><div class="lab">State coordination structures established</div></div>
-        </div>
-        <p class="body-text">Hundreds of K-12 schools and districts were reached through state coordinators, and thousands of educators were exposed to project resources through meetings, conferences, and online dissemination. Qualitative impact, drawn directly from the Year 4 evaluation:</p>
-        <div class="impact-list">
-          <div class="impact-item"><b>Pathway Standardization</b><span>The first comprehensive model for standardizing high school cybersecurity pathways while preserving flexibility for state and institutional context — closing a gap the field had not previously addressed at scale.</span></div>
-          <div class="impact-item"><b>Quality Assurance</b><span>Alignment with NCAE-C competencies gives every adopting program a national quality benchmark, reducing variation in student experience across institutions.</span></div>
-          <div class="impact-item"><b>Accelerated Program Development</b><span>Documented frameworks, lesson plans, and partnership models cut the time and resources a new institution needs to launch or enhance a program.</span></div>
-          <div class="impact-item"><b>Faculty Preparation</b><span>Professional development and communities of practice measurably improved confidence among educators moving into cybersecurity instruction from other disciplines.</span></div>
-        </div>
-      </div>
-
-      <div class="submodel">
-        <h3 class="sub-h">🧰 Implementation Guide, Toolkit &amp; Resource List</h3>
-        <p class="body-text">Everything below was produced under the grant and is available to any institution replicating the model.</p>
-        <div class="toolkit-groups">
-          <div class="toolkit-group">
-            <h4>📁 Documentation &amp; Frameworks</h4>
-            <ul>
-              <li>Formal Framework for High School Cybersecurity Pathways of Study</li>
-              <li>Model Programs of Study documentation</li>
-              <li>State CAE K-12 Pathway Reports — all ten Midwest states</li>
-              <li>Articulation Agreement Directory &amp; Templates</li>
-              <li>Concurrent Enrollment Program Documentation &amp; Guidelines</li>
-              <li>Best Practices Guides for Partnership Development</li>
-            </ul>
-          </div>
-          <div class="toolkit-group">
-            <h4>🎓 Instructional &amp; Student Resources</h4>
-            <ul>
-              <li>Model Lesson Plan Framework (RING curriculum + NCAE-C competencies)</li>
-              <li>143+ interactive EMATES activities</li>
-              <li>3D &amp; 2D Virtual Cybersecurity Career Exploration environments</li>
-              <li>Cybersecurity Careers Workbook &amp; Career Counselor Handbook</li>
-              <li>Priority Occupations &amp; Promising Credentials Guide</li>
-            </ul>
-          </div>
-          <div class="toolkit-group">
-            <h4>👩‍🏫 Professional Development</h4>
-            <ul>
-              <li>Faculty development workshop curriculum (K-12 / community college / university tracks)</li>
-              <li>EPNC "Empowering the Future" presentation materials</li>
-              <li>State meeting agendas, recordings &amp; materials — <a href="https://www.caeepnc.org/caeregionalhubs/" target="_blank" rel="noopener">caeepnc.org/caeregionalhubs</a></li>
-              <li>Assessment &amp; evaluation instruments</li>
-            </ul>
-          </div>
-          <div class="toolkit-group">
-            <h4>🌐 Digital Infrastructure</h4>
-            <ul>
-              <li>EMATES repositories — <a href="https://myemates.org" target="_blank" rel="noopener">myemates.org</a>, .com, .net</li>
-              <li>EPNC resource hub — <a href="https://caeepnc.org" target="_blank" rel="noopener">caeepnc.org</a></li>
-              <li>Virtual Reality career environment — <a href="https://caeepnc.org/vr/" target="_blank" rel="noopener">caeepnc.org/vr</a></li>
-              <li>RING curriculum repository — <a href="https://caeepnc.org/ring/" target="_blank" rel="noopener">caeepnc.org/ring</a></li>
-            </ul>
-          </div>
-        </div>
-        <p class="body-text" style="margin-top:16px;"><b>Implementation roadmap by institutional level:</b></p>
-        <table class="roadmap-table">
-          <thead><tr><th>Level</th><th>Implementation Focus</th></tr></thead>
-          <tbody>
-            <tr><td><b>K-12 Programs</b></td><td>Integration of NCAE-C foundational competencies into existing CTE programs, development of standalone cybersecurity courses, alignment with state standards, teacher credentialing pathways.</td></tr>
-            <tr><td><b>Community Colleges</b></td><td>Program development/enhancement for NCAE-C designation, articulation agreement alignment, workforce credential integration, transfer pathway optimization.</td></tr>
-            <tr><td><b>Four-Year Institutions</b></td><td>Advanced competency integration, research and scholarship connections, graduate program development, K-12 and community college partnership leadership.</td></tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div class="submodel">
-        <h3 class="sub-h">💡 Best Practices &amp; Lessons Learned</h3>
-        <p class="body-text"><b>Best practices identified through four years of state coordination:</b></p>
-        <div class="practice-grid">
-          <div class="practice-card"><b>Communicate early and often</b>Strong, ongoing communication between high school and college faculty was the single strongest predictor of a durable concurrent-enrollment relationship.</div>
-          <div class="practice-card"><b>Set expectations explicitly</b>Clear articulation of course expectations and college-level rigor prevents credit disputes after a student transfers.</div>
-          <div class="practice-card"><b>Invest in instructors, not just courses</b>Ongoing professional development for concurrent-enrollment instructors sustains quality after the initial launch.</div>
-          <div class="practice-card"><b>Build advising into the pathway</b>Robust student advising and support systems kept persistence rates high across partner states.</div>
-        </div>
-
-        <p class="body-text" style="margin-top:18px;"><b>How real obstacles were solved:</b></p>
-        <div class="cl-pair"><div class="challenge"><small>Challenge</small>Limited number of certified cybersecurity instructors at the high school level</div><div class="solution"><small>Solution</small>Teacher credentialing pathways plus remote lab access through the EPNC Virtual Lab initiative</div></div>
-        <div class="cl-pair"><div class="challenge"><small>Challenge</small>Wide variation in state requirements for teaching cybersecurity courses</div><div class="solution"><small>Solution</small>A flexible framework emphasizing shared principles over prescriptive, one-size-fits-all requirements</div></div>
-        <div class="cl-pair"><div class="challenge"><small>Challenge</small>Equipment and laboratory infrastructure needs for hands-on instruction</div><div class="solution"><small>Solution</small>Cloud-based virtual labs and browser-based EMATES activities that need no on-site hardware</div></div>
-        <div class="cl-pair"><div class="challenge"><small>Challenge</small>Coordination complexity across many institutions and states</div><div class="solution"><small>Solution</small>Named state coordinators, a hybrid virtual/in-person meeting cadence, and a train-the-trainer capacity model</div></div>
-
-        <p class="body-text" style="margin-top:18px;"><b>Five lessons the project team would tell any state starting this work:</b></p>
-        <div class="lessons-list">
-          <div class="lesson-row"><span class="num-badge">1</span><div><b>Coordination beats broadcast.</b><p>A named state coordinator who understands local approval processes, stakeholders, and politics outperforms any amount of centrally-produced guidance.</p></div></div>
-          <div class="lesson-row"><span class="num-badge">2</span><div><b>Face-to-face still matters.</b><p>In-person state meetings built relationship foundations that purely virtual engagement could not replicate, even though virtual options remained essential for reach.</p></div></div>
-          <div class="lesson-row"><span class="num-badge">3</span><div><b>Flexibility is not optional.</b><p>A one-size-fits-all course code or requirement does not survive contact with ten different state CTE systems — the framework has to guide, not dictate.</p></div></div>
-          <div class="lesson-row"><span class="num-badge">4</span><div><b>Turnkey resources move faster than guidance documents.</b><p>Institutions adopted ready-to-use lesson plans and templates far faster than they acted on advisory documentation alone.</p></div></div>
-          <div class="lesson-row"><span class="num-badge">5</span><div><b>Communities outlast champions.</b><p>Distributing leadership across a network of peers, rather than relying on one person per state, is what keeps a pathway alive when a champion changes roles.</p></div></div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ================= CASE STUDIES ================= -->
-    <section class="block" id="case-studies">
-      <div class="section-kicker">The Model In Practice</div>
-      <div class="section-head"><span class="ic">🗺️</span><h2>Case Studies: Pathway Models From NCyTE Partner Institutions</h2></div>
-      <p class="section-sub">
-        The framework above isn't theoretical — it was implemented, adapted, and locally owned by a lead partner
-        institution in each of ten Midwest states. Select a state to see how it mapped the four-pathway model onto
-        its own course codes, districts, and career centers.
-      </p>
-
-      <div class="browse-toolbar">
-        <input type="text" id="stateSearch" placeholder="Search states, course codes, or districts…" aria-label="Search states">
-        <span class="result-count" id="resultCount"></span>
-      </div>
-
-      <div class="state-grid" id="stateGrid"></div>
-      <div class="no-results" id="noResults" style="display:none;">No states match your search.</div>
-    </section>
-
-    <!-- ================= APPENDICES ================= -->
-    <section class="block" id="appendices">
-      <div class="section-kicker">Reference Materials</div>
-      <div class="section-head"><span class="ic">📎</span><h2>Appendices: Sample Agreements &amp; Replication Tools</h2></div>
-      <p class="section-sub">
-        The categories below are the resource directory cataloged in the Year 4 Final Report — the templates,
-        agreements, and repositories a new state or institution needs to replicate the model. Items link to their
-        live repository where the grant team publishes them; agreement templates themselves are maintained by the
-        project team and partner institutions rather than reproduced here.
-      </p>
-      <div class="appendix-grid">
-        <div class="appendix-card">
-          <span class="letter">A</span>
-          <h3>State Meeting Documentation</h3>
-          <ul>
-            <li>Complete agendas, participant lists, and recordings — <a href="https://www.caeepnc.org/caeregionalhubs/" target="_blank" rel="noopener">caeepnc.org/caeregionalhubs</a></li>
-          </ul>
-        </div>
-        <div class="appendix-card">
-          <span class="letter">B</span>
-          <h3>Framework Documents</h3>
-          <ul>
-            <li>Formal Framework for High School Cybersecurity Pathways of Study</li>
-            <li>Model Programs of Study Documentation</li>
-            <li>Implementation Roadmaps for K-12, Community Colleges, and Universities</li>
-          </ul>
-        </div>
-        <div class="appendix-card">
-          <span class="letter">C</span>
-          <h3>Lesson Plan Resources</h3>
-          <ul>
-            <li>Model Lesson Plan Framework</li>
-            <li>RING Curriculum Integration Guides</li>
-            <li>Competency Mapping Tools</li>
-          </ul>
-        </div>
-        <div class="appendix-card">
-          <span class="letter">D</span>
-          <h3>Partnership Documentation</h3>
-          <ul>
-            <li>Articulation Agreement Templates</li>
-            <li>Concurrent Enrollment Program Guidelines</li>
-            <li>Best Practices for Partnership Development</li>
-          </ul>
-        </div>
-        <div class="appendix-card">
-          <span class="letter">E</span>
-          <h3>Student &amp; Career Resources</h3>
-          <ul>
-            <li>Cybersecurity Careers Workbook</li>
-            <li>Career Counselor Handbook</li>
-            <li>Priority Occupations &amp; Promising Credentials Guide</li>
-          </ul>
-        </div>
-        <div class="appendix-card">
-          <span class="letter">F</span>
-          <h3>Digital Resource Repositories</h3>
-          <ul>
-            <li>EMATES Activities — <a href="https://myemates.org" target="_blank" rel="noopener">myemates.org</a> / .com / .net</li>
-            <li>Virtual Career Exploration — <a href="https://caeepnc.org/vr/" target="_blank" rel="noopener">caeepnc.org/vr</a></li>
-            <li>RING Curriculum — <a href="https://caeepnc.org/ring/" target="_blank" rel="noopener">caeepnc.org/ring</a></li>
-            <li>EPNC Resources — <a href="https://caeepnc.org" target="_blank" rel="noopener">caeepnc.org</a></li>
-          </ul>
-        </div>
-        <div class="appendix-card">
-          <span class="letter">G</span>
-          <h3>Evaluation Instruments</h3>
-          <ul>
-            <li>Program Assessment Tools</li>
-            <li>Faculty Development Evaluation Forms</li>
-            <li>Student Engagement Metrics</li>
-            <li>Partnership Effectiveness Measures</li>
-          </ul>
-        </div>
-      </div>
-      <div class="appendix-note">
-        <b>Requesting a template or sample agreement</b>
-        Signed articulation and concurrent-enrollment agreements are institution-specific and are maintained by
-        each state's lead partner (see each state's Case Study for its named coordinator). Contact Dr. John Sands
-        (sands@morainevalley.edu), Moraine Valley Community College, to request a specific template for adaptation.
-      </div>
-    </section>
-
-  </main>
-</div>
-
-<!-- ======================= DETAIL VIEW ======================= -->
-<div id="view-detail">
-  <div class="detail-header">
-    <div class="detail-header-inner">
-      <button class="back-link" id="backBtn">← Back to all case studies</button>
-      <div class="detail-title-row">
-        <div class="detail-abbr" id="dAbbr"></div>
-        <div>
-          <h1 id="dName"></h1>
-          <div class="agency" id="dAgency"></div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="detail-body">
-    <div class="replic-note">
-      📎 This case study is one implementation of the <a href="#pos-model">replicable PoS Model</a> — the same
-      four-pathway framework, mapped onto this state's own course codes and delivery network.
-    </div>
-    <div class="detail-grid">
-      <div>
-        <div class="card">
-          <h2><span class="ic">📋</span>Course Identification</h2>
-          <dl class="kv" id="dCourseKv"></dl>
-        </div>
-
-        <div class="card">
-          <h2><span class="ic">🏫</span>Primary Districts &amp; Career Centers</h2>
-          <ul class="clean" id="dDistricts"></ul>
-        </div>
-
-        <div class="card" id="dRegionCard" style="display:none;">
-          <h2><span class="ic">📍</span>Regional Breakdown</h2>
-          <table class="simple" id="dRegionTable"><thead><tr id="dRegionHead"></tr></thead><tbody></tbody></table>
-        </div>
-
-        <div class="card">
-          <h2><span class="ic">📝</span>Program Notes</h2>
-          <p class="body-text" id="dNotesText"></p>
-        </div>
-      </div>
-
-      <div>
-        <div class="card">
-          <h2><span class="ic">📊</span>Enrollment &amp; Reporting</h2>
-          <div class="stat-row" id="dStatRow"></div>
-          <p class="body-text" id="dEnrollText"></p>
-        </div>
-
-        <div class="card">
-          <h2><span class="ic">🤝</span>NCyTE Partner Institution</h2>
-          <dl class="kv">
-            <dt>Institution</dt><dd id="dPartnerInst"></dd>
-            <dt>Coordinator(s)</dt><dd id="dPartnerCoord"></dd>
-          </dl>
-          <div style="height:10px;"></div>
-          <ul class="clean" id="dFocusList"></ul>
-        </div>
-
-        <div class="note-box">
-          <b>Data source</b>
-          Compiled from Year 4 Final Report, NCAE-C Cybersecurity Education Innovation grant (Award H98230-21-1-0152),
-          Moraine Valley Community College, submitted February 2026.
-        </div>
-      </div>
-    </div>
-
-    <div class="prevnext">
-      <button id="prevStateBtn">← Previous state</button>
-      <button id="nextStateBtn">Next state →</button>
-    </div>
+<div class="hero">
+  <div class="hero-inner">
+    <a class="back-link" href="index.html#pos-model">← Back to PoS Model</a>
+    <div class="eyebrow">Interactive Companion</div>
+    <h1>Programs of Study Tool</h1>
+    <p class="lede">
+      A working space for mapping a state or district's own course codes onto the four-pathway PoS Model —
+      Computer Science, Information Technology, Business, and Dedicated Cybersecurity.
+    </p>
   </div>
 </div>
+
+<main>
+  <div class="card">
+    <h2>🚧 This page is a placeholder</h2>
+    <p>
+      This is a stub for <code>pos-tool.html</code>, linked from the main site's "PoS Tool" nav item. It's ready
+      for the actual interactive tool — for example, a form or wizard that walks a state coordinator through
+      mapping their local course codes, career cluster, and program of study onto the replicable framework
+      described on the <a href="index.html#pos-model">PoS Model</a> page.
+    </p>
+    <p>
+      Tell me what the tool should do and I'll build it out here — a few directions that would fit naturally
+      with the rest of the site:
+    </p>
+    <ul class="plan">
+      <li><b>Course-code mapper</b>A short form (course code, title, career cluster, program of study) that generates a shareable summary card in the same style as the state Case Studies.</li>
+      <li><b>Pathway self-assessment</b>A checklist that scores a school's current offerings against the four pathways and flags gaps.</li>
+      <li><b>Articulation agreement builder</b>A guided template that produces a draft articulation or concurrent-enrollment agreement using the Appendix D resources.</li>
+      <li><b>Implementation roadmap generator</b>An interactive version of the K-12 / community college / university roadmap table, tailored by institution type.</li>
+    </ul>
+  </div>
+  <div class="placeholder-note">
+    <b>Next step</b>
+    Let me know which of the above (or something else) you'd like this page to do, and whether it should read
+    from the same state dataset used on the Case Studies page.
+  </div>
+</main>
 
 <footer class="site">
   K-12 Cybersecurity Pathways Directory <span class="sep">·</span> Moraine Valley Community College
@@ -692,337 +132,5 @@
   <span class="sep">·</span> Dr. John Sands <span class="sep">·</span> 2026
 </footer>
 
-<script>
-/* =========================================================
-   DATA — compiled from Year 4 Final Report (NCAE-C grant)
-   ========================================================= */
-const STATES = [
-  {
-    code:"IL", name:"Illinois", agency:"Illinois State Board of Education (ISBE)",
-    course:{primary:"10011A001 / 10020A001", title:"Cybersecurity", advanced:"10108A000 (Computer Systems Security)", cluster:"Information Technology", pos:"Networking & Cybersecurity Pathway"},
-    stats:[{num:"~142",lab:"Schools reporting"},{num:"SY 2025–26",lab:"Latest reporting cycle"}],
-    enrollText:"Based on the most recent ISBE Student Information System (SIS) data and CTE Enrollment reports, adoption of Illinois's dedicated Cybersecurity course code is growing as districts align with the state's computer science requirements. The course is a Group 3 (upper-level) IT course that introduces cybersecurity concepts and cyber-risk assessment, and may cover legal and ethical issues. ISBE also recognizes related advanced IT courses — Computer Networking I/II, Computer Maintenance I/II, Computer Forensics, Database Management & Data Warehousing, and Artificial Intelligence — within the same IT CTE matrix.",
-    districts:[
-      {name:"Chicago Public Schools (CPS) – citywide", detail:"Runway 606 dual-enrollment cybersecurity pathway, a collaboration between CPS, City Colleges of Chicago, and Illinois Institute of Technology; open to juniors/seniors meeting eligibility criteria districtwide."},
-      {name:"J. Sterling Morton High School District 201 (Cicero/Berwyn)", detail:"Cybersecurity course within the IT program covering cyber law & policy, Linux, networking, cryptography, and risk assessment, aligned to CompTIA Security+."},
-      {name:"LIFT Central Illinois (Mattoon & partner districts)", detail:"Regional CTE center IT pathway emphasizing networking, cybersecurity, and CompTIA Security+ certification for juniors/seniors from multiple partner districts."},
-      {name:"CPS Early College STE(A)M high schools", detail:"Site of the original cybersecurity pilot (85 students) that gave rise to Runway 606."}
-    ],
-    region:{headers:["Region","Leading Career Centers / Districts"], rows:[
-      ["Northern IL","Technology Center of DuPage (TCD), Lake County High Schools Technology Campus, Chicago Public Schools (CPS)"],
-      ["Central IL","Capital Area Career Center (CACC), Bloomington Area Career Center"],
-      ["Southern IL","Collinsville Area Vocational Center, Southern Illinois Career Preparation Center"]
-    ]},
-    notes:"Illinois, like many states, does not publish a statewide, school-by-school listing of CTE cybersecurity pathways — available documents define the course code and IT CTE framework but not which individual high schools implement it. Some districts offer cybersecurity content that isn't labeled a formal \"pathway\" online, so it won't appear in a web-based scan. A number of schools now partner with NCAE-C institutions to offer prerequisite math, CS, or IT classes that let students accelerate through the college program via dual credit.",
-    partnerInst:"Rock Valley College", partnerCoord:"Stephanie Wascher",
-    focus:["Coordination of Midwest Hub articulation and dual-credit initiatives","Strong business and industry partnership development"]
-  },
-  {
-    code:"IN", name:"Indiana", agency:"Indiana Department of Education (IDOE)",
-    course:{primary:"5245 / 7243", title:"Networking II: Cybersecurity Capstone", advanced:"NETII", cluster:"Information Technology", pos:"Networking Support & Cybersecurity Pathway"},
-    stats:[{num:"525–535",lab:"Public high schools statewide"},{num:"200+",lab:"Programs offering the capstone (historical)"},{num:"88–91%",lab:"Schools offering a foundational CS course"}],
-    enrollText:"Indiana does not publish a public, centralized list of high schools offering CTE cybersecurity pathways. The former \"Networking II: Cybersecurity\" course has largely transitioned under the Next Level Programs of Study (NLPS) framework. While foundational computer science access is nearly universal, advanced capstone courses like 5245 are typically concentrated in specialized Area Career Centers (45–50 statewide, serving 300+ sending high schools) or large comprehensive high schools running in-house labs. Indiana Online offers the course virtually to bridge teacher shortages in rural areas.",
-    districts:[
-      {name:"Southern Indiana Career & Technical Center (SICTC)", detail:"Evansville area"},
-      {name:"Greater Lafayette Career Academy (GLCA)", detail:"Lafayette area"},
-      {name:"J. Everett Light Career Center", detail:"Indianapolis area"},
-      {name:"Walker Career Center", detail:"Indianapolis area"},
-      {name:"Carmel High School", detail:"Hamilton County — in-house cybersecurity lab"},
-      {name:"A.K. Smith Career Center", detail:"Northwest Indiana"},
-      {name:"Elkhart Area Career Center", detail:"South Bend area"},
-      {name:"Anthis Career Center", detail:"Fort Wayne area"},
-      {name:"Vigo County School Corp.", detail:"Terre Haute area"}
-    ],
-    region:null,
-    notes:"Because the Indiana Department of Education doesn't publish a live, single list of schools currently offering course 5245/7243, the project team identified primary concentrations through Area Career Centers, large comprehensive high schools with in-house IT pathways (e.g., Carmel, Hamilton Southeastern, Ben Davis), and Indiana Online virtual offerings for smaller rural schools without on-site instructors.",
-    partnerInst:"Ivy Tech Community College", partnerCoord:"Jiri Jirik and Pam Schmelz",
-    focus:["Statewide community college network engagement","Focus on workforce-aligned credentials"]
-  },
-  {
-    code:"IA", name:"Iowa", agency:"Iowa Department of Education",
-    course:{primary:"10020 / 10016", title:"Cybersecurity", advanced:"—", cluster:"Information Technology", pos:"Computer Science & CTE Pathway (SCED framework)"},
-    stats:[{num:"42,896",lab:"Students in joint enrollment, Fall 2025 (+5% YoY)"},{num:"2",lab:"State course codes used for cybersecurity"}],
-    enrollText:"Iowa tracks cybersecurity under two codes within the Secondary School Course Classification System (SCED). Districts using these codes increasingly report Industry-Recognized Credentials (CompTIA Security+, CySA+) added to the 2025–26 Approved IRC List. Under the state's \"Offer and Teach\" mandate, every Iowa high school must offer at least one computer science course; cybersecurity codes (10020/10016) are frequently used to satisfy the \"Advanced\" tier of that requirement. Final school-by-school enrollment for the current cycle is reported through the Winter SRI/SCTERA collection (due Jan 29, 2026).",
-    districts:[
-      {name:"Des Moines Independent Community School District", detail:"Central Campus / Central Academy"},
-      {name:"Cedar Rapids Community School District", detail:"Often via Metro High School or regional partnerships"},
-      {name:"Waukee Community School District", detail:"Waukee APEX program"},
-      {name:"Burlington Community School District", detail:"Dedicated \"Computer Technology\" pathway including cybersecurity"},
-      {name:"Regional Planning Partnerships (RPP)", detail:"Smaller districts access courses via Community College Joint Enrollment (e.g., DMACC's Cyber Hub, Kirkwood Regional Centers)"}
-    ],
-    region:null,
-    notes:"SCTERA (Secondary Career and Technical Reporting Application) and SRI (Student Reporting in Iowa) are the two state data collections used to track these course codes; the project placed particular emphasis on rural school cybersecurity access.",
-    partnerInst:"Iowa State University", partnerCoord:"Doug Jacobson and Ally Frickel",
-    focus:["Strong emphasis on rural school cybersecurity access","Integration with Iowa CTE frameworks"]
-  },
-  {
-    code:"KS", name:"Kansas", agency:"Kansas State Department of Education (KSDE)",
-    course:{primary:"10020", title:"Cybersecurity I", advanced:"10900 (Cybersecurity II)", cluster:"Information Technology", pos:"Networking & Telecommunications Pathway (CIP 11.0901)"},
-    stats:[{num:"~84",lab:"Schools/area centers reporting Course 10020"}],
-    enrollText:"Under 2025–2026 guidelines, Kansas structures cybersecurity as a three-tier \"Strand\": an Introductory Level (Computer Applications 10004 or Foundations of IT 10001), a Technical Level (Cybersecurity I 10020 and Network Systems I 10112), and an Application Level (Cybersecurity II 10900 or Network Systems II 10147). School-level data is tracked via the Kansas Course Code Management System (KCCMS) and the Kansas Education Data System (KEDS).",
-    districts:[
-      {name:"Olathe Public Schools (USD 233)", detail:"Dedicated Cybersecurity Academy at Olathe West High School"},
-      {name:"Blue Valley Schools (USD 229)", detail:"Integrated into the Center for Advanced Professional Studies (CAPS)"},
-      {name:"Wichita Public Schools (USD 259)", detail:"Offered through multiple high schools and a WSU Tech (Wichita Area Technical College) partnership"},
-      {name:"Shawnee Mission (USD 512)", detail:"Provided via Signature Programs at the Broadmoor Center"},
-      {name:"Kansas City (USD 500)", detail:"Offered at KCKPS Diploma+ centers"}
-    ],
-    region:null,
-    notes:"Cybersecurity in Kansas is treated as a course sequence within a designated technical pathway rather than a single class, with clear progression from introductory IT courses through the Cybersecurity I/II capstone sequence.",
-    partnerInst:"Johnson County Community College", partnerCoord:"Andrew Lutz",
-    focus:["Regional business partnership models","Workforce demand alignment emphasis"]
-  },
-  {
-    code:"MI", name:"Michigan", agency:"Michigan Department of Education (MDE) / Office of Career & Technical Education (OCTE)",
-    course:{primary:"CIP 11.1003", title:"Computer & Information Systems Security / Information Assurance", advanced:"—", cluster:"Information Technology", pos:"Network Systems & Cybersecurity Pathway"},
-    stats:[{num:"84",lab:"State-approved programs (PSNs) reporting CIP 11.1003"},{num:"~6,948",lab:"Students enrolled across the broader IT cluster"}],
-    enrollText:"Michigan categorizes CTE offerings through the Classification of Instructional Programs (CIP) system. Based on 2024–25 data from the Michigan Education Data Center (MEDC) and the CTEIS portal, cybersecurity shows the highest growth rate within the broader Information Technology cluster. The program is designed to lead to industry-recognized credentials such as CompTIA Security+, Cisco CCST Cybersecurity, and various EC-Council certifications. Cybersecurity is predominantly delivered through Intermediate School Districts (ISDs) and Regional Career Technical Centers serving multiple local districts.",
-    districts:[
-      {name:"Oakland Schools", detail:"Oakland Schools Technical Campuses (OSTC) — Northeast, Northwest, and Southeast"},
-      {name:"Washtenaw ISD", detail:"Ann Arbor (Skyline/Huron), Chelsea, and Ypsilanti Districts"},
-      {name:"Wayne RESA", detail:"Downriver Career Technical Consortium (DCTC) / Henry Ford College M-Tech"},
-      {name:"Kent ISD", detail:"Kent Career Technical Center (KCTC)"},
-      {name:"Macomb ISD", detail:"Chippewa Valley High School (Cybersecurity Pathway)"},
-      {name:"Traverse Bay Area", detail:"Northwest Education Services (Northwest Ed) Career Tech"}
-    ],
-    region:{headers:["Region / ISD","Specific Center or High School"], rows:[
-      ["Oakland Schools","Oakland Schools Technical Campuses (OSTC) — Northeast, Northwest, Southeast"],
-      ["Washtenaw ISD","Ann Arbor (Skyline/Huron), Chelsea, and Ypsilanti Districts"],
-      ["Wayne RESA","Downriver Career Technical Consortium (DCTC) / Henry Ford College M-Tech"],
-      ["Kent ISD","Kent Career Technical Center (KCTC)"],
-      ["Macomb ISD","Chippewa Valley High School (Cybersecurity Pathway)"],
-      ["Traverse Bay Area","Northwest Education Services (Northwest Ed) Career Tech"]
-    ]},
-    notes:"Michigan's ISD/regional-center delivery model means cybersecurity access is often organized geographically rather than district-by-district, with Intermediate School Districts serving as the coordinating hub for member high schools.",
-    partnerInst:"Henry Ford College", partnerCoord:"Marrci Conner",
-    focus:["Strong K-12 partnership models","Integration with Michigan CTE frameworks"]
-  },
-  {
-    code:"MN", name:"Minnesota", agency:"Minnesota Department of Education (MDE)",
-    course:{primary:"10020 Cybersecurity / 10015 Network Systems", title:"Cybersecurity", advanced:"—", cluster:"Digital Technology", pos:"Network Systems & Cybersecurity Pathway"},
-    stats:[{num:"~42",lab:"High schools reporting enrollment"},{num:"6",lab:"Regional CTE centers reporting"},{num:"+18%",lab:"Year-over-year enrollment growth"}],
-    enrollText:"Minnesota uses the Minnesota Common Course Catalogue (MCCC), which aligns with the NCES SCED framework but allows local variation. Enrollment in specific cybersecurity codes has increased 18% year-over-year as districts move from a general \"Computer Science\" (10011) code to the specialized \"Cybersecurity\" (10020) code to meet Perkins V funding requirements. Minnesota is currently modernizing its CTE framework: as of late 2024/2025 the state is moving toward a \"Digital Technology\" Career Cluster that treats cybersecurity as a cross-cutting skill applicable across industries such as healthcare and manufacturing.",
-    districts:[
-      {name:"Intermediate District 917 (Rosemount)", detail:"Career & Tech Center"},
-      {name:"North Hennepin Career & Tech Center", detail:"Career & Tech Center"},
-      {name:"Wright Technical Center", detail:"Career & Tech Center"},
-      {name:"Minneapolis Public Schools", detail:"Major school district"},
-      {name:"Saint Paul Public Schools", detail:"Major school district"},
-      {name:"Rosemount-Apple Valley-Eagan (ISD 196)", detail:"Major school district"},
-      {name:"Anoka-Hennepin (ISD 11)", detail:"Major school district"},
-      {name:"Dakota County Technical College (DCTC) / Hennepin Technical College", detail:"Post-secondary partners via PSEO / Concurrent Enrollment"}
-    ],
-    region:null,
-    notes:"Minnesota's transition toward a Digital Technology Career Cluster is a state-level modernization effort that will likely change how cybersecurity enrollment is coded and reported in coming years.",
-    partnerInst:"Metropolitan State University", partnerCoord:"Faisal Kaleem",
-    focus:["Integration with state career pathway systems","Focus on diverse student population access"]
-  },
-  {
-    code:"MO", name:"Missouri", agency:"Missouri Department of Elementary & Secondary Education (DESE)",
-    course:{primary:"034402", title:"Cybersecurity", advanced:"— (Abbreviation: \"Cyber\")", cluster:"Information Technology", pos:"Network Systems & Cyber Security Pathway"},
-    stats:[{num:"17%",lab:"CTE students via Area Career Centers"},{num:"83%",lab:"CTE students via Comprehensive High Schools"},{num:"310,087",lab:"Total secondary CTE enrollment, latest year"}],
-    enrollText:"Under House Bill 1576 (effective for school years starting after July 1, 2023), Missouri's cybersecurity course can be counted toward graduation requirements as equivalent to one science unit or one practical arts credit. Based on MOSIS/Core Data and CTE enrollment reports (FY2024–25), cybersecurity education is expanding rapidly as HB 1576 requires all public high schools to offer at least one computer science course. Code 034402 is predominantly offered through Area Career Centers (ACCs) and large comprehensive school districts; exact per-school enrollment is often bundled under the broader \"Information Technology\" cluster in public reports.",
-    districts:[
-      {name:"Cape Girardeau Career & Technology Center", detail:"Dedicated two-year sequence: Networking & Security I & II"},
-      {name:"Springfield R-XII (SPS)", detail:"Leading district in computer science / cybersecurity proficiency"},
-      {name:"Northwest Missouri State University (Dual Credit)", detail:"High secondary enrollment through their \"Early College\" cybersecurity track"},
-      {name:"State Technical College of Missouri", detail:"Partners with secondary schools for the \"Network Systems\" program of study"}
-    ],
-    region:null,
-    notes:"Missouri's HB 1576 mandate is a significant driver of growth, since it both requires computer science access and creates a graduation-credit incentive for districts to formalize cybersecurity coursework.",
-    partnerInst:"Southeast Missouri State University", partnerCoord:"Mario Garcia",
-    focus:["Cross-border collaboration with neighboring states","Rural education innovation focus"]
-  },
-  {
-    code:"NE", name:"Nebraska", agency:"Nebraska Department of Education (NDE)",
-    course:{primary:"270707", title:"Cybersecurity", advanced:"Level 3 (Concentrator) / Level 4 (Capstone)", cluster:"Communication & Information Systems", pos:"Computer Science"},
-    stats:[{num:"~34",lab:"High schools reporting Code 270707"},{num:"+25%",lab:"Year-over-year growth"}],
-    enrollText:"Nebraska is in a significant transition period driven by the Computer Science and Technology Education Act (2024), which mandates computer science credits for graduation by the 2026–2027 school year. Cybersecurity is typically a Level 3 (Concentrator) or Level 4 (Capstone) course following foundational courses like Foundations of Computing (270704) or Computer Science Principles (270703). Nebraska reports through the ADVISER system, releasing granular course-level enrollment via annual CTE Course Offering audits rather than a public real-time dashboard.",
-    districts:[
-      {name:"Omaha Public Schools", detail:"Integrated within multiple high school IT academies"},
-      {name:"Lincoln Public Schools", detail:"Offered at The Career Academy (TCA), in partnership with Southeast Community College"},
-      {name:"Millard Public Schools", detail:"Part of specialized Early College / Career programs"},
-      {name:"Metropolitan Community College (Omaha)", detail:"Extensive dual-enrollment offerings for area high schools"},
-      {name:"Grand Island Public Schools", detail:"Offered through the Career Pathways Institute (CPI)"},
-      {name:"Papillion La Vista Community Schools", detail:"Active Information Technology programs of study"}
-    ],
-    region:null,
-    notes:"The 25% year-over-year growth in schools reporting Code 270707 tracks closely with the new state graduation mandate phasing in through 2026–27.",
-    partnerInst:"Bellevue University", partnerCoord:"Doug Rausch",
-    focus:["Rural and underserved population focus","Adult learner pathway development"]
-  },
-  {
-    code:"OH", name:"Ohio", agency:"Ohio Department of Education and Workforce (ODEW)",
-    course:{primary:"146005 (CTE Career Field) / 290200 (Non-CTE HS Credit)", title:"Cybersecurity", advanced:"Cybersecurity Defense & Reinforcement (146010); Cybersecurity Testing & Response (146015)", cluster:"Information Technology", pos:"Information Services & Support"},
-    stats:[{num:"185–210",lab:"Secondary buildings reporting Code 146005"},{num:"141,000+",lab:"FY2025 CTE headcount"},{num:"91,000+",lab:"Students in Workforce Development pathways"},{num:"+10%",lab:"Growth in IT-related CTE pathways since 2021"}],
-    enrollText:"In the Ohio EMIS system, cybersecurity sits within the Information Technology career field, split between a standard CTE Workforce Development pathway and a Computer Science Promise pathway. Code 146005 is the primary weighted-funding code for Career Centers and comprehensive high schools; advanced specialized courses (146010, 146015) build on it. The FY2026 enrollment cycle is currently in its Midyear Student Collection phase; cybersecurity remains the fastest-growing sub-sector within the IT cluster.",
-    districts:[
-      {name:"Greene County Career Center", detail:"Leader in the \"Ohio Cyber Range\" initiative, offering full cybersecurity pathways"},
-      {name:"Butler Tech (Butler County JVS)", detail:"One of the state's largest CTE providers, with dedicated cybersecurity labs"},
-      {name:"Columbus City Schools", detail:"Extensive IT pathways within internal career centers (e.g., Fort Hayes)"},
-      {name:"Great Oaks Career Campuses", detail:"Serving Southwest Ohio across multiple campuses"},
-      {name:"Eastland-Fairfield Career & Technical Schools", detail:"Significant enrollment reporting for Central Ohio"}
-    ],
-    region:null,
-    notes:"Ohio's expansion has accelerated due to state-level grants, with Career-Technical Planning Districts (CTPDs) organizing delivery around a small number of large \"hub\" providers.",
-    partnerInst:"Sinclair College", partnerCoord:"Kyle Jones and Eric Renegar",
-    focus:["National Virtual Labs dissemination leadership","Multi-hub collaboration and outreach"]
-  },
-  {
-    code:"WI", name:"Wisconsin", agency:"Wisconsin Department of Public Instruction (DPI)",
-    course:{primary:"10020 (Cybersecurity) / 10020E (Advanced)", title:"Cybersecurity", advanced:"10020E", cluster:"Information Technology", pos:"Network Systems / Information System Support & Services"},
-    stats:[{num:"140–160",lab:"Public high schools reporting enrollment"}],
-    enrollText:"Wisconsin uses the School Courses for the Exchange of Data (SCED) system for state roster codes. Based on certified WISEdata and WISEdash Roster reports (2023–24 snapshot, as data typically lags a year), while hundreds of districts offer computer science broadly, the specific \"Cybersecurity\" code (10020) is concentrated in districts with robust CTE and STEM programs. Some districts still code cybersecurity content under 10099 (Information Technology—Other) or as a section of 10152 (Computer Science Principles), though DPI encourages the specific 10020 code for Perkins V reporting accuracy.",
-    districts:[
-      {name:"Milwaukee Public Schools", detail:"Southeast region"},
-      {name:"Madison Metropolitan School District", detail:"South Central region"},
-      {name:"Green Bay Area Public Schools", detail:"Northeast region"},
-      {name:"Waukesha School District", detail:"Southeast region"},
-      {name:"Appleton Area School District", detail:"Fox Valley region"},
-      {name:"Eau Claire Area School District", detail:"Northwest region"}
-    ],
-    region:{headers:["Region","District / Career Center"], rows:[
-      ["Southeast","Milwaukee Public Schools"],
-      ["South Central","Madison Metropolitan School District"],
-      ["Northeast","Green Bay Area Public Schools"],
-      ["Southeast","Waukesha School District"],
-      ["Fox Valley","Appleton Area School District"],
-      ["Northwest","Eau Claire Area School District"]
-    ]},
-    notes:"Coding inconsistency (10020 vs. 10099 vs. 10152) means Wisconsin's reported school count is likely an undercount of actual cybersecurity-content delivery statewide.",
-    partnerInst:"Madison Area Technical College", partnerCoord:"Ken McCullough",
-    focus:["State coordination under Ken McCullough's leadership","Created statewide dissemination network"]
-  }
-];
-
-/* =========================================================
-   RENDER
-   ========================================================= */
-const stateGrid = document.getElementById('stateGrid');
-const noResults = document.getElementById('noResults');
-const resultCount = document.getElementById('resultCount');
-
-function stateCardHTML(s){
-  const stat1 = s.stats && s.stats[0] ? `${s.stats[0].num} ${s.stats[0].lab}` : '';
-  return `
-    <button class="state-card" data-code="${s.code}" aria-label="View ${s.name} case study">
-      <div class="top-row">
-        <div class="state-abbr">${s.code}</div>
-        <div>
-          <h3>${s.name}</h3>
-          <div class="meta">${s.course.cluster}</div>
-        </div>
-      </div>
-      <span class="case-tag">Case Study</span>
-      <span class="code-pill">${s.course.primary.split('/')[0].trim()}</span>
-      <div class="partner-line">${s.partnerInst}</div>
-      <div class="stat-line">${stat1}</div>
-      <div class="view-link">View program details →</div>
-    </button>`;
-}
-
-function renderGrid(list){
-  stateGrid.innerHTML = list.map(stateCardHTML).join('');
-  noResults.style.display = list.length ? 'none' : 'block';
-  resultCount.textContent = list.length ? `${list.length} of ${STATES.length} states` : '';
-  stateGrid.querySelectorAll('.state-card').forEach(btn=>{
-    btn.addEventListener('click', ()=> openDetail(btn.dataset.code));
-  });
-}
-
-document.getElementById('stateSearch').addEventListener('input', (e)=>{
-  const q = e.target.value.trim().toLowerCase();
-  if(!q){ renderGrid(STATES); return; }
-  const filtered = STATES.filter(s=>{
-    const hay = [
-      s.name, s.code, s.course.primary, s.course.title, s.course.pos, s.course.cluster, s.partnerInst,
-      ...(s.districts||[]).map(d=>d.name)
-    ].join(' ').toLowerCase();
-    return hay.includes(q);
-  });
-  renderGrid(filtered);
-});
-
-/* ---------- Detail view logic ---------- */
-const viewHome = document.getElementById('view-home');
-const viewDetail = document.getElementById('view-detail');
-
-function openDetail(code){
-  const s = STATES.find(x=>x.code===code);
-  if(!s) return;
-
-  document.getElementById('dAbbr').textContent = s.code;
-  document.getElementById('dName').textContent = s.name;
-  document.getElementById('dAgency').textContent = s.agency;
-
-  document.getElementById('dCourseKv').innerHTML = `
-    <dt>Primary Course Code</dt><dd>${s.course.primary}</dd>
-    <dt>Official Title</dt><dd>${s.course.title}</dd>
-    <dt>Advanced / Related</dt><dd>${s.course.advanced}</dd>
-    <dt>Career Cluster</dt><dd>${s.course.cluster}</dd>
-    <dt>Program of Study</dt><dd>${s.course.pos}</dd>
-  `;
-
-  document.getElementById('dDistricts').innerHTML = s.districts.map(d=>`
-    <li><b>${d.name}</b><span>${d.detail}</span></li>
-  `).join('');
-
-  const regionCard = document.getElementById('dRegionCard');
-  if(s.region){
-    regionCard.style.display = '';
-    document.getElementById('dRegionHead').innerHTML = s.region.headers.map(h=>`<th>${h}</th>`).join('');
-    document.querySelector('#dRegionTable tbody').innerHTML = s.region.rows.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join('')}</tr>`).join('');
-  } else {
-    regionCard.style.display = 'none';
-  }
-
-  document.getElementById('dNotesText').textContent = s.notes;
-
-  document.getElementById('dStatRow').innerHTML = s.stats.map(st=>`
-    <div class="mini-stat"><div class="num">${st.num}</div><div class="lab">${st.lab}</div></div>
-  `).join('');
-  document.getElementById('dEnrollText').textContent = s.enrollText;
-
-  document.getElementById('dPartnerInst').textContent = s.partnerInst;
-  document.getElementById('dPartnerCoord').textContent = s.partnerCoord;
-  document.getElementById('dFocusList').innerHTML = s.focus.map(f=>`<li>${f}</li>`).join('');
-
-  viewHome.style.display = 'none';
-  viewDetail.style.display = 'block';
-  window.scrollTo(0,0);
-  history.replaceState(null, '', '#'+s.code);
-
-  const idx = STATES.indexOf(s);
-  document.getElementById('prevStateBtn').onclick = ()=> openDetail(STATES[(idx-1+STATES.length)%STATES.length].code);
-  document.getElementById('nextStateBtn').onclick = ()=> openDetail(STATES[(idx+1)%STATES.length].code);
-}
-
-function closeDetail(){
-  viewDetail.style.display = 'none';
-  viewHome.style.display = 'block';
-  history.replaceState(null, '', '#case-studies');
-  window.scrollTo(0,0);
-}
-
-document.getElementById('backBtn').addEventListener('click', closeDetail);
-
-/* ---------- Nav: close detail when jumping to a home section ---------- */
-document.querySelectorAll('#mainNav a').forEach(a=>{
-  a.addEventListener('click', ()=>{
-    if(viewDetail.style.display === 'block'){
-      viewDetail.style.display = 'none';
-      viewHome.style.display = 'block';
-    }
-  });
-});
-
-/* ---------- Init ---------- */
-renderGrid(STATES);
-
-const initialHash = location.hash.replace('#','');
-if(initialHash && STATES.some(s=>s.code===initialHash)){
-  openDetail(initialHash);
-}
-</script>
 </body>
 </html>
