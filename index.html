@@ -1,10 +1,10 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>K-12 Cybersecurity Pathways of Study — Replicable Model &amp; Case Studies</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" defer></script>
 <style>
   :root{
     --navy:#0f2a4a;
@@ -279,6 +279,39 @@
   footer.site .sep{margin:0 8px;color:#5c7291;}
 
   .sr-only{position:absolute;left:-9999px;}
+
+  /* ---------- Report action buttons ---------- */
+  .report-actions{display:flex;gap:8px;flex-wrap:wrap;}
+  .report-btn{
+    display:inline-flex;align-items:center;gap:6px;
+    background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.3);
+    color:#fff;font-family:inherit;font-size:.85rem;font-weight:600;
+    padding:8px 14px;border-radius:8px;cursor:pointer;white-space:nowrap;
+    transition:background .12s ease;
+  }
+  .report-btn:hover{background:rgba(255,255,255,0.24);}
+  .report-btn:disabled{opacity:.6;cursor:progress;}
+  .report-btn .ic{font-size:.95rem;}
+
+  /* ---------- Print stylesheet ---------- */
+  @media print{
+    header.site, .report-actions, .browse-toolbar, .partner-strip,
+    .back-link, .prevnext, #stateSearch{display:none !important;}
+    body{background:#fff;}
+    a{color:inherit;text-decoration:none;}
+    .hero{background:#fff !important;color:#0f2a4a !important;padding:0 0 20px;}
+    .hero .eyebrow{color:#5c6b7a;}
+    .hero p.lede{color:#1c2733;}
+    .badge{border:1px solid #ccc;color:#1c2733;background:#f6f8fb;}
+    .badge b{color:#0f2a4a;}
+    .detail-header{background:#fff !important;color:#0f2a4a !important;padding:0 0 16px;}
+    .detail-header .agency{color:#5c6b7a;}
+    .detail-abbr{background:#e8f0fb;color:#0f2a4a;border-color:#dde3ea;}
+    section.block{padding:24px 0;break-inside:avoid;}
+    .state-grid{display:none;}
+    .card,.stat-card,.pillar,.submodel,.appendix-card{box-shadow:none;break-inside:avoid;}
+    main, .detail-body{padding:0;max-width:100%;}
+  }
 </style>
 </head>
 <body>
@@ -299,6 +332,14 @@
       <a href="#case-studies" data-nav="case-studies">Case Studies</a>
       <a href="#appendices" data-nav="appendices">Appendices</a>
     </nav>
+    <div class="report-actions">
+      <button class="report-btn" id="printPdfBtn" type="button" title="Open the browser print dialog (choose 'Save as PDF' for a file)">
+        <span class="ic">🖨️</span> Print PDF
+      </button>
+      <button class="report-btn" id="downloadReportBtn" type="button" title="Download the currently viewed page as a PDF file">
+        <span class="ic">⬇️</span> Download Report
+      </button>
+    </div>
   </div>
 </header>
 
@@ -700,6 +741,47 @@
    ========================================================= */
 const STATES = [
   {
+    code:"CA", name:"California", agency:"California Department of Education (CDE)",
+    course:{primary:"Pathway 172 (Networking) / Pathway 170 (Information Support & Services)", title:"Cybersecurity Pathway (ICT Sector)", advanced:"C-ID ITIS 160 (ICT Security) / ITIS 150 (Computer Networking)", cluster:"Information and Communication Technologies (ICT) — CA CDE's equivalent of the national IT cluster", pos:"IT Essentials/Computer Network Fundamentals → Cybersecurity Fundamentals/Information Security Practices (2–3 course sequence)"},
+    stats:[{num:"640,000+",lab:"Statewide secondary CTE participants annually"},{num:"40,000–45,000",lab:"Secondary students in IT/ICT pathways annually"},{num:"4,250+",lab:"Active ICT-sector CTE courses taught statewide"},{num:"~31%",lab:"Female participation in ICT pathways (vs. 45% CTE overall)"}],
+    enrollText:"California's 15 CDE Industry Sectors map to the national 16 Career Clusters, with cybersecurity housed primarily in the Information and Communication Technologies (ICT) sector — chiefly under the Networking (Pathway 172) and Information Support and Services (Pathway 170) pathways. Of the state's 640,000+ annual secondary CTE participants, roughly 40,000–45,000 enroll in IT/ICT pathways across more than 4,250 active courses statewide. Gender disparity remains notable: female participation in ICT sits at ~31%, well below the 45% female participation rate across California CTE overall.",
+    districts:[
+      {name:"Cabrillo College", detail:"Regional CCAP/dual-enrollment and articulation partner (Bay Region exemplar)"},
+      {name:"Coastline College", detail:"Regional CCAP/dual-enrollment and articulation partner"},
+      {name:"San Diego City College", detail:"Regional CCAP/dual-enrollment and articulation partner (SoCal exemplar)"},
+      {name:"Irvine Valley College", detail:"Regional CCAP/dual-enrollment and articulation partner"}
+    ],
+    region:{headers:["Metric / Dimension","Statewide Standard / Exemplar Systems"], rows:[
+      ["Primary Articulation Models","High School Articulation (Credit-by-Exam) & Dual Enrollment (CCAP) — e.g., Cabrillo College, Coastline College, San Diego City College, Irvine Valley College"],
+      ["Typical Articulated Courses","Intro to Cybersecurity, Computer Networking, Linux Administration, Security+ Prep (CIS 71 IT Essentials, CIS 75 Fundamentals of Computer Security, CIS 81 Networking)"],
+      ["Average Units Earned","3.0–9.0 transferable college units per completed pathway; up to 12 units including IT/Networking prerequisites"],
+      ["Industry Credentials Earned","CompTIA Security+, CompTIA Network+, TestOut CyberDefense, Linux Essentials"]
+    ]},
+    notes:"Articulated courses align to California's C-ID descriptors (ITIS 160 ICT Security, ITIS 150 Computer Networking) and feed into Center of Academic Excellence in Cyber Defense (CAE-CD) designated community college programs. Key researcher recommendations: (1) close the ICT gender gap (~31% female) through CyberPatriot teams and regional Cyber Guild events at the middle/high school level; (2) prioritize direct Dual Enrollment (CCAP) over credit-by-exam articulation, since CCAP shows higher transcripted completion rates; (3) address the faculty bottleneck — the shortage of teachers holding both industry certifications (Security+, CEH) and CTE/single-subject teaching credentials. Note: California is not part of the original NCAE-C 10-state Midwest cohort behind this report's PoS model — this profile is included as a supplemental reference example.",
+    partnerInst:"CAE-CD designated California Community Colleges (statewide network)", partnerCoord:"Regional CCAP consortia (Bay Region, SoCal exemplar systems)",
+    focus:["Standardized competency mapping via C-ID ITIS 150/160 aligns secondary courses with CAE-CD-designated community college programs","Dual Enrollment (CCAP) shows higher transcripted completion rates than credit-by-exam articulation","CyberPatriot teams and Cyber Guild events targeted at closing the ICT gender gap (~31% female participation)"]
+  },
+  {
+    code:"FL", name:"Florida", agency:"Florida Department of Education (FLDOE)",
+    course:{primary:"9001300 (Applied Cybersecurity)", title:"Applied Cybersecurity", advanced:"9001500 (Cloud Computing & Virtualization) / 9001200 (Computer Systems & Info Tech)", cluster:"Information Technology (secondary ties to Law, Public Safety & Security and STEM)", pos:"Applied Cybersecurity Pathway → PSAV Y100300 → A.S. Cybersecurity (CIP 1511100308)"},
+    stats:[{num:"~46,000+",lab:"IT-cluster secondary CTE participants statewide"},{num:"12.82%",lab:"IT cluster share of all CTE secondary participants"},{num:"4th",lab:"Largest CTE cluster in Florida statewide"}],
+    enrollText:"Data from the U.S. Department of Education's Office of Career, Technical, and Adult Education (OCTAE) shows Florida enrolls roughly 359,600 total secondary CTE participants, with the Information Technology cluster — which houses Applied Cybersecurity (9001300) — accounting for 12.82% of that population (46,000+ students). IT ranks as the 4th-largest CTE cluster in the state, behind Arts/AV Technology (22.67%), Hospitality & Tourism (14.68%), and Health Science (13.01%). The secondary pathway is a 4-course sequence run through FLDOE's dual secondary/postsecondary framework, feeding into 750-hour PSAV career certificates and A.S. degrees across the Florida College System.",
+    districts:[
+      {name:"Broward College", detail:"Participating institution for Applied Cybersecurity (Y100300) clock-hour articulation into A.S. Computer Information Technology / Network Systems Technology"},
+      {name:"St. Johns River State College", detail:"Participating institution for Applied Cybersecurity (Y100300) clock-hour articulation"},
+      {name:"Cyber Florida (University of South Florida)", detail:"Statewide regional consortium coordinating CTE curriculum alignment with defense, health, and finance industry hubs"}
+    ],
+    region:{headers:["Credential / Program","Articulation Value"], rows:[
+      ["CompTIA Security+","3–6 college credits toward A.S. in Network Systems Technology / Cybersecurity"],
+      ["CompTIA Network+","3 college credits toward A.S. in Network Systems Technology"],
+      ["CompTIA A+","3–6 college credits toward A.S. in Computer Information Technology or Computer Engineering Technology"],
+      ["Applied Cybersecurity PSAV (750 clock hrs, Y100300)","11–15+ college credit hours toward A.S. in CIT or Network Systems Technology (e.g., Broward College, St. Johns River State College)"]
+    ]},
+    notes:"Florida's Statewide Gold Standard Articulation rules automatically convert industry certifications earned during K-12 CTE into college credit across all 28 Florida College System institutions, and its 750-hour PSAV Applied Cybersecurity certificate block-transfers into an A.S. degree. Recommended pathway expansion priorities: (1) expand dual enrollment linking secondary code 9001300 directly to A.S. Cybersecurity (CIP 1511100308) to reduce time-to-degree; (2) prioritize CompTIA Security+ vouchers to unlock guaranteed statewide credit; (3) leverage Cyber Florida and regional workforce boards to align curriculum with local industry. Note: Florida is not part of the original NCAE-C 10-state Midwest cohort behind this report's PoS model — this profile is included as a supplemental reference example.",
+    partnerInst:"Cyber Florida (University of South Florida)", partnerCoord:"Regional workforce development boards (statewide consortium model)",
+    focus:["Statewide Gold Standard Articulation guarantees 3–6 college credits for industry certifications across all 28 Florida College System institutions","Dual-enrollment alignment linking secondary code 9001300 directly to A.S. Cybersecurity (CIP 1511100308)","Regional consortium coordination through Cyber Florida (USF) with defense, health, and finance industry hubs"]
+  },
+  {
     code:"IL", name:"Illinois", agency:"Illinois State Board of Education (ISBE)",
     course:{primary:"10011A001 / 10020A001", title:"Cybersecurity", advanced:"10108A000 (Computer Systems Security)", cluster:"Information Technology", pos:"Networking & Cybersecurity Pathway"},
     stats:[{num:"~142",lab:"Schools reporting"},{num:"SY 2025–26",lab:"Latest reporting cycle"}],
@@ -773,6 +855,26 @@ const STATES = [
     notes:"Cybersecurity in Kansas is treated as a course sequence within a designated technical pathway rather than a single class, with clear progression from introductory IT courses through the Cybersecurity I/II capstone sequence.",
     partnerInst:"Johnson County Community College", partnerCoord:"Andrew Lutz",
     focus:["Regional business partnership models","Workforce demand alignment emphasis"]
+  },
+  {
+    code:"MD", name:"Maryland", agency:"Maryland State Department of Education (MSDE)",
+    course:{primary:"IT Networking & Cybersecurity (MSDE Approved CTE Program)", title:"IT Networking & Cybersecurity", advanced:"Cybersecurity Operations / Security+ capstone + CTE Capstone/Internship/WBL", cluster:"Information Technology", pos:"IT Essentials/Hardware & Software → CCNA/Networking Fundamentals → Cybersecurity Operations/Security+ → CTE Capstone/Internship/WBL"},
+    stats:[{num:"Up to 12",lab:"College credits articulated via statewide MACC frameworks"},{num:"Free",lab:"U.S. Cyber Range access statewide (via UMBC & Virginia Tech)"}],
+    enrollText:"Maryland's statewide articulation framework, established under the Maryland Career Dual Enrollment Acceleration Act, allows high school completers of the IT Networking & Cybersecurity program to articulate up to 12 credits directly into participating Maryland Association of Community Colleges (MACC) institutions. The state also funds statewide K-12 access to the U.S. Cyber Range (via UMBC and Virginia Tech), delivered through the TeachCyber curriculum aligned to the NICE Cybersecurity Workforce Framework.",
+    districts:[
+      {name:"Anne Arundel Community College", detail:"MACC statewide articulation partner institution"},
+      {name:"Montgomery College", detail:"MACC statewide articulation partner institution"},
+      {name:"Community College of Baltimore County (CCBC)", detail:"MACC statewide articulation partner institution"}
+    ],
+    region:{headers:["Feature","Detail"], rows:[
+      ["Primary Cluster","Information Technology"],
+      ["Primary Secondary-to-Postsecondary Bridge","Statewide MACC Articulation Frameworks"],
+      ["Cyber Range / Hands-on Tooling","U.S. Cyber Range (Free via UMBC)"],
+      ["Top Industry Certifications Target","CompTIA Security+, Cisco CCNA / CyberOps Associate"]
+    ]},
+    notes:"Maryland's Career Dual Enrollment Acceleration Act creates a uniform, statewide articulation path (rather than institution-by-institution agreements) across all Maryland Association of Community Colleges (MACC) members, which simplifies credit transfer for students regardless of home district. Note: Maryland is not part of the original NCAE-C 10-state Midwest cohort behind this report's PoS model — this profile is included as a supplemental reference example.",
+    partnerInst:"Maryland Association of Community Colleges (MACC) network", partnerCoord:"UMBC / Virginia Tech (U.S. Cyber Range statewide access)",
+    focus:["Statewide MACC articulation frameworks guarantee up to 12 credits regardless of home district","Free statewide U.S. Cyber Range access via UMBC and Virginia Tech","TeachCyber curriculum aligned to the NICE Cybersecurity Workforce Framework"]
   },
   {
     code:"MI", name:"Michigan", agency:"Michigan Department of Education (MDE) / Office of Career & Technical Education (OCTE)",
@@ -869,6 +971,63 @@ const STATES = [
     notes:"Ohio's expansion has accelerated due to state-level grants, with Career-Technical Planning Districts (CTPDs) organizing delivery around a small number of large \"hub\" providers.",
     partnerInst:"Sinclair College", partnerCoord:"Kyle Jones and Eric Renegar",
     focus:["National Virtual Labs dissemination leadership","Multi-hub collaboration and outreach"]
+  },
+  {
+    code:"TX", name:"Texas", agency:"Texas Education Agency (TEA)",
+    course:{primary:"Cybersecurity (Program of Study)", title:"Cybersecurity", advanced:"Cybersecurity Capstone / Practicum in Information Technology", cluster:"Information Technology (cross-linked to STEM)", pos:"Principles of IT/Fundamentals of CS → Foundations of Cybersecurity → Cybersecurity Capstone/Practicum"},
+    stats:[{num:"6–12",lab:"College credits articulated toward an AAS in Cybersecurity"}],
+    enrollText:"Texas relies heavily on regional community college partnerships — Alamo Colleges, Lone Star College, Collin College, and consortiums like the Baylor-led Central Texas Cyber Hub — to articulate the Cybersecurity Program of Study into 6 to 12 college credits toward an Associate of Applied Science (AAS) in Cybersecurity or a Cybersecurity Specialist certificate. The TEA K-12 Cybersecurity Initiative, backed by legislative funding, provides statewide cyber-range tools and support, prioritizing rural Local Educational Agencies (LEAs).",
+    districts:[
+      {name:"Alamo Colleges", detail:"Regional dual-credit and articulation partner"},
+      {name:"Lone Star College", detail:"Regional dual-credit and articulation partner"},
+      {name:"Collin College", detail:"Regional dual-credit and articulation partner"},
+      {name:"Central Texas Cyber Hub (Baylor-led consortium)", detail:"Regional cybersecurity education consortium"}
+    ],
+    region:{headers:["Feature","Detail"], rows:[
+      ["Primary Cluster","Information Technology"],
+      ["Primary Secondary-to-Postsecondary Bridge","Regional ISD-to-College Articulation & Statewide IBCs"],
+      ["Cyber Range / Hands-on Tooling","State K-12 Cyber Initiative Support"],
+      ["Top Industry Certifications Target","CompTIA Security+, Network+, Tech+"]
+    ]},
+    notes:"Texas's model leans on regional ISD-to-college articulation rather than a single statewide agreement, with the legislatively funded TEA K-12 Cybersecurity Initiative explicitly prioritizing rural LEAs to close the urban/rural cyber-range access gap. Note: Texas is not part of the original NCAE-C 10-state Midwest cohort behind this report's PoS model — this profile is included as a supplemental reference example.",
+    partnerInst:"Alamo Colleges / Lone Star College / Collin College (regional network)", partnerCoord:"Central Texas Cyber Hub (Baylor-led consortium)",
+    focus:["Regional ISD-to-college articulation model (Alamo Colleges, Lone Star College, Collin College)","Legislatively funded TEA K-12 Cybersecurity Initiative prioritizes rural LEAs","CEH Associate and CCNA layered alongside CompTIA credentials"]
+  },
+  {
+    code:"VA", name:"Virginia", agency:"Virginia Department of Education (VDOE)",
+    course:{primary:"Cybersecurity Fundamentals (Course #8628)", title:"Cybersecurity / Information Systems Technology", advanced:"Cybersecurity Software Operations (#8629) / Cybersecurity Systems Technology → Advanced Cybersecurity / HQWBL", cluster:"Information Technology", pos:"Cybersecurity Fundamentals → Cybersecurity Software Operations/Systems Technology → Advanced Cybersecurity/HQWBL"},
+    stats:[{num:"VCCS",lab:"Course-for-course dual-enrollment credit toward an AAS in Cybersecurity/IST"}],
+    enrollText:"Virginia utilizes the Virginia Community College System (VCCS) dual-enrollment pathways, through which high school students complete Career Studies Certificates (CSC) or articulate course-for-course credit toward an AAS in Cybersecurity/Information Systems Technology. The VDOE CTE Resource Center distributes standardized competency records and digital cartridge resources statewide to ensure uniform learning outcomes across all Virginia school divisions.",
+    districts:[
+      {name:"Virginia Community College System (VCCS)", detail:"Statewide dual-enrollment and Career Studies Certificate (CSC) partner network"}
+    ],
+    region:{headers:["Feature","Detail"], rows:[
+      ["Primary Cluster","Information Technology"],
+      ["Primary Secondary-to-Postsecondary Bridge","Statewide VCCS Dual-Enrollment / Career Studies Certificates (CSCs)"],
+      ["Cyber Range / Hands-on Tooling","U.S. Cyber Range / VDOE Competency Frameworks"],
+      ["Top Industry Certifications Target","CompTIA Security+, GIAC GISF, Cisco"]
+    ]},
+    notes:"Virginia's VDOE CTE Resource Center standardizes competency records and digital cartridge resources statewide, which supports consistent outcomes across divisions even though the source data does not publish a school-by-school implementation list. Note: Virginia is not part of the original NCAE-C 10-state Midwest cohort behind this report's PoS model — this profile is included as a supplemental reference example.",
+    partnerInst:"Virginia Community College System (VCCS)", partnerCoord:"VDOE CTE Resource Center (statewide coordination)",
+    focus:["Course-for-course VCCS articulation via Career Studies Certificates (CSC) into AAS Cybersecurity/IST","U.S. Cyber Range access alongside standardized VDOE competency frameworks","Statewide digital cartridge resources ensure uniform learning outcomes across all divisions"]
+  },
+  {
+    code:"WA", name:"Washington", agency:"Office of Superintendent of Public Instruction (OSPI)",
+    course:{primary:"Information Technology - Cybersecurity Pathway", title:"Cybersecurity Pathway", advanced:"Cybersecurity II / Applied Practicum & Worksite Learning", cluster:"Information Technology / STEM", pos:"Intro to CS/AP CSP → Cybersecurity I (Network & Systems Security) → Cybersecurity II/Applied Practicum & Worksite Learning"},
+    stats:[{num:"5–15",lab:"College credits articulated via Dual Credit (grade B or higher) into SBCTC"}],
+    enrollText:"Washington leverages the Dual Credit (formerly Tech Prep) system and College in the High School (CiHS) programs: students earning a 'B' or higher in approved CTE cybersecurity courses articulate 5–15 college credits directly into the State Board for Community and Technical Colleges (SBCTC) system, including Whatcom Community College, a National Center of Academic Excellence in Cybersecurity. Pathway completion is also integrated into the mandatory High School and Beyond Plan (HSBP) graduation requirement, mapping K-12 outcomes directly to postsecondary cyber pathways.",
+    districts:[
+      {name:"Whatcom Community College", detail:"SBCTC partner and National Center of Academic Excellence in Cybersecurity"}
+    ],
+    region:{headers:["Feature","Detail"], rows:[
+      ["Primary Cluster","Information Technology / STEM"],
+      ["Primary Secondary-to-Postsecondary Bridge","CTE Dual Credit / SBCTC Direct Articulation"],
+      ["Cyber Range / Hands-on Tooling","Regional Skills Centers & Virtual Labs"],
+      ["Top Industry Certifications Target","CompTIA Security+, TestOut Security Pro / Network Pro"]
+    ]},
+    notes:"Washington's High School and Beyond Plan (HSBP) graduation requirement is the key structural lever — it forces every student's K-12 plan to map explicitly to a postsecondary pathway, which strengthens the Dual Credit (Tech Prep) pipeline into the SBCTC system. Note: Washington is not part of the original NCAE-C 10-state Midwest cohort behind this report's PoS model — this profile is included as a supplemental reference example.",
+    partnerInst:"State Board for Community and Technical Colleges (SBCTC)", partnerCoord:"Whatcom Community College (National CAE-designated regional anchor)",
+    focus:["Dual Credit (Tech Prep) and College in the High School (CiHS) pathways feed directly into SBCTC","High School and Beyond Plan (HSBP) graduation requirement maps CTE outcomes to postsecondary pathways","Whatcom Community College serves as a National CAE-designated regional anchor"]
   },
   {
     code:"WI", name:"Wisconsin", agency:"Wisconsin Department of Public Instruction (DPI)",
@@ -1025,6 +1184,43 @@ const initialHash = location.hash.replace('#','');
 if(initialHash && STATES.some(s=>s.code===initialHash)){
   openDetail(initialHash);
 }
+
+/* =========================================================
+   REPORT ACTIONS: Print PDF & Download Report
+   ========================================================= */
+document.getElementById('printPdfBtn').addEventListener('click', ()=>{
+  window.print();
+});
+
+document.getElementById('downloadReportBtn').addEventListener('click', function(){
+  const btn = this;
+  const target = (viewDetail.style.display === 'block') ? viewDetail : viewHome;
+  const fileBase = (viewDetail.style.display === 'block' && location.hash)
+    ? 'Cybersecurity-Pathways-' + location.hash.replace('#','')
+    : 'K12-Cybersecurity-Pathways-Report';
+
+  if (typeof html2pdf === 'undefined'){
+    // Library failed to load (e.g. offline) — fall back to the browser print dialog.
+    window.print();
+    return;
+  }
+
+  const originalLabel = btn.innerHTML;
+  btn.disabled = true;
+  btn.innerHTML = '<span class="ic">⏳</span> Preparing PDF…';
+
+  html2pdf().set({
+    margin:       [10, 10, 10, 10],
+    filename:     fileBase + '.pdf',
+    image:        { type: 'jpeg', quality: 0.98 },
+    html2canvas:  { scale: 2, useCORS: true, backgroundColor: '#ffffff' },
+    jsPDF:        { unit: 'mm', format: 'letter', orientation: 'portrait' },
+    pagebreak:    { mode: ['css', 'legacy'] }
+  }).from(target).save().finally(()=>{
+    btn.disabled = false;
+    btn.innerHTML = originalLabel;
+  });
+});
 </script>
 </body>
 </html>
